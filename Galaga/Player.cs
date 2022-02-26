@@ -22,6 +22,12 @@ namespace Galaga {
 
         public void Move(){
             this.shape.Move();
+            if (this.shape.Position.X < 0.00f){
+                this.shape.Position.X = 0.00f;
+            }
+            else if (this.shape.Position.X > 0.90f){
+                this.shape.Position.X = 0.90f;
+            }
         }
 
         private void UpdateMovement(){
