@@ -1,3 +1,8 @@
+# Group 8 in course Software Development
+- Aske Lundsgaard
+- Henrik Christensen
+- Mads Vestergaard
+
 # DIKUGames
 Repo for solving assignments with DIKUArcade for DIKU course Software Development
 
