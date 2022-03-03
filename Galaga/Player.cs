@@ -1,5 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Math;
+using System;
 
 namespace Galaga {
 
@@ -21,13 +23,9 @@ namespace Galaga {
         }
 
         public void Move(){
-            this.shape.Move();
-            if (this.shape.Position.X < 0.00f){
-                this.shape.Position.X = 0.00f;
-            }
-            else if (this.shape.Position.X > 0.90f){
-                this.shape.Position.X = 0.90f;
-            }
+            shape.Move();
+            shape.Position.X = Math.Max(0, shape.Position.X);
+            shape.Position.X = Math.Min(1 - shape.Extent.X, shape.Position.X);
         }
 
         private void UpdateMovement(){
@@ -35,22 +33,16 @@ namespace Galaga {
         }
 
         public void SetMoveLeft(bool val){
-            if (val){
-                this.moveLeft = -MOVEMENT_SPEED;
-            }
-            else{
-                this.moveLeft = 0;
-            }
+            moveLeft = val ? -MOVEMENT_SPEED : 0;
             UpdateMovement();
         }
         public void SetMoveRight(bool val){
-            if (val){
-                this.moveRight = +MOVEMENT_SPEED;
-            }
-            else{
-                this.moveRight = 0;
-            }
+            moveRight = val ? MOVEMENT_SPEED : 0;
             UpdateMovement();
+        }
+
+        public Vec2F GetPosition() {
+            return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
     }
