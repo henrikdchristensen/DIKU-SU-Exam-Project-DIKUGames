@@ -7,6 +7,7 @@ using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Physics;
 
 namespace Galaga
 {
@@ -19,35 +20,39 @@ namespace Galaga
         private IBaseImage playerShotImage;
         
         public Game(WindowArgs windowArgs) : base(windowArgs){
-            playerShots = new EntityContainer<PlayerShot>();
-            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
+            player = new Player(
+                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
+                new Image(Path.Combine("Assets", "Images", "Player.png")));
+            eventBus = new GameEventBus();
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
+            eventBus.Subscribe(GameEventType.InputEvent, this);
+            window.SetKeyEventHandler(KeyHandler);
             var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             const int numEnemies = 8;
             enemies = new EntityContainer<Enemy>(numEnemies);
             for (int i = 0; i < numEnemies; i++){
                 enemies.AddEntity(new Enemy(
-                new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-                new ImageStride(80, images)));
+                    new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
+                    new ImageStride(80, images)));
             }
-            player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            new Image(Path.Combine("Assets", "Images", "Player.png")));
-            eventBus = new GameEventBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
-            window.SetKeyEventHandler(KeyHandler);
-            eventBus.Subscribe(GameEventType.InputEvent, this);
+            playerShots = new EntityContainer<PlayerShot>();
+            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
         }
 
         private void IterateShots(){
             playerShots.Iterate(shot =>{
                 // TODO: move the shot's shape
-                if ( true ){
-                }
-                // TODO: delete shot
-                else{
+                shot.Shape.Move();
+                if (shot.Shape.Position.Y > 1){
+                    shot.DeleteEntity();
+                } else{
                     enemies.Iterate(enemy =>
                     {
-                        // TODO: if collision btw shot and enemy -> delete both
+                        CollisionData data = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
+                        if (data.Collision) {
+                            shot.DeleteEntity();
+                            enemy.DeleteEntity();
+                        }
                     });
                 }
             });
@@ -67,6 +72,9 @@ namespace Galaga
                         case KeyboardKey.Right:
                             player.SetMoveRight(false);
                             break;
+                        case KeyboardKey.Space:
+                            playerShots.AddEntity(new PlayerShot(player.GetPosition(), playerShotImage));
+                            break;
                     }
                     break;
                 case KeyboardAction.KeyPress:
@@ -84,11 +92,14 @@ namespace Galaga
 
         public override void Render(){
             player.Render();
+            enemies.RenderEntities();
+            playerShots.RenderEntities();
         }
 
         public override void Update(){
           eventBus.ProcessEventsSequentially();
           player.Move();
+          IterateShots();
         }
 
         public void ProcessEvent(GameEvent gameEvent){
