@@ -1,11 +1,13 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Events;
+using DIKUArcade.Input;
 using System;
 
 namespace Galaga {
 
-    public class Player {
+    public class Player : IGameEventProcessor {
 
         private Entity entity;
         private DynamicShape shape;
@@ -32,11 +34,11 @@ namespace Galaga {
             this.shape.Direction.X = moveLeft + moveRight;
         }
 
-        public void SetMoveLeft(bool val){
+        private void SetMoveLeft(bool val){
             moveLeft = val ? -MOVEMENT_SPEED : 0;
             UpdateMovement();
         }
-        public void SetMoveRight(bool val){
+        private void SetMoveRight(bool val){
             moveRight = val ? MOVEMENT_SPEED : 0;
             UpdateMovement();
         }
@@ -45,6 +47,26 @@ namespace Galaga {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
+        public void ProcessEvent(GameEvent gameEvent){
+            if (gameEvent.EventType == GameEventType.PlayerEvent){
+                switch (gameEvent.Message){
+                    case "LeftPressed":
+                        SetMoveLeft(true);
+                        break;
+                    case "RightPressed":
+                        SetMoveRight(true);
+                        break;
+                    case "LeftReleased":
+                        SetMoveLeft(false);
+                        break;
+                    case "RightReleased":
+                        SetMoveRight(false);
+                        break;
+                }
+            }
+        }
+
     }
+    
 
 }

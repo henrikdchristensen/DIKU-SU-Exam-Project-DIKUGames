@@ -29,20 +29,26 @@ namespace Galaga
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
 
             eventBus = new GameEventBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent });
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.PlayerEvent });
             window.SetKeyEventHandler(KeyHandler);
             
-            eventBus.Subscribe(GameEventType.InputEvent, this);            
+            eventBus.Subscribe(GameEventType.InputEvent, this);  
+            eventBus.Subscribe(GameEventType.PlayerEvent, player);          
             
 
             var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
             const int numEnemies = 8;
             enemies = new EntityContainer<Enemy>(numEnemies);
+            
             for (int i = 0; i < numEnemies; i++){
                 enemies.AddEntity(new Enemy(
                     new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)),
-                    new ImageStride(80, images)));
+                    new ImageStride(80, images),
+                    new ImageStride(80, enemyStridesRed)));
             }
+            
+
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
 
@@ -50,6 +56,7 @@ namespace Galaga
             enemyExplosions = new AnimationContainer(numEnemies);
             explosionStrides = ImageStride.CreateStrides(8,
                 Path.Combine("Assets", "Images", "Explosion.png"));
+                
 
         }
 
@@ -71,7 +78,7 @@ namespace Galaga
                         CollisionData data = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
                         if (data.Collision) {
                             shot.DeleteEntity();
-                            enemy.DeleteEntity();
+                            enemy.Hit();
                             AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         }
                     });
@@ -93,12 +100,14 @@ namespace Galaga
         }
         
         private void KeyHandler(KeyboardAction action, KeyboardKey key){
-            var e = new GameEvent {
-                Message = action.ToString(),
-                ObjectArg1 = key,
-                EventType = GameEventType.InputEvent
-            };
-            eventBus.RegisterEvent(e);
+            switch (action){
+                case KeyboardAction.KeyPress:
+                    KeyPress(key);
+                    break;
+                case KeyboardAction.KeyRelease:
+                    KeyRelease(key);
+                    break;
+            }
         }
 
         public void KeyPress(KeyboardKey key) {
@@ -107,10 +116,10 @@ namespace Galaga
                     window.CloseWindow();
                     break;
                 case KeyboardKey.Left:
-                    player.SetMoveLeft(true);
+                    registerPlayerEvent("LeftPressed");
                     break;
                 case KeyboardKey.Right:
-                    player.SetMoveRight(true);
+                    registerPlayerEvent("RightPressed");
                     break;
                 case KeyboardKey.Space:
                     playerShots.AddEntity(new PlayerShot(player.GetPosition(), playerShotImage));
@@ -120,23 +129,28 @@ namespace Galaga
         public void KeyRelease(KeyboardKey key) {
             switch (key){
                 case KeyboardKey.Left:
-                    player.SetMoveLeft(false);
+                    registerPlayerEvent("LeftReleased");
                     break;
                 case KeyboardKey.Right:
-                    player.SetMoveRight(false);
+                    registerPlayerEvent("RightReleased");
                     break;
             }
         }
 
-        public void ProcessEvent(GameEvent gameEvent){
-            if (gameEvent.EventType == GameEventType.InputEvent){
-                switch (gameEvent.Message){
-                    case "KeyPress":
-                        KeyPress((KeyboardKey)gameEvent.ObjectArg1);
-                        break;
-                    case "KeyRelease":
-                        KeyRelease((KeyboardKey)gameEvent.ObjectArg1);
-                        break;
+        private void registerPlayerEvent(string message) {
+            var e = new GameEvent {
+                Message = message,
+                EventType = GameEventType.PlayerEvent
+            };
+            eventBus.RegisterEvent(e);
+        }
+
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.WindowEvent) {
+                switch (gameEvent.Message) {
+                    // TODO: Implement
+                default:
+                    break;
                 }
             }
         }
