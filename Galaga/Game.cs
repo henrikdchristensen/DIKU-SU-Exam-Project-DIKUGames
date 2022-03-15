@@ -9,18 +9,25 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
+using Galaga.MovementStrategy;
 //using Galaga.Squadron;
 
 namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
-        private Player player;
+        private Player  player;
         private GameEventBus eventBus;
         private EntityContainer<Enemy> enemies;
         private EntityContainer<PlayerShot> playerShots;
-        private IBaseImage playerShotImage;
+        private IBaseImage playerShotImage; 
         private AnimationContainer enemyExplosions;
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
+        private IMovementStrategy movementStrategyDown;
+        private Score scoreboard;
+        private float movementSpeed = 0.0003f;
+        private const float DELTA_SPEED = 0.0005f;
+        private List<Image> enemyStridesBlue;
+        private List<Image> enemyStridesRed; 
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
@@ -35,13 +42,17 @@ namespace Galaga {
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
 
-            var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-            var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
+            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
             //const int numEnemies = 9;
-            var squadron = new Squadron.Squadron1(10);
-            squadron.CreateEnemies(images, enemyStridesRed);
-            enemies = squadron.Enemies;
+            createSquadron();
+
+            //movementStrategyDown = new Down();
+            movementStrategyDown = new Zigzag();
+
+            //TODO: sizes need to be changed properly
+            scoreboard = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
 
 
             playerShots = new EntityContainer<PlayerShot>(10);
@@ -71,8 +82,12 @@ namespace Galaga {
                         CollisionData data = CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape);
                         if (data.Collision) {
                             shot.DeleteEntity();
-                            enemy.Hit();
-                            AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                            if (enemy.Hit()) {
+                                //Is dead
+                                AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                                enemy.DeleteEntity();
+                                scoreboard.AddPoints();
+                            }
                         }
                     });
                 }
@@ -84,12 +99,48 @@ namespace Galaga {
             enemies.RenderEntities();
             playerShots.RenderEntities();
             enemyExplosions.RenderAnimations();
+            scoreboard.RenderScore();
         }
 
         public override void Update() {
             eventBus.ProcessEventsSequentially();
             player.Move();
+            movementStrategyDown.MoveEnemies(enemies);
             IterateShots();
+            handleSquadron();
+            handleGameOver();
+        }
+
+        private void handleGameOver() {
+            foreach (Enemy e in enemies) {
+                if (e.Shape.Position.Y <= 0.6) {
+                    deleteAll();
+                    return;
+                }
+            }
+        }
+
+        private void deleteAll() {
+            //player = null;
+            enemies = null;
+            //playerShots = null;
+            // foreach (Entity e in enemies) {
+            //     e.DeleteEntity();
+            // }
+            return;
+        }
+
+        private void handleSquadron() {
+            if (enemies.CountEntities() == 0) {
+                movementSpeed += DELTA_SPEED;
+                createSquadron();
+            }
+        }
+
+        private void createSquadron() {
+            Squadron.ISquadron squadron = new Squadron.VFormation(1, movementSpeed);
+            squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+            enemies = squadron.Enemies;
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
