@@ -10,24 +10,39 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using Galaga.MovementStrategy;
-//using Galaga.Squadron;
+using System;
 
 namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
         private Player player;
+
         private GameEventBus eventBus;
+
         private EntityContainer<Enemy> enemies;
+
         private EntityContainer<PlayerShot> playerShots;
+        
         private IBaseImage playerShotImage;
+
         private AnimationContainer enemyExplosions;
+
         private List<Image> explosionStrides;
+
         private const int EXPLOSION_LENGTH_MS = 500;
-        private IMovementStrategy movementStrategyDown;
+
+        private IMovementStrategy movementStrategy;
+
         private Score scoreboard;
-        private float movementSpeed = 0.003f;
+
+        private float movementSpeed = 0.0003f;
+
         private const float DELTA_SPEED = 0.0005f;
+
         private List<Image> enemyStridesBlue;
+
         private List<Image> enemyStridesRed;
+
+        private List<Squadron.ISquadron> squadronList;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
@@ -45,15 +60,10 @@ namespace Galaga {
             enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
-            //const int numEnemies = 9;
             createSquadron();
+            movementStrategy = new Zigzag();
 
-            //movementStrategyDown = new Down();
-            movementStrategyDown = new Zigzag();
-
-            //TODO: sizes need to be changed properly
             scoreboard = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
-
 
             playerShots = new EntityContainer<PlayerShot>(10);
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
@@ -106,7 +116,7 @@ namespace Galaga {
         public override void Update() {
             eventBus.ProcessEventsSequentially();
             player.Move();
-            movementStrategyDown.MoveEnemies(enemies);
+            movementStrategy.MoveEnemies(enemies);
             IterateShots();
             handleSquadron();
         }
@@ -128,7 +138,15 @@ namespace Galaga {
         }
 
         private void createSquadron() {
-            Squadron.ISquadron squadron = new Squadron.VFormation(1, movementSpeed);
+            var rnd = new Random();
+            int enemyCount = rnd.Next(5);
+            squadronList = new List<Squadron.ISquadron> {
+                new Squadron.Straight(enemyCount, movementSpeed),
+                new Squadron.Zigzag(enemyCount, movementSpeed),
+                new Squadron.VFormation(enemyCount, movementSpeed)
+            };
+            int squadronNum = rnd.Next(squadronList.Count);
+            Squadron.ISquadron squadron = squadronList[squadronNum];
             squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             enemies = squadron.Enemies;
         }

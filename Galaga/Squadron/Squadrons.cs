@@ -10,19 +10,25 @@ namespace Galaga.Squadron {
 
         public EntityContainer<Enemy> Enemies { get; } = new();
 
-        private float speed { get; set; }
+        private float speed {
+            get; set;
+        }
 
         public int MaxEnemies { get; } = 9;
 
-        public VFormation(int max, float speed) {
+        private int enemyCount { get; set; }
+
+        public VFormation(int count, float speed) {
             this.speed = speed;
-            MaxEnemies = max > MaxEnemies ? MaxEnemies : max;
+            this.enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
-            for (int i = 1; i <= MaxEnemies; i++) {
-                float xPos = (float) i * 0.1f;
-                float yPos = i > MaxEnemies / 2 ? xPos + (0.9f - MaxEnemies * 0.1f) : 1 - xPos;
+            float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
+            for (int i = 1; i <= enemyCount; i++) {
+                float normIter = (float) i * 0.1f;
+                float xPos = (float) i * 0.1f + startOffset;
+                float yPos = i > enemyCount / 2 ? normIter + (0.9f - enemyCount * 0.1f) : 1 - normIter;
                 var pos = new Vec2F(xPos, yPos);
                 Enemies.AddEntity(new Enemy(
                     new DynamicShape(pos, new Vec2F(0.1f, 0.1f)),
@@ -39,18 +45,23 @@ namespace Galaga.Squadron {
         public EntityContainer<Enemy> Enemies { get; } = new();
 
         //private const float SPEED = 0.006f;
-        private float speed { get; set; }
+        private float speed {
+            get; set;
+        }
 
         public int MaxEnemies { get; } = 9;
 
-        public Zigzag(int max, float speed) {
+        private int enemyCount { get; set; }
+
+        public Zigzag(int count, float speed) {
             this.speed = speed;
-            MaxEnemies = max > MaxEnemies ? MaxEnemies : max;
+            this.enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
-            for (int i = 1; i <= MaxEnemies; i++) {
-                float xPos = (float) i * 0.1f;
+            float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
+            for (int i = 1; i <= enemyCount; i++) {
+                float xPos = (float) i * 0.1f + startOffset;
                 float yPos = 0.8f + (i % 2) * 0.1f;
                 var pos = new Vec2F(xPos, yPos);
 
@@ -68,18 +79,24 @@ namespace Galaga.Squadron {
     class Straight : ISquadron {
         public EntityContainer<Enemy> Enemies { get; } = new();
 
-        private float speed { get; set; }
+        private float speed {
+            get; set;
+        }
 
         public int MaxEnemies { get; } = 9;
 
-        public Straight(int max, float speed) {
+        private int enemyCount { get; set; }
+
+
+        public Straight(int count, float speed) {
             this.speed = speed;
-            MaxEnemies = max > MaxEnemies ? MaxEnemies : max;
+            enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
-            for (int i = 1; i <= MaxEnemies; i++) {
-                float xPos = (float) i * 0.1f;
+            float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
+            for (int i = 1; i <= enemyCount; i++) {
+                float xPos = (float) i * 0.1f + startOffset;
                 float yPos = 0.9f;
                 var pos = new Vec2F(xPos, yPos);
 
