@@ -120,16 +120,6 @@ namespace Galaga {
             }
         }
 
-        private void deleteAll() {
-            //player = null;
-            enemies = null;
-            //playerShots = null;
-            // foreach (Entity e in enemies) {
-            //     e.DeleteEntity();
-            // }
-            return;
-        }
-
         private void handleSquadron() {
             if (enemies.CountEntities() == 0) {
                 movementSpeed += DELTA_SPEED;
