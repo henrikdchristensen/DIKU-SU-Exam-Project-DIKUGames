@@ -14,20 +14,20 @@ using Galaga.MovementStrategy;
 
 namespace Galaga {
     public class Game : DIKUGame, IGameEventProcessor {
-        private Player  player;
+        private Player player;
         private GameEventBus eventBus;
         private EntityContainer<Enemy> enemies;
         private EntityContainer<PlayerShot> playerShots;
-        private IBaseImage playerShotImage; 
+        private IBaseImage playerShotImage;
         private AnimationContainer enemyExplosions;
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
         private IMovementStrategy movementStrategyDown;
         private Score scoreboard;
-        private float movementSpeed = 0.0003f;
+        private float movementSpeed = 0.003f;
         private const float DELTA_SPEED = 0.0005f;
         private List<Image> enemyStridesBlue;
-        private List<Image> enemyStridesRed; 
+        private List<Image> enemyStridesRed;
 
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
@@ -100,6 +100,7 @@ namespace Galaga {
             playerShots.RenderEntities();
             enemyExplosions.RenderAnimations();
             scoreboard.RenderScore();
+            handleGameOver();
         }
 
         public override void Update() {
@@ -108,14 +109,13 @@ namespace Galaga {
             movementStrategyDown.MoveEnemies(enemies);
             IterateShots();
             handleSquadron();
-            handleGameOver();
         }
 
         private void handleGameOver() {
             foreach (Enemy e in enemies) {
-                if (e.Shape.Position.Y <= 0.6) {
-                    deleteAll();
-                    return;
+                if (e.Shape.Position.Y <= 0.0) {
+                    window.Clear();
+                    scoreboard.RenderScore();
                 }
             }
         }
