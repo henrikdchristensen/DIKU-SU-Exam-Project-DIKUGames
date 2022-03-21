@@ -32,6 +32,8 @@ namespace Galaga {
 
         private IMovementStrategy movementStrategy;
 
+        private List<MovementStrategy.IMovementStrategy> movementStrategyList;
+
         private Score scoreboard;
 
         private float movementSpeed = 0.0003f;
@@ -42,8 +44,9 @@ namespace Galaga {
 
         private List<Image> enemyStridesRed;
 
-        private List<Squadron.ISquadron> squadronList;
-
+        /// <summary> Game are responsible for updating and rendering the game </summary>
+        /// <param name = "windowArgs"> fundamental properties of the window. </param>
+        /// <returns> A player instance </returns>
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
@@ -60,8 +63,12 @@ namespace Galaga {
             enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
+            movementStrategyList = new List<MovementStrategy.IMovementStrategy> {
+                new MovementStrategy.Down(),
+                new MovementStrategy.NoMove(),
+                new MovementStrategy.Zigzag()
+            };
             createSquadron();
-            movementStrategy = new Zigzag();
 
             scoreboard = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
 
@@ -75,6 +82,9 @@ namespace Galaga {
 
         }
 
+        /// <summary> Add an explosion on the screen </summary>
+        /// <param name = "position"> the position of the explosion </param>
+        /// <param name = "extent"> extent (size) of the explosion </param>
         public void AddExplosion(Vec2F position, Vec2F extent) {
             enemyExplosions.AddAnimation(
                 new StationaryShape(position, extent),
@@ -104,6 +114,7 @@ namespace Galaga {
             });
         }
 
+        /// <summary> To render game entities. </summary>
         public override void Render() {
             player.Render();
             enemies.RenderEntities();
@@ -113,6 +124,7 @@ namespace Galaga {
             handleGameOver();
         }
 
+        /// <summary> To update game logic. </summary>
         public override void Update() {
             eventBus.ProcessEventsSequentially();
             player.Move();
@@ -139,16 +151,21 @@ namespace Galaga {
 
         private void createSquadron() {
             var rnd = new Random();
+
             int enemyCount = rnd.Next(5);
-            squadronList = new List<Squadron.ISquadron> {
+            List<Squadron.ISquadron> squadronList = new List<Squadron.ISquadron> {
                 new Squadron.Straight(enemyCount, movementSpeed),
                 new Squadron.Zigzag(enemyCount, movementSpeed),
                 new Squadron.VFormation(enemyCount, movementSpeed)
             };
+            
             int squadronNum = rnd.Next(squadronList.Count);
             Squadron.ISquadron squadron = squadronList[squadronNum];
             squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             enemies = squadron.Enemies;
+
+            int movementNum = rnd.Next(movementStrategyList.Count);
+            movementStrategy = movementStrategyList[movementNum];
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
@@ -162,7 +179,7 @@ namespace Galaga {
             }
         }
 
-        public void KeyPress(KeyboardKey key) {
+        private void KeyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
                     window.CloseWindow();
@@ -178,7 +195,7 @@ namespace Galaga {
                     break;
             }
         }
-        public void KeyRelease(KeyboardKey key) {
+        private void KeyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
                     registerPlayerEvent("LeftReleased");
@@ -197,6 +214,8 @@ namespace Galaga {
             eventBus.RegisterEvent(e);
         }
 
+        /// <summary> To receive events from the event bus. </summary>
+        /// <param name = "gameEvent"> the game-event recieved </param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.WindowEvent) {
                 switch (gameEvent.Message) {

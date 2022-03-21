@@ -8,7 +8,7 @@ using System.IO;
 namespace Galaga.Squadron {
     class VFormation : ISquadron {
 
-        public EntityContainer<Enemy> Enemies { get; } = new();
+        public EntityContainer<Enemy> Enemies { get; } = new EntityContainer<Enemy>();
 
         private float speed {
             get; set;
@@ -18,11 +18,18 @@ namespace Galaga.Squadron {
 
         private int enemyCount { get; set; }
 
+	    /// <summary> A V formation </summary>
+        /// <param name = "count"> the number of enemies in the formation </param>
+        /// <param name = "speed"> the speed of the enemies </param>
+        /// <returns> a VFormation-instance </returns>
         public VFormation(int count, float speed) {
             this.speed = speed;
             this.enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
+        /// <summary> Creates the enemies </summary>
+        /// <param name = "enemyStride"> an image stride of the enemy </param>
+        /// <param name = "alternativeEnemyStride"> an alternative image stride of the enemy </param>
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
             float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
             for (int i = 1; i <= enemyCount; i++) {
@@ -53,11 +60,18 @@ namespace Galaga.Squadron {
 
         private int enemyCount { get; set; }
 
+	    /// <summary> A Zig Zag formation </summary>
+        /// <param name = "count"> the number of enemies in the formation </param>
+        /// <param name = "speed"> the speed of the enemies </param>
+        /// <returns> a Zigzag-instance </returns>
         public Zigzag(int count, float speed) {
             this.speed = speed;
             this.enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
+        /// <summary> Creates the enemies </summary>
+        /// <param name = "enemyStride"> an image stride of the enemy </param>
+        /// <param name = "alternativeEnemyStride"> an alternative image stride of the enemy </param>
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
             float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
             for (int i = 1; i <= enemyCount; i++) {
@@ -87,12 +101,18 @@ namespace Galaga.Squadron {
 
         private int enemyCount { get; set; }
 
-
+        /// <summary> A straight formation </summary>
+        /// <param name = "count"> the number of enemies in the formation </param>
+        /// <param name = "speed"> the speed of the enemies </param>
+        /// <returns> a Straight-instance </returns>
         public Straight(int count, float speed) {
             this.speed = speed;
             enemyCount = count > MaxEnemies ? MaxEnemies : count;
         }
 
+        /// <summary> Creates the enemies </summary>
+        /// <param name = "enemyStride"> an image stride of the enemy </param>
+        /// <param name = "alternativeEnemyStride"> an alternative image stride of the enemy </param>
         public void CreateEnemies(List<Image> enemyStride, List<Image> alternativeEnemyStride) {
             float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
             for (int i = 1; i <= enemyCount; i++) {

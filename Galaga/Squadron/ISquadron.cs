@@ -3,6 +3,8 @@ using DIKUArcade.Graphics;
 using System.Collections.Generic;
 
 namespace Galaga.Squadron {
+
+    /// <summary> Interface for an enemy-squadron </summary>
     public interface ISquadron {
         EntityContainer<Enemy> Enemies {get;}
         int MaxEnemies {get;}
