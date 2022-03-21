@@ -52,7 +52,7 @@ namespace Galaga {
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
 
-            eventBus = new GameEventBus();
+            eventBus = GalagaBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.PlayerEvent });
             window.SetKeyEventHandler(KeyHandler);
 
