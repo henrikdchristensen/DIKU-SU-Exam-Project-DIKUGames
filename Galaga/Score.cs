@@ -3,7 +3,7 @@ using DIKUArcade.Math;
 
 namespace Galaga {
     public class Score {
-        private int score;
+        public int Points {get; private set;}
         private Text display;
 
         /// <summary> A scoreboard </summary>
@@ -11,20 +11,25 @@ namespace Galaga {
         /// <param name = "extent"> The extent (size) of the scoreboard </param>
         /// <returns> A Score instance </returns>
         public Score(Vec2F position, Vec2F extent) {
-            score = 0;
-            display = new Text(score.ToString(), position, extent);
+            Points = 0;
+            display = new Text(Points.ToString(), position, extent);
             display.SetColor(new Vec3F(1f, 1f, 1f));
         }
 
         /// <summary> Add one point to the score </summary>
         public void AddPoints() {
-            score++;
-            display.SetText(score.ToString());
+            Points++;
+            display.SetText(Points.ToString());
         }
 
         /// <summary> Render the score on the screen </summary>
         public void RenderScore() {
             display.RenderText();
+        }
+
+        public void Reset() {
+            Points = 0;
+            display.SetText(Points.ToString());
         }
     }
 }

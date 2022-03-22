@@ -26,8 +26,17 @@ namespace Galaga.GalagaStates {
             }
         }
         public void ProcessEvent(GameEvent gameEvent) {
-            if (gameEvent.EventType == GameEventType.GameStateEvent && gameEvent.Message == "CHANGE_STATE") {
-                StateTransformer.TransformStringToState(gameEvent.StringArg1);
+            if (gameEvent.EventType == GameEventType.GameStateEvent) {
+                GameStateType state = StateTransformer.TransformStringToState(gameEvent.StringArg1);
+                switch (gameEvent.Message) {
+                    case "CHANGE_STATE":
+                        SwitchState(state);
+                        break;
+                    case "CHANGE_STATE_RESET":
+                        SwitchState(state);
+                        ActiveState.ResetState();
+                        break;
+                }                
             } else if (gameEvent.EventType == GameEventType.InputEvent) {
 
             }

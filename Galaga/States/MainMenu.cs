@@ -14,7 +14,6 @@ namespace Galaga.GalagaStates {
         private Entity backGroundImage;
         private Text[] menuButtons;
         private int activeMenuButton;
-        private int maxMenuButtons;
         public static MainMenu GetInstance() {
             if (MainMenu.instance == null) {
                 MainMenu.instance = new MainMenu();
@@ -26,7 +25,7 @@ namespace Galaga.GalagaStates {
         public void InitializeGameState() {
             backGroundImage =
                 new Entity(new DynamicShape(0, 0, 1, 1),
-                new Image(Path.Combine("Assets", "Images", "TitleImage.png")));
+                new Image(Path.Combine("..", "Galaga", "Assets", "Images", "TitleImage.png")));
             
             menuButtons = new Text[] {
                 new Text("New Game", new Vec2F(0.15f, 0), new Vec2F(0.8f, 0.8f)),
@@ -61,9 +60,6 @@ namespace Galaga.GalagaStates {
                 case KeyboardAction.KeyPress:
                     keyPressed(key);
                     break;
-                case KeyboardAction.KeyRelease:
-                    keyReleased(key);
-                    break;
             }
         }
 
@@ -76,25 +72,21 @@ namespace Galaga.GalagaStates {
                     activeMenuButton = Math.Min(menuButtons.Length - 1, activeMenuButton + 1);
                     break;
                 case KeyboardKey.Enter:
-                    if (activeMenuButton == 0)
-                        changeState(GameStateType.GameRunning);
-                    else
-                        window.CloseWindow();
+                    if (activeMenuButton == 0) {
+                        GalagaBus.GetBus().RegisterEvent(new GameEvent {
+                            EventType = GameEventType.GameStateEvent,
+                            Message = "CHANGE_STATE_RESET",
+                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.GameRunning)
+                        });
+                    } else {
+                        GalagaBus.GetBus().RegisterEvent(new GameEvent {
+                            EventType = GameEventType.WindowEvent,
+                            Message = "CLOSE_WINDOW"
+                        });
+                    }
                     break;
             }
         }
 
-        private void keyReleased(KeyboardKey key) {
-
-        }
-
-        private void changeState(GameStateType state) {
-            var e = new GameEvent {
-                EventType = GameEventType.PlayerEvent,
-                Message = "CHANGE_STATE",
-                StringArg1 = StateTransformer.TransformStateToString(state)
-            };
-            GalagaBus.GetBus().RegisterEvent(e);
-        }
     }
 }

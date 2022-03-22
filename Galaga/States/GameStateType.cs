@@ -10,11 +10,11 @@ namespace Galaga {
 
         public static GameStateType TransformStringToState(string state) {
             switch (state) {
-                case "GameRunning":
+                case "GAME_RUNNING":
                     return GameStateType.GameRunning;
-                case "GamePaused":
+                case "GAME_PAUSED":
                     return GameStateType.GamePaused;
-                case "MainMenu":
+                case "MAIN_MENU":
                     return GameStateType.MainMenu;
                 default:
                     throw new ArgumentException();
@@ -24,11 +24,11 @@ namespace Galaga {
         public static string TransformStateToString(GameStateType state) {
             switch (state) {
                 case GameStateType.GameRunning:
-                    return "GameRunning";
+                    return "GAME_RUNNING";
                 case GameStateType.GamePaused:
-                    return "GamePaused";
+                    return "GAME_PAUSED";
                 case GameStateType.MainMenu:
-                    return "MainMenu";
+                    return "MAIN_MENU";
                 default:
                     throw new ArgumentException();
             }

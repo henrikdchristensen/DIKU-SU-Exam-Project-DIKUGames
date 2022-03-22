@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Galaga;
 using DIKUArcade.Math;
+using DIKUArcade.GUI;
 
 namespace GalagaTests {
 
@@ -10,18 +11,15 @@ namespace GalagaTests {
 
         [SetUp]
         public void InitiateScore() {
-            score = new Score(new Vec2F(), new Vec2F()); //TODO
+            Window.CreateOpenGLContext();
+            score = new Score(new Vec2F(0,0), new Vec2F(0,0));
         }
 
         [Test]
-        public void TestAddPoints() { //TODO
+        public void TestAddPoints() {
+            int oldPoints = score.Points;
             score.AddPoints();
+            Assert.True(score.Points > oldPoints);
         }
-
-        [Test]
-        public void TestRenderScore() { //TODO
-            score.RenderScore();
-        }
-
     }
 }
