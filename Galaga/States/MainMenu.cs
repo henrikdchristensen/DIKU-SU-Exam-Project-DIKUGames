@@ -76,7 +76,10 @@ namespace Galaga.GalagaStates {
                     activeMenuButton = Math.Min(menuButtons.Length - 1, activeMenuButton + 1);
                     break;
                 case KeyboardKey.Enter:
-                    //changeState();
+                    if (activeMenuButton == 0)
+                        changeState(GameStateType.GameRunning);
+                    else
+                        window.CloseWindow();
                     break;
             }
         }

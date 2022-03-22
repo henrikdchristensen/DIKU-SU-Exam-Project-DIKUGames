@@ -44,15 +44,21 @@ namespace GalagaTests {
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("..", "Galaga", "Assets", "Images", "Player.png")));
             
-            eventBus = GalagaBus.GetBus();
+            eventBus = new GameEventBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.PlayerEvent });
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+
+            eventBus.RegisterEvent(new GameEvent {
+                Message = "HEJ",
+                EventType = GameEventType.PlayerEvent
+            });
         }
 
         [Test]
         public void TestMoveRight() {
             float prevPos = player.GetPosition().X;
             registerPlayerEvent("RightPressed");
+            eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
                 player.Move();
                 Console.WriteLine(player.GetPosition().X);
