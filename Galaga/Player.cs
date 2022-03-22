@@ -13,7 +13,7 @@ namespace Galaga {
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        const float MOVEMENT_SPEED = 0.01f;
+        private float MOVEMENT_SPEED = 0.01f;
 
 	    /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -58,6 +58,8 @@ namespace Galaga {
         /// <summary> To receive events from the event bus. </summary>
         /// <param name = "gameEvent"> the game-event recieved </param>
         public void ProcessEvent(GameEvent gameEvent){
+            Console.WriteLine(gameEvent.Message);
+            Console.WriteLine("I AM IN PROCESS EVENT");
             if (gameEvent.EventType == GameEventType.PlayerEvent){
                 switch (gameEvent.Message){
                     case "LeftPressed":
@@ -76,6 +78,9 @@ namespace Galaga {
             }
         }
 
+        public float GetMovementSpeed() {
+            return MOVEMENT_SPEED;
+        }
     }
     
 

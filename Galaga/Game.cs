@@ -10,6 +10,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using Galaga.MovementStrategy;
+using Galaga.GalagaStates;
 using System;
 
 namespace Galaga {
@@ -44,10 +45,14 @@ namespace Galaga {
 
         private List<Image> enemyStridesRed;
 
+        private StateMachine stateMachine;
+
         /// <summary> Game are responsible for updating and rendering the game </summary>
         /// <param name = "windowArgs"> fundamental properties of the window. </param>
         /// <returns> A player instance </returns>
         public Game(WindowArgs windowArgs) : base(windowArgs) {
+            stateMachine = new StateMachine();
+
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
@@ -116,21 +121,25 @@ namespace Galaga {
 
         /// <summary> To render game entities. </summary>
         public override void Render() {
-            player.Render();
+            //TODO: SHOULD GAME BE RESPONSIBLE FOR THIS
+            stateMachine.ActiveState.RenderState();
+            /*player.Render();
             enemies.RenderEntities();
             playerShots.RenderEntities();
             enemyExplosions.RenderAnimations();
             scoreboard.RenderScore();
-            handleGameOver();
+            handleGameOver();*/
         }
 
         /// <summary> To update game logic. </summary>
         public override void Update() {
-            eventBus.ProcessEventsSequentially();
+            //TODO: SHOULD GAME BE RESPONSIBLE FOR THIS
+            stateMachine.ActiveState.UpdateState();
+            /*eventBus.ProcessEventsSequentially();
             player.Move();
             movementStrategy.MoveEnemies(enemies);
             IterateShots();
-            handleSquadron();
+            handleSquadron();*/
         }
 
         private void handleGameOver() {
@@ -169,14 +178,15 @@ namespace Galaga {
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
-            switch (action) {
+            stateMachine.ActiveState.HandleKeyEvent(action, key);
+            /*switch (action) {
                 case KeyboardAction.KeyPress:
                     KeyPress(key);
                     break;
                 case KeyboardAction.KeyRelease:
                     KeyRelease(key);
                     break;
-            }
+            }*/
         }
 
         private void KeyPress(KeyboardKey key) {
