@@ -11,4 +11,5 @@ and follow the instructions in the assignment description.
 
 # Clone project
 git clone https://github.com/henrikdchristensen/DIKUGames.git
+
 git submodule update --init --recursive
