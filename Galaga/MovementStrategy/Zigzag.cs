@@ -3,7 +3,7 @@ using System;
 using DIKUArcade.Math;
 
 namespace Galaga.MovementStrategy {
-    class Zigzag : IMovementStrategy {
+    public class Zigzag : IMovementStrategy {
         private const float PERIOD = 0.045f;
         private const float AMPLITUDE = 0.05f;
 

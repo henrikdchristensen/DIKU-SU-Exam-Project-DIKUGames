@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -7,21 +7,22 @@ using DIKUArcade.Events;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using Galaga;
 using Galaga.MovementStrategy;
+
 namespace GalagaTests {
 
     [TestFixture]
-    public class TestMovementStrategy {
+    class TestMovementStrategy {
 
         [SetUp]
         public void InitializeTest() {
-            // List<MovementStrategy.IMovementStrategy> list = new List<MovementStrategy.IMovementStrategy> {
-            //     new MovementStrategy.Down(),
-            //     new MovementStrategy.NoMove(),
-            //     new MovementStrategy.Zigzag()
-            // };
+            List<IMovementStrategy> list = new List<IMovementStrategy> {
+                new Down(),
+                new NoMove(),
+                new Zigzag()
+            };
         }
+
 
         [Test]
         public void TestNoMove() { //Nothing should happen at update, when noMove is used
@@ -37,7 +38,6 @@ namespace GalagaTests {
         public void TestZigZag() { //Is enemy's position set correct when move strategy zisag is used
 
         }
-
 
     }
 }

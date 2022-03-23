@@ -1,7 +1,7 @@
 using DIKUArcade.Entities;
 
 namespace Galaga.MovementStrategy {
-    class NoMove : IMovementStrategy {
+    public class NoMove : IMovementStrategy {
 
         /// <summary> Move an enemy. </summary>
         /// <remarks> no implementation since the enemy should not move </remarks>
