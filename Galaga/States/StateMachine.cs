@@ -1,28 +1,31 @@
 using DIKUArcade.Events;
-using DIKUArcade.State; 
+using DIKUArcade.State;
+using Galaga;
 
 namespace Galaga.GalagaStates {
     public class StateMachine : IGameEventProcessor {
-        public IGameState ActiveState { get; private set; }
+        public IGameState ActiveState {
+            get; private set;
+        }
         public StateMachine() {
             GalagaBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, this);
             ActiveState = MainMenu.GetInstance();
             GameRunning.GetInstance();
             GamePaused.GetInstance();
-            
+
         }
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.MainMenu:
-                    ActiveState = MainMenu.GetInstance(); 
+                    ActiveState = MainMenu.GetInstance();
                     break;
                 case GameStateType.GameRunning:
                     ActiveState = GameRunning.GetInstance();
                     break;
                 case GameStateType.GamePaused:
-                    ActiveState = GamePaused.GetInstance(); 
-                    break; 
+                    ActiveState = GamePaused.GetInstance();
+                    break;
             }
         }
         public void ProcessEvent(GameEvent gameEvent) {
@@ -36,10 +39,10 @@ namespace Galaga.GalagaStates {
                         SwitchState(state);
                         ActiveState.ResetState();
                         break;
-                }                
+                }
             } else if (gameEvent.EventType == GameEventType.InputEvent) {
 
             }
         }
-    }   
+    }
 }

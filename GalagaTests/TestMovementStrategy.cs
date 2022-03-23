@@ -1,21 +1,38 @@
-// using NUnit.Framework;
-// using Galaga.GalagaStates;
-// using DIKUArcade.GUI;
+using NUnit.Framework;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using DIKUArcade.GUI;
+using DIKUArcade.Events;
+using DIKUArcade.Entities;
+using DIKUArcade.Graphics;
+using DIKUArcade.Math;
+using Galaga;
 
-// namespace GalagaTests {
+namespace GalagaTests {
 
-//     [TestFixture]
-//     public class MovementStrategyTest {
-//         private StateMachine stateMachine;
+    [TestFixture]
+    public class TestMovementStrategy {
 
-//         [SetUp]
-//         public void InitiateStateMachine() {
-//             DIKUArcade.Window.CreateOpenGLContext();
-//             /*
-//             Here you should:
-//             (1) Initialize a GalagaBus with proper GameEventTypes
-//             (2) Instantiate the StateMachine
-//             (3) Subscribe the GalagaBus to proper GameEventTypes
-//             and GameEventProcessors
-//             */
-//         }
+        [SetUp]
+        public void InitializeTest() {
+        }
+
+        [Test]
+        public void TestNoMove() { //Nothing should happen at update, when noMove is used
+
+        }
+
+        [Test]
+        public void TestDown() { //Is enemy's position decremented with enemy.speed, when move strategy down is used
+
+        }
+
+        [Test]
+        public void TestZigZag() { //Is enemy's position set correct when move strategy zisag is used
+
+        }
+
+
+    }
+}

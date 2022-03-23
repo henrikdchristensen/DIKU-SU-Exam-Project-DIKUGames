@@ -1,25 +1,34 @@
 using NUnit.Framework;
-using Galaga.Squadron;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using DIKUArcade.GUI;
+using DIKUArcade.Events;
+using DIKUArcade.Entities;
+using DIKUArcade.Graphics;
+using DIKUArcade.Math;
+using Galaga;
 
 namespace GalagaTests {
 
     [TestFixture]
-    public class SquadronTesting {
+    public class TestSquadron {
 
-        // [SetUp]
-        // public void InitiateScore() {
-        //     score = new Score(new Vec2F(), new Vec2F()); //TODO
-        // }
+        [SetUp]
+        public void InitializeTest() {
+        }
 
-        // [Test]
-        // public void TestAddPoints() { //TODO
-        //     score.AddPoints();
-        // }
+        [Test]
+        public void TestZigZag() { //TODO
+        }
 
-        // [Test]
-        // public void TestRenderScore() { //TODO
-        //     score.RenderScore();
-        // }
+        [Test]
+        public void TestVFormation() { //TODO
+        }
+
+        [Test]
+        public void TestStraight() { //TODO
+        }
 
     }
 }

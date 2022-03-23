@@ -1,14 +1,13 @@
 using NUnit.Framework;
-using Galaga;
-using Galaga.GalagaStates;
+using System.Collections.Generic;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
-using System.Collections.Generic;
+using Galaga.GalagaStates;
 
 namespace GalagaTests {
 
     [TestFixture]
-    public class StateMachineTesting {
+    public class TestStateMachine {
         private StateMachine stateMachine;
         private GameEventBus eventBus;
 

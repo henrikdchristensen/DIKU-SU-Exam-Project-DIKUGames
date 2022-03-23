@@ -1,18 +1,18 @@
 using NUnit.Framework;
-using Galaga;
-using DIKUArcade.Math;
 using DIKUArcade.GUI;
+using DIKUArcade.Math;
+using Galaga;
 
 namespace GalagaTests {
 
     [TestFixture]
-    public class ScoreTesting {
+    public class TestScore {
         private Score score;
 
         [SetUp]
-        public void InitiateScore() {
+        public void InitializeTest() {
             Window.CreateOpenGLContext();
-            score = new Score(new Vec2F(0,0), new Vec2F(0,0));
+            score = new Score(new Vec2F(0, 0), new Vec2F(0, 0));
         }
 
         [Test]
