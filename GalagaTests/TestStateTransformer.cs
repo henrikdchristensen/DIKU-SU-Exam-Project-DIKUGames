@@ -1,12 +1,4 @@
 using NUnit.Framework;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using DIKUArcade.GUI;
-using DIKUArcade.Events;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
 using Galaga;
 
 namespace GalagaTests {
@@ -14,23 +6,18 @@ namespace GalagaTests {
     [TestFixture]
     public class TestStateTransformer {
 
-        [SetUp]
-        public void InitializeTest() {
+        [Test]
+        public void TestTransformStringToState() {
+            Assert.True(StateTransformer.TransformStringToState("GAME_RUNNING") == GameStateType.GameRunning);
+            Assert.True(StateTransformer.TransformStringToState("GAME_PAUSED") == GameStateType.GamePaused);
+            Assert.True(StateTransformer.TransformStringToState("MAIN_MENU") == GameStateType.MainMenu);
         }
 
         [Test]
-        public void TestHit() { // Is hitpoints decremented
-
-        }
-
-        [Test]
-        public void TestThreshold() { // Does state change when hitpoints hit threshhold
-
-        }
-
-        [Test]
-        public void TestDie() { // Does hit return true when dead
-
+        public void TestStateToString() {
+            Assert.True(StateTransformer.TransformStateToString(GameStateType.GameRunning) == "GAME_RUNNING");
+            Assert.True(StateTransformer.TransformStateToString(GameStateType.GamePaused) == "GAME_PAUSED");
+            Assert.True(StateTransformer.TransformStateToString(GameStateType.MainMenu) == "MAIN_MENU");
         }
     }
 }
