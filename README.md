@@ -8,3 +8,7 @@ Repo for solving assignments with DIKUArcade for DIKU course Software Developmen
 
 To start working on the assignments, create a **fork** of this repository
 and follow the instructions in the assignment description.
+
+# Clone project
+git clone https://github.com/henrikdchristensen/DIKUGames.git
+git submodule update --init --recursive
