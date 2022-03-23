@@ -62,13 +62,13 @@ namespace Galaga.GalagaStates {
         public void InitializeGameState() {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
+                new Image(Path.Combine("..", "Galaga", "Assets", "Images", "Player.png")));
 
             eventBus = GalagaBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
-            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("", "", "Assets", "Images", "BlueMonster.png"));
-            enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
+            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
+            enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
 
             movementStrategyList = new List<MovementStrategy.IMovementStrategy> {
                 new MovementStrategy.Down(),
@@ -80,12 +80,12 @@ namespace Galaga.GalagaStates {
             scoreboard = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
 
             playerShots = new EntityContainer<PlayerShot>(10);
-            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));
+            playerShotImage = new Image(Path.Combine("..", "Galaga", "Assets", "Images", "BulletRed2.png"));
 
 
             enemyExplosions = new AnimationContainer(8);
             explosionStrides = ImageStride.CreateStrides(8,
-                Path.Combine("Assets", "Images", "Explosion.png"));
+                Path.Combine("..", "Galaga", "Assets", "Images", "Explosion.png"));
 
         }
 

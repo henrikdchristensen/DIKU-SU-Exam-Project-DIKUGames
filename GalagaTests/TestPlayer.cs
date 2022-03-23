@@ -45,21 +45,35 @@ namespace GalagaTests {
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
                 player.Move();
-                Console.WriteLine(player.GetPosition().X);
             }
             registerPlayerEvent("RightReleased");
             float expected = prevPos + player.GetMovementSpeed() * 10;
-            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF , $"oldPos {player.GetPosition().X} newPos {prevPos + player.GetMovementSpeed() * 10}");
+            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF);
         }
 
         [Test]
-        public void TestMoveLeft() { // TODO
-
+        public void TestMoveLeft() {
+            float prevPos = player.GetPosition().X;
+            registerPlayerEvent("LeftPressed");
+            eventBus.ProcessEventsSequentially();
+            for (int i = 0; i < 10; i++) {
+                player.Move();
+            }
+            registerPlayerEvent("RightReleased");
+            float expected = prevPos - player.GetMovementSpeed() * 10;
+            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF);
         }
 
         [Test]
-        public void TestMoveBoth() { // TODO
-
+        public void TestMoveBoth() {
+            float prevPos = player.GetPosition().X;
+            registerPlayerEvent("LeftPressed");
+            registerPlayerEvent("RightPressed");
+            eventBus.ProcessEventsSequentially();
+            for (int i = 0; i < 10; i++) {
+                player.Move();
+            }
+            Assert.True(player.GetPosition().X == prevPos);
         }
     }
 }
