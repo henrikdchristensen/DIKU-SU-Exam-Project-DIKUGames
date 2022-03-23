@@ -17,13 +17,13 @@ using System;
 namespace Galaga.GalagaStates {
     public class GameRunning : IGameState {
         private static GameRunning instance = null;
-        
+
         private Player player;
-        
+
         private EntityContainer<Enemy> enemies;
 
         private EntityContainer<PlayerShot> playerShots;
-        
+
         private IBaseImage playerShotImage;
 
         private AnimationContainer enemyExplosions;
@@ -48,6 +48,7 @@ namespace Galaga.GalagaStates {
 
         private GameEventBus eventBus;
 
+        private Boolean isGameOver { get; set; } = false;
 
 
         public static GameRunning GetInstance() {
@@ -66,7 +67,7 @@ namespace Galaga.GalagaStates {
             eventBus = GalagaBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
 
-            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("", "", "Assets", "Images", "BlueMonster.png"));
             enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
 
             movementStrategyList = new List<MovementStrategy.IMovementStrategy> {
@@ -101,12 +102,14 @@ namespace Galaga.GalagaStates {
         }
 
         public void RenderState() {
-            player.Render();
-            enemies.RenderEntities();
-            playerShots.RenderEntities();
-            enemyExplosions.RenderAnimations();
+            if (!isGameOver) {
+                player.Render();
+                enemies.RenderEntities();
+                playerShots.RenderEntities();
+                enemyExplosions.RenderAnimations();
+                checkGameOver();
+            }
             scoreboard.RenderScore();
-            handleGameOver();
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
@@ -152,11 +155,10 @@ namespace Galaga.GalagaStates {
             });
         }
 
-        private void handleGameOver() {
+        private void checkGameOver() {
             foreach (Enemy e in enemies) {
                 if (e.Shape.Position.Y <= 0.0) {
-                    //TODO: window.Clear();
-                    scoreboard.RenderScore();
+                    isGameOver = true;
                 }
             }
         }
@@ -176,7 +178,7 @@ namespace Galaga.GalagaStates {
                 new Squadron.Zigzag(enemyCount, movementSpeed),
                 new Squadron.VFormation(enemyCount, movementSpeed)
             };
-            
+
             int squadronNum = rnd.Next(squadronList.Count);
             Squadron.ISquadron squadron = squadronList[squadronNum];
             squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);

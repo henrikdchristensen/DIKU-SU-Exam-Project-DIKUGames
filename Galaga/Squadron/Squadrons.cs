@@ -41,7 +41,6 @@ namespace Galaga.Squadron {
                     new DynamicShape(pos, new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride),
                     new ImageStride(80, alternativeEnemyStride),
-                    pos,
                     speed
                 ));
             }
@@ -80,10 +79,9 @@ namespace Galaga.Squadron {
                 var pos = new Vec2F(xPos, yPos);
 
                 Enemies.AddEntity(new Enemy(
-                    new DynamicShape(new Vec2F(xPos, yPos), new Vec2F(0.1f, 0.1f)),
+                    new DynamicShape(pos, new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride),
                     new ImageStride(80, alternativeEnemyStride),
-                    pos,
                     speed
                 ));
             }
@@ -124,7 +122,6 @@ namespace Galaga.Squadron {
                     new DynamicShape(pos, new Vec2F(0.1f, 0.1f)),
                     new ImageStride(80, enemyStride),
                     new ImageStride(80, alternativeEnemyStride),
-                    pos,
                     speed
                 ));
             }

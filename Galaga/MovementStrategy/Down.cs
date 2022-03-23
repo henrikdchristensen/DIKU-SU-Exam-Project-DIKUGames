@@ -1,7 +1,7 @@
 using DIKUArcade.Entities;
 
 namespace Galaga.MovementStrategy {
-    class Down : IMovementStrategy {
+    public class Down : IMovementStrategy {
 
 	    /// <summary> Move an enemy downwards. </summary>
         /// <param name = "enemy"> the enemy to move </param>

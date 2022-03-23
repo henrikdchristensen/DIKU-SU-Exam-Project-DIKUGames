@@ -2,18 +2,22 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
-namespace Galaga{
-    
-    public class Enemy : Entity{
-        private int hitpoints = 5;
+namespace Galaga {
+
+    public class Enemy : Entity {
+        public int Hitpoints {get; private set;} = 5;
 
         private const int THRESHOLD = 3;
 
         private IBaseImage enemyStridesRed;
 
-        public float Speed {get; private set;}
+        public float Speed {
+            get; private set;
+        }
 
-        public Vec2F InitialPos {get;}
+        public Vec2F InitialPos {
+            get;
+        }
 
         /// <summary> An enemy. </summary>
         /// <param name = "shape"> the shape of the enemy </param>
@@ -22,20 +26,20 @@ namespace Galaga{
         /// <param name = "initialPos"> the initial position </param>
         /// <param name = "speed"> the speed of the enemy </param>
         /// <returns> An enemy-instance</returns>
-        public Enemy(DynamicShape shape, IBaseImage image, IBaseImage enemyStridesRed, Vec2F initialPos, float speed )
-        : base(shape, image) { 
+        public Enemy(DynamicShape shape, IBaseImage image, IBaseImage enemyStridesRed, float speed)
+        : base(shape, image) {
             this.enemyStridesRed = enemyStridesRed;
-            this.InitialPos = initialPos;
+            this.InitialPos = shape.Position.Copy();
             this.Speed = speed;
         }
 
-	    /// <summary> Should be called when the enemy is hit, and decrements hitpoints </summary>
-        /// <returns> Returns true if it is dead, and false otherwise </returns> 
+        /// <summary> Should be called when the enemy is hit, and decrements hitpoints </summary>
+        /// <returns> Returns true if it is dead, and false otherwise </returns>
         public bool Hit() {
-            hitpoints--;
-            if (hitpoints < 0) 
+            Hitpoints--;
+            if (Hitpoints < 0)
                 return true;
-            else if (hitpoints + 1 == THRESHOLD) {
+            else if (Hitpoints + 1 == THRESHOLD) {
                 Image = enemyStridesRed;
                 Speed *= 2;
             }

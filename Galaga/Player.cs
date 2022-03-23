@@ -15,7 +15,7 @@ namespace Galaga {
         private float moveRight = 0.0f;
         private float MOVEMENT_SPEED = 0.01f;
 
-	    /// <summary> A player in the game </summary>
+        /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
         /// <param name = "image"> the image of the player </param>
         /// <returns> A player instance </returns>
@@ -25,31 +25,31 @@ namespace Galaga {
         }
 
         /// <summary> Render the player </summary>
-        public void Render(){
+        public void Render() {
             entity.RenderEntity();
         }
 
-	    /// <summary> Move the player according to its direction </summary>
-        public void Move(){
+        /// <summary> Move the player according to its direction </summary>
+        public void Move() {
             shape.Move();
             shape.Position.X = Math.Max(0, shape.Position.X);
             shape.Position.X = Math.Min(1 - shape.Extent.X, shape.Position.X);
         }
 
-        private void UpdateMovement(){
+        private void UpdateMovement() {
             this.shape.Direction.X = moveLeft + moveRight;
         }
 
-        private void SetMoveLeft(bool val){
+        private void SetMoveLeft(bool val) {
             moveLeft = val ? -MOVEMENT_SPEED : 0;
             UpdateMovement();
         }
-        private void SetMoveRight(bool val){
+        private void SetMoveRight(bool val) {
             moveRight = val ? MOVEMENT_SPEED : 0;
             UpdateMovement();
         }
 
-	    /// <summary> Get the current position of the player. </summary>
+        /// <summary> Get the current position of the player. </summary>
         /// <returns> The current position </returns>
         public Vec2F GetPosition() {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
@@ -57,11 +57,9 @@ namespace Galaga {
 
         /// <summary> To receive events from the event bus. </summary>
         /// <param name = "gameEvent"> the game-event recieved </param>
-        public void ProcessEvent(GameEvent gameEvent){
-            Console.WriteLine(gameEvent.Message);
-            Console.WriteLine("I AM IN PROCESS EVENT");
-            if (gameEvent.EventType == GameEventType.PlayerEvent){
-                switch (gameEvent.Message){
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.PlayerEvent) {
+                switch (gameEvent.Message) {
                     case "LeftPressed":
                         SetMoveLeft(true);
                         break;
@@ -82,6 +80,6 @@ namespace Galaga {
             return MOVEMENT_SPEED;
         }
     }
-    
+
 
 }

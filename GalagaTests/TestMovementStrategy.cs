@@ -8,7 +8,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Galaga;
-
+using Galaga.MovementStrategy;
 namespace GalagaTests {
 
     [TestFixture]
@@ -16,6 +16,11 @@ namespace GalagaTests {
 
         [SetUp]
         public void InitializeTest() {
+            // List<MovementStrategy.IMovementStrategy> list = new List<MovementStrategy.IMovementStrategy> {
+            //     new MovementStrategy.Down(),
+            //     new MovementStrategy.NoMove(),
+            //     new MovementStrategy.Zigzag()
+            // };
         }
 
         [Test]

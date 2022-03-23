@@ -16,6 +16,7 @@ namespace GalagaTests {
 
         [SetUp]
         public void InitializeTest() {
+
         }
 
         [Test]

@@ -14,7 +14,10 @@ namespace GalagaTests {
     [TestFixture]
     public class TestPlayer {
         private GameEventBus eventBus;
+
         private Player player;
+
+        private const float COMPARE_DIFF = 10e-6f;
 
         private void registerPlayerEvent(string message) {
             var e = new GameEvent {
@@ -33,11 +36,6 @@ namespace GalagaTests {
             eventBus = new GameEventBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.PlayerEvent });
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
-
-            eventBus.RegisterEvent(new GameEvent {
-                Message = "HEJ",
-                EventType = GameEventType.PlayerEvent
-            });
         }
 
         [Test]
@@ -50,7 +48,8 @@ namespace GalagaTests {
                 Console.WriteLine(player.GetPosition().X);
             }
             registerPlayerEvent("RightReleased");
-            Assert.True(player.GetPosition().X == prevPos + player.GetMovementSpeed() * 10, $"oldPos {player.GetPosition().X} newPos {prevPos + player.GetMovementSpeed() * 10}");
+            float expected = prevPos + player.GetMovementSpeed() * 10;
+            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF , $"oldPos {player.GetPosition().X} newPos {prevPos + player.GetMovementSpeed() * 10}");
         }
 
         [Test]
