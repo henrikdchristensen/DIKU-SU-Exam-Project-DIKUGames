@@ -15,6 +15,9 @@ namespace GalagaTests {
     [TestFixture]
     public class TestSquadron {
 
+        private float diff = 0.002f;
+
+
         [SetUp]
         public void InitializeTest() {
 
@@ -52,7 +55,7 @@ namespace GalagaTests {
                 float yPos = 0.9f;
                 var expectedPos = new Vec2F(xPos, yPos);
                 i++;
-                Assert.True(expectedPos == enemy.Shape.Position, $"Expected {expectedPos} Actual pos {enemy.Shape.Position}");
+                Assert.True(expectedPos >= enemy.Shape.Position && expectedPos <= , $"Expected {expectedPos} Actual pos {enemy.Shape.Position}");
             }
 
         }
