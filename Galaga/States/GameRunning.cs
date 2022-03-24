@@ -38,9 +38,9 @@ namespace Galaga.GalagaStates {
 
         private Score scoreboard;
 
-        private float movementSpeed = 0.0003f;
+        private float movementSpeed { get; set; } = 0.0003f;
 
-        private const float DELTA_SPEED = 0.0005f;
+        private const float DELTA_SPEED = 0.0005f;  
 
         private List<Image> enemyStridesBlue;
 
@@ -226,5 +226,10 @@ namespace Galaga.GalagaStates {
             };
             eventBus.RegisterEvent(e);
         }
+
+        public float GetSpeed() {
+            return movementSpeed;
+        }
+
     }
 }

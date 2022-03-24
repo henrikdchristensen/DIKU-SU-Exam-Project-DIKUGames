@@ -1,0 +1,45 @@
+﻿<Properties StartupConfiguration="{CB1FB8A5-8460-492C-A577-B1A5DC3CF00C}|Default">
+  <MonoDevelop.Ide.ItemProperties.Galaga PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="GalagaTests/TestMovementStrategy.cs">
+    <Files>
+      <File FileName="Galaga/States/GameRunning.cs" Line="81" Column="1" />
+      <File FileName="Galaga/Squadron/ISquadron.cs" Line="8" Column="33" />
+      <File FileName="Galaga/MovementStrategy/Zigzag.cs" Line="26" Column="2" />
+      <File FileName="Galaga/MovementStrategy/NoMove.cs" Line="1" Column="1" />
+      <File FileName="Galaga/MovementStrategy/Down.cs" Line="14" Column="41" />
+      <File FileName="GalagaTests/TestPlayer.cs" Line="18" Column="30" />
+      <File FileName="GalagaTests/TestMovementStrategy.cs" Line="41" Column="56" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="DIKUGames" expanded="True">
+            <Node name="DIKUArcade" expanded="True">
+              <Node name="DIKUArcade" expanded="True" />
+            </Node>
+            <Node name="Galaga" expanded="True">
+              <Node name="MovementStrategy" expanded="True" />
+              <Node name="Squadron" expanded="True" />
+              <Node name="States" expanded="True" />
+            </Node>
+            <Node name="GalagaTests" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="DIKUGames" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+</Properties>

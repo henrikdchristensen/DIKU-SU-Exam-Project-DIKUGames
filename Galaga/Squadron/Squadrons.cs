@@ -6,7 +6,7 @@ using System.IO;
 
 
 namespace Galaga.Squadron {
-    class VFormation : ISquadron {
+    public class VFormation : ISquadron {
 
         public EntityContainer<Enemy> Enemies { get; } = new EntityContainer<Enemy>();
 
@@ -47,7 +47,7 @@ namespace Galaga.Squadron {
         }
     }
 
-    class Zigzag : ISquadron {
+    public class Zigzag : ISquadron {
         public EntityContainer<Enemy> Enemies { get; } = new();
 
         //private const float SPEED = 0.006f;
@@ -88,7 +88,7 @@ namespace Galaga.Squadron {
         }
     }
 
-    class Straight : ISquadron {
+    public class Straight : ISquadron {
         public EntityContainer<Enemy> Enemies { get; } = new();
 
         private float speed {
