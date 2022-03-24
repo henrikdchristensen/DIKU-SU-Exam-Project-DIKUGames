@@ -67,7 +67,6 @@ namespace GalagaTests {
             float expected_x_i = 0f;
 
             for (int i = 0; i < 10; i++) {
-                
                 expected_y_i = enemy.Shape.Position.Y - enemy.Speed;
                 expected_x_i = enemy.InitialPos.X + (float) (AMPLITUDE * Math.Sin((2.0f * Math.PI * (enemy.InitialPos.Y - expected_y_i)) / PERIOD));
                 movementStrategyList[2].MoveEnemy(enemy);
