@@ -45,28 +45,18 @@ namespace GalagaTests {
             var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
 
             straightFormation = new Straight(1, speed);
-            //zigzag = new Galaga.Squadron.Zigzag(9, 0.05f);
-            //vformation = new VFormation(9, 0.05f);
 
             straightFormation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             enemy = new Enemy(new DynamicShape(0, 0, 0, 0), new NoImage(), new NoImage(), 10f);
-            //straightFormation.Enemies;
-            // zigzag.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-            // vformation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-
-            // squadronList = new List<ISquadron> {
-            //    new Straight(9, 0.05f),
-            //    new Galaga.Squadron.Zigzag(9, 0.05f),
-            //    new VFormation(9, 0.05f)
-            // };
 
         }
 
         [Test]
         public void TestNoMove() { //Nothing should happen at update, when noMove is used
             //squadronList[0].CreateEnemies(enemyStridesBlue, enemyStridesRed);
-
-
+            movementStrategyList[1].MoveEnemy(enemy);
+            var expectedPos = enemy.InitialPos;
+            Assert.True(expectedPos.X == enemy.Shape.Position.X && expectedPos.Y == enemy.Shape.Position.Y);
         }
 
         [Test]
