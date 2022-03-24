@@ -24,9 +24,9 @@ namespace GalagaTests {
 
         private List<IMovementStrategy> movementStrategyList;
 
-        private List<Image> enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("", "", "Assets", "Images", "BlueMonster.png"));
+        private List<Image> enemyStridesBlue;
 
-        private List<Image> enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("Assets", "Images", "RedMonster.png"));
+        private List<Image> enemyStridesRed;
 
         private ISquadron straightFormation;
         private ISquadron zigzag;
@@ -34,9 +34,7 @@ namespace GalagaTests {
 
         private EntityContainer<Enemy> enemies;
 
-        private GameRunning gameRunning = new();
-
-        private float speed;
+        private float speed = 0.5f;
 
 
         [SetUp]
@@ -49,8 +47,9 @@ namespace GalagaTests {
                new Galaga.MovementStrategy.Zigzag()
             };
 
+            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
+            enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
 
-            speed = gameRunning.GetSpeed();
             straightFormation = new Straight(1, speed);
             //zigzag = new Galaga.Squadron.Zigzag(9, 0.05f);
             //vformation = new VFormation(9, 0.05f);
