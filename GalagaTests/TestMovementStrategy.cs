@@ -53,8 +53,9 @@ namespace GalagaTests {
         [Test]
         public void TestNoMove() { //Nothing should happen at update, when noMove is used
             //squadronList[0].CreateEnemies(enemyStridesBlue, enemyStridesRed);
-
-
+            movementStrategyList[1].MoveEnemy(enemy);
+            var expectedPos = enemy.InitialPos;
+            Assert.True(expectedPos.X == enemy.Shape.Position.X && expectedPos.Y == enemy.Shape.Position.Y);
         }
 
         [Test]
