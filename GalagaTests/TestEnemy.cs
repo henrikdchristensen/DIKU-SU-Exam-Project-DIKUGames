@@ -11,7 +11,7 @@ namespace GalagaTests {
 
         [SetUp]
         public void InitializeTest() {
-            enemy = new Enemy(new DynamicShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage(), new NoImage(), 0.0f);
+            enemy = new Enemy(new DynamicShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage(), new NoImage(), 2f);
         }
 
         [Test]
@@ -33,7 +33,8 @@ namespace GalagaTests {
         }
 
         [Test]
-        public void TestDie() { // Does hit return true when dead (5 times hit)
+        public void TestDie() { // Does hit return true when dead (6 times hit)
+            enemy.Hit();
             enemy.Hit();
             enemy.Hit();
             enemy.Hit();

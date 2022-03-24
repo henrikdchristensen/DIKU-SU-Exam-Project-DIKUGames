@@ -8,6 +8,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Galaga;
+using Galaga.Squadron;
 
 namespace GalagaTests {
 
@@ -29,6 +30,12 @@ namespace GalagaTests {
 
         [Test]
         public void TestStraight() { //TODO
+            ISquadron squadron = new Straight(10, 3);
+            squadron.CreateEnemies(new List<Image>(), new List<Image>());
+            for (int i = 0; i < squadron.Enemies.CountEntities(); i++) {
+
+            }
+                
         }
 
     }

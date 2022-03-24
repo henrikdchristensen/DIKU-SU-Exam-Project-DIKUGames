@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 
 namespace Galaga.MovementStrategy {
+
     public class Down : IMovementStrategy {
 
 	    /// <summary> Move an enemy downwards. </summary>
