@@ -67,9 +67,10 @@ namespace GalagaTests {
             float expected_x_i = 0f;
 
             for (int i = 0; i < 10; i++) {
-                movementStrategyList[2].MoveEnemy(enemy);
+                
                 expected_y_i = enemy.Shape.Position.Y - enemy.Speed;
                 expected_x_i = enemy.InitialPos.X + (float) (AMPLITUDE * Math.Sin((2.0f * Math.PI * (enemy.InitialPos.Y - expected_y_i)) / PERIOD));
+                movementStrategyList[2].MoveEnemy(enemy);
             }
 
             var actualPos = enemy.Shape.Position;
@@ -78,7 +79,7 @@ namespace GalagaTests {
             expected_x_i >= actualPos.X - diff && actualPos.X <= expected_x_i + diff
             &&
             expected_y_i >= actualPos.Y - diff && actualPos.Y <= expected_y_i + diff
-            , $"Expected pos: {expected_x_i} New pos {enemy.Shape.Position.X} AND Expected pos: {expected_y_i} New pos {enemy.Shape.Position.Y}");
+            , $"Expected x pos: {expected_x_i} Actual x pos {enemy.Shape.Position.X} AND Expected y pos: {expected_y_i} Actual y pos {enemy.Shape.Position.Y}");
         }
 
     }
