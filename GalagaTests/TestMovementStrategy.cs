@@ -49,7 +49,7 @@ namespace GalagaTests {
             //vformation = new VFormation(9, 0.05f);
 
             straightFormation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-            enemy = new Enemy()
+            enemy = new Enemy(new DynamicShape(0, 0, 0, 0), new NoImage(), new NoImage(), 10f);
             //straightFormation.Enemies;
             // zigzag.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             // vformation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
@@ -72,12 +72,12 @@ namespace GalagaTests {
         [Test]
         public void TestDown() { //Is enemy's position decremented with enemy.speed, when move strategy down is used
             for (int i = 0; i < 10; i++) {
-                movementStrategyList[0].MoveEnemies(enemies);
+                movementStrategyList[0].MoveEnemy(enemy);
             }
-            foreach (Enemy e in enemies) {
-                var expectedPos = e.InitialPos.Y - speed * 10;
-                Assert.True( expectedPos >= expectedPos-diff && expectedPos <= expectedPos+diff, $"Expected pos: {expectedPos} New pos {e.Shape.Position.Y}");
-            }
+            //foreach (Enemy e in enemies) {
+            var expectedPos = enemy.InitialPos.Y - speed * 10;
+            Assert.True(expectedPos >= expectedPos - diff && expectedPos <= expectedPos + diff, $"Expected pos: {expectedPos} New pos {enemy.Shape.Position.Y}");
+            //}
         }
 
         [Test]
@@ -86,22 +86,22 @@ namespace GalagaTests {
 
             const float PERIOD = 0.045f;
             const float AMPLITUDE = 0.05f;
-            float expected_y_i;
-            float expected_x_i;
+            float expected_y_i = 0f;
+            float expected_x_i = 0f;
 
             for (int i = 0; i < 10; i++) {
                 //var enemy = enemies.
-                movementStrategyList[2].MoveEnemy(enemies);
-                y_i = enemy[].Shape.Position.Y - enemy.Speed;
-                x_i = initialPos.X + (float)(AMPLITUDE * Math.Sin((2.0f * Math.PI * (initialPos.Y-y_i)) / PERIOD));
+                movementStrategyList[2].MoveEnemy(enemy);
+                expected_y_i = enemy.Shape.Position.Y - enemy.Speed;
+                expected_x_i = enemy.InitialPos.X + (float) (AMPLITUDE * Math.Sin((2.0f * Math.PI * (enemy.InitialPos.Y - expected_y_i)) / PERIOD));
             }
 
-            foreach (Enemy enemy in enemies) {
-                Assert.True( 
-                expected_x_i >= expected_x_i-diff && expected_x_i <= expected_x_i+diff &&
-                expected_y_i >= expected_y_i-diff && expected_y_i <= expected_y_i+diff
-                , $"Expected pos: {expected_x_i} New pos {e.Shape.Position.X} AND Expected pos: {expected_y_i} New pos {e.Shape.Position.Y}");
-            }
+            Assert.True(
+            expected_x_i >= expected_x_i - diff && expected_x_i <= expected_x_i + diff 
+            &&
+            expected_y_i >= expected_y_i - diff && expected_y_i <= expected_y_i + diff
+            , $"Expected pos: {expected_x_i} New pos {enemy.Shape.Position.X} AND Expected pos: {expected_y_i} New pos {enemy.Shape.Position.Y}");
+
 
         }
 
