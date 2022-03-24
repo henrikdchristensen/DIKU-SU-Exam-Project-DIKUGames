@@ -43,22 +43,10 @@ namespace GalagaTests {
 
             var enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
             var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
-
             straightFormation = new Straight(1, speed);
-            //zigzag = new Galaga.Squadron.Zigzag(9, 0.05f);
-            //vformation = new VFormation(9, 0.05f);
 
             straightFormation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
             enemy = new Enemy(new DynamicShape(0, 0, 0, 0), new NoImage(), new NoImage(), 10f);
-            //straightFormation.Enemies;
-            // zigzag.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-            // vformation.CreateEnemies(enemyStridesBlue, enemyStridesRed);
-
-            // squadronList = new List<ISquadron> {
-            //    new Straight(9, 0.05f),
-            //    new Galaga.Squadron.Zigzag(9, 0.05f),
-            //    new VFormation(9, 0.05f)
-            // };
 
         }
 
@@ -90,7 +78,6 @@ namespace GalagaTests {
             float expected_x_i = 0f;
 
             for (int i = 0; i < 10; i++) {
-                //var enemy = enemies.
                 movementStrategyList[2].MoveEnemy(enemy);
                 expected_y_i = enemy.Shape.Position.Y - enemy.Speed;
                 expected_x_i = enemy.InitialPos.X + (float) (AMPLITUDE * Math.Sin((2.0f * Math.PI * (enemy.InitialPos.Y - expected_y_i)) / PERIOD));
