@@ -24,13 +24,9 @@ namespace GalagaTests {
 
         private List<IMovementStrategy> movementStrategyList;
 
-        private List<Image> enemyStridesBlue;
-
-        private List<Image> enemyStridesRed;
-
-        private ISquadron straightFormation;
-        private ISquadron zigzag;
-        private ISquadron vformation;
+        //private ISquadron straightFormation;
+        //private ISquadron zigzag;
+        //private ISquadron vformation;
 
         private EntityContainer<Enemy> enemies;
 
@@ -47,10 +43,10 @@ namespace GalagaTests {
                new Galaga.MovementStrategy.Zigzag()
             };
 
-            enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
-            enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
+            var enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
+            var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
 
-            straightFormation = new Straight(1, speed);
+            var straightFormation = new Straight(1, speed);
             //zigzag = new Galaga.Squadron.Zigzag(9, 0.05f);
             //vformation = new VFormation(9, 0.05f);
 
@@ -78,7 +74,7 @@ namespace GalagaTests {
         public void TestDown() { //Is enemy's position decremented with enemy.speed, when move strategy down is used
             movementStrategyList[0].MoveEnemies(enemies);
             foreach (Enemy e in enemies) {
-                Assert.That(e.InitialPos.Y * 10 == e.Shape.Position.Y, $"Old pos: {e.InitialPos.Y * 10} New pos {e.Shape.Position.Y}");
+                Assert.That(e.InitialPos.Y - speed*10 == e.Shape.Position.Y, $"Old pos: {e.InitialPos.Y - speed* 10 } New pos {e.Shape.Position.Y}");
             }
 
         }

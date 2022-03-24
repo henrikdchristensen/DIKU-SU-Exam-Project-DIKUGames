@@ -1,16 +1,18 @@
 ﻿<Properties StartupConfiguration="{CB1FB8A5-8460-492C-A577-B1A5DC3CF00C}|Default">
-  <MonoDevelop.Ide.ItemProperties.Galaga PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workbench ActiveDocument="GalagaTests/TestMovementStrategy.cs">
     <Files>
-      <File FileName="Galaga/States/GameRunning.cs" Line="81" Column="1" />
       <File FileName="Galaga/Squadron/ISquadron.cs" Line="8" Column="33" />
-      <File FileName="Galaga/MovementStrategy/Zigzag.cs" Line="26" Column="2" />
+      <File FileName="Galaga/MovementStrategy/Zigzag.cs" Line="11" Column="62" />
       <File FileName="Galaga/MovementStrategy/NoMove.cs" Line="1" Column="1" />
-      <File FileName="Galaga/MovementStrategy/Down.cs" Line="14" Column="41" />
-      <File FileName="GalagaTests/TestPlayer.cs" Line="18" Column="30" />
-      <File FileName="GalagaTests/TestMovementStrategy.cs" Line="41" Column="56" />
+      <File FileName="Galaga/MovementStrategy/Down.cs" Line="15" Column="23" />
+      <File FileName="GalagaTests/TestPlayer.cs" Line="32" Column="24" />
+      <File FileName="GalagaTests/TestMovementStrategy.cs" Line="15" Column="10" />
+      <File FileName="Galaga/Squadron/Squadrons.cs" Line="83" Column="54" />
+      <File FileName="Galaga/MovementStrategy/IMovementStrategy.cs" Line="7" Column="14" />
+      <File FileName="Galaga/Enemy.cs" Line="15" Column="30" />
+      <File FileName="GalagaTests/TestSquadron.cs" Line="1" Column="1" />
+      <File FileName="Galaga/States/GameRunning.cs" Line="230" Column="34" NotebookId="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,11 +20,6 @@
           <Node name="DIKUGames" expanded="True">
             <Node name="DIKUArcade" expanded="True">
               <Node name="DIKUArcade" expanded="True" />
-            </Node>
-            <Node name="Galaga" expanded="True">
-              <Node name="MovementStrategy" expanded="True" />
-              <Node name="Squadron" expanded="True" />
-              <Node name="States" expanded="True" />
             </Node>
             <Node name="GalagaTests" expanded="True" />
           </Node>
@@ -38,8 +35,10 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Galaga PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
