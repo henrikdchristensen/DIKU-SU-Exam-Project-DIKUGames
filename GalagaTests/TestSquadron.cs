@@ -9,15 +9,18 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Galaga;
 using Galaga.Squadron;
+using System;
 
 namespace GalagaTests {
 
     [TestFixture]
     public class TestSquadron {
 
+        private const float COMPARE_DIFF = 10e-6f;
+
         [SetUp]
         public void InitializeTest() {
-
+           Window.CreateOpenGLContext();
         }
 
         [Test]
@@ -26,6 +29,25 @@ namespace GalagaTests {
 
         [Test]
         public void TestVFormation() { //TODO
+            float speed = 0.005f;
+            int enemyCount = 5;
+            ISquadron squadron = new VFormation(enemyCount, speed);
+            float startOffset = (squadron.MaxEnemies - enemyCount) / 2.0f * 0.1f;
+
+            var enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
+            var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
+
+
+            squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
+
+            int i = 1;
+            foreach (Enemy enemy in squadron.Enemies) {
+                float xPos = (float) i++ * 0.1f + startOffset;
+                float yPos = 0.9f;
+                Vec2F expectedPos = new Vec2F(xPos, yPos);
+                Vec2F diff = expectedPos - enemy.Shape.Position;
+                Assert.True(Math.Abs(diff.X) < COMPARE_DIFF && Math.Abs(diff.Y) < COMPARE_DIFF, $"Expected {diff.X} Actual pos {diff.Y}");
+            }
         }
 
         [Test]
@@ -34,8 +56,7 @@ namespace GalagaTests {
             float speed = 0.005f;
             int enemyCount = 5;
             ISquadron squadron = new Straight(enemyCount, speed);
-            int MaxEnemies = squadron.MaxEnemies;
-            float startOffset = (MaxEnemies - enemyCount) / 2.0f * 0.1f;
+            float startOffset = (squadron.MaxEnemies - enemyCount) / 2.0f * 0.1f;
 
             var enemyStridesBlue = ImageStride.CreateStrides(4, Path.Combine("..", "Galaga", "Assets", "Images", "BlueMonster.png"));
             var enemyStridesRed = ImageStride.CreateStrides(2, Path.Combine("..", "Galaga", "Assets", "Images", "RedMonster.png"));
@@ -43,16 +64,13 @@ namespace GalagaTests {
 
             squadron.CreateEnemies(enemyStridesBlue, enemyStridesRed);
 
-            //for (int i = 1; i <= squadron.Enemies.CountEntities(); i++) {
             int i = 1;
             foreach (Enemy enemy in squadron.Enemies) {
-                // float xPos = (float) i * 0.1f + startOffset;
-                // float yPos = 0.8f + (i % 2) * 0.1f;
-                float xPos = (float) i * 0.1f + startOffset;
+                float xPos = (float) i++ * 0.1f + startOffset;
                 float yPos = 0.9f;
-                var expectedPos = new Vec2F(xPos, yPos);
-                i++;
-                Assert.True(expectedPos == enemy.Shape.Position, $"Expected {expectedPos} Actual pos {enemy.Shape.Position}");
+                Vec2F expectedPos = new Vec2F(xPos, yPos);
+                Vec2F diff = expectedPos - enemy.Shape.Position;
+                Assert.True(Math.Abs(diff.X) < COMPARE_DIFF && Math.Abs(diff.Y) < COMPARE_DIFF, $"Expected {diff.X} Actual pos {diff.Y}");
             }
 
         }
