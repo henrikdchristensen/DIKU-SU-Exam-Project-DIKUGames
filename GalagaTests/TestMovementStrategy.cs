@@ -55,7 +55,8 @@ namespace GalagaTests {
                 movementStrategyList[0].MoveEnemy(enemy);
             }
             var expectedPos = enemy.InitialPos.Y - speed * 10;
-            Assert.True(expectedPos >= expectedPos - diff && expectedPos <= expectedPos + diff, $"Expected pos: {expectedPos} New pos {enemy.Shape.Position.Y}");
+            var actualPos = enemy.Shape.Position.Y;
+            Assert.True(expectedPos >= actualPos - diff && actualPos <= expectedPos + diff, $"Expected pos: {expectedPos} New pos {enemy.Shape.Position.Y}");
         }
 
         [Test]
@@ -71,10 +72,12 @@ namespace GalagaTests {
                 expected_x_i = enemy.InitialPos.X + (float) (AMPLITUDE * Math.Sin((2.0f * Math.PI * (enemy.InitialPos.Y - expected_y_i)) / PERIOD));
             }
 
+            var actualPos = enemy.Shape.Position;
+
             Assert.True(
-            expected_x_i >= expected_x_i - diff && expected_x_i <= expected_x_i + diff
+            expected_x_i >= actualPos.X - diff && actualPos.X <= expected_x_i + diff
             &&
-            expected_y_i >= expected_y_i - diff && expected_y_i <= expected_y_i + diff
+            expected_y_i >= actualPos.Y - diff && actualPos.Y <= expected_y_i + diff
             , $"Expected pos: {expected_x_i} New pos {enemy.Shape.Position.X} AND Expected pos: {expected_y_i} New pos {enemy.Shape.Position.Y}");
         }
 
