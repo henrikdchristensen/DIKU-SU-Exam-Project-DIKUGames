@@ -38,7 +38,9 @@ namespace Galaga.GalagaStates {
 
         private Score scoreboard;
 
-        private float movementSpeed { get; set; } = 0.0003f;
+        private float movementSpeed { get; set; }
+
+        private const float START_SPEED = 0.0003f;
 
         private const float DELTA_SPEED = 0.0005f;  
 
@@ -60,6 +62,8 @@ namespace Galaga.GalagaStates {
         }
 
         public void InitializeGameState() {
+            movementSpeed = START_SPEED;
+
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("..", "Galaga", "Assets", "Images", "Player.png")));
@@ -91,6 +95,7 @@ namespace Galaga.GalagaStates {
 
         public void ResetState() {
             scoreboard.Reset();
+            movementSpeed = START_SPEED;
             createSquadron();
         }
 
