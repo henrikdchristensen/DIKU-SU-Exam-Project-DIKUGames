@@ -18,7 +18,8 @@ namespace Breakout.Game.States {
 
         private Player player;
 
-        private GameRunning() { }
+        private GameRunning() {
+        }
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -44,7 +45,7 @@ namespace Breakout.Game.States {
         }
 
         public void UpdateState() {
-        
+            player.Move();
         }
 
         public void RenderState() {
@@ -73,8 +74,10 @@ namespace Breakout.Game.States {
                     });
                     break;
                 case KeyboardKey.Left:
+                    registerPlayerEvent("LeftPressed");
                     break;
                 case KeyboardKey.Right:
+                    registerPlayerEvent("RightPressed");
                     break;
                 case KeyboardKey.Space:
                     break;
@@ -83,11 +86,20 @@ namespace Breakout.Game.States {
         private void KeyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
+                    registerPlayerEvent("LeftReleased");
                     break;
                 case KeyboardKey.Right:
+                    registerPlayerEvent("RightReleased");
                     break;
             }
         }
 
+        private void registerPlayerEvent(string message) {
+            var e = new GameEvent {
+                Message = message,
+                EventType = GameEventType.PlayerEvent
+            };
+            eventBus.RegisterEvent(e);
+        }
     }
 }
