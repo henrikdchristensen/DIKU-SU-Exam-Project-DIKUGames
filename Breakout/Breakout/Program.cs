@@ -1,2 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace Breakout {
+    class Program {
+        static void Main(string[] args) {
+            string message = "Hello World!!";
+
+            Console.WriteLine(message);
+        }
+    }
+
+}
