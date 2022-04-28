@@ -1,5 +1,3 @@
-using System;
-
 namespace Breakout.Game {
     public enum GameStateType {
         GameRunning,
