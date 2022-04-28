@@ -1,6 +1,6 @@
 using System;
 
-namespace Breakout.Game.States {
+namespace Breakout.Game {
     public enum GameStateType {
         GameRunning,
         GamePaused,

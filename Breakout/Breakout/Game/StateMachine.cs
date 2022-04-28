@@ -1,7 +1,7 @@
 using DIKUArcade.Events;
 using DIKUArcade.State;
 
-namespace Breakout.Game.States {
+namespace Breakout.Game {
     public class StateMachine : IGameEventProcessor {
         public IGameState ActiveState {
             get; private set;
@@ -9,21 +9,21 @@ namespace Breakout.Game.States {
         public StateMachine() {
             GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             GameBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-            ActiveState = MainMenu.GetInstance();
-            GameRunning.GetInstance();
-            GamePaused.GetInstance();
+            ActiveState = States.MainMenu.GetInstance();
+            States.GameRunning.GetInstance();
+            States.GamePaused.GetInstance();
 
         }
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.MainMenu:
-                    ActiveState = MainMenu.GetInstance();
+                    ActiveState = States.MainMenu.GetInstance();
                     break;
                 case GameStateType.GameRunning:
-                    ActiveState = GameRunning.GetInstance();
+                    ActiveState = States.GameRunning.GetInstance();
                     break;
                 case GameStateType.GamePaused:
-                    ActiveState = GamePaused.GetInstance();
+                    ActiveState = States.GamePaused.GetInstance();
                     break;
             }
         }

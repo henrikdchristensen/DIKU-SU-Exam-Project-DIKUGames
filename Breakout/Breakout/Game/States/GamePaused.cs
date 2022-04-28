@@ -8,7 +8,6 @@ using DIKUArcade.Events;
 namespace Breakout.Game.States {
     public class GamePaused : IGameState {
         private static GamePaused instance = null;
-        private Entity backGroundImage;
         private Text[] menuButtons;
         private int activeMenuButton;
         public static GamePaused GetInstance() {
@@ -20,10 +19,6 @@ namespace Breakout.Game.States {
         }
 
         public void InitializeGameState() {
-            //backgroundimage =
-            //    new entity(new dynamicshape(0, 0, 1, 1),
-            //    new image(path.combine("..", "galaga", "assets", "images", "titleimage.png")));
-
             menuButtons = new Text[] {
                 new Text("Continue", new Vec2F(0.2f, 0), new Vec2F(0.8f, 0.8f)),
                 new Text("Main menu", new Vec2F(0.15f, -0.3f), new Vec2F(0.8f, 0.8f))
@@ -40,8 +35,6 @@ namespace Breakout.Game.States {
         }
 
         public void RenderState() {
-            backGroundImage.RenderEntity();
-
             for (int i = 0; i < menuButtons.Length; i++) {
                 if (activeMenuButton == i)
                     menuButtons[i].SetColor(new Vec3F(0, 1, 0));
@@ -49,7 +42,6 @@ namespace Breakout.Game.States {
                     menuButtons[i].SetColor(new Vec3F(1, 1, 1));
                 menuButtons[i].RenderText();
             }
-                    
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {

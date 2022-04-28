@@ -22,10 +22,6 @@ namespace Breakout.Game.States {
         }
 
         public void InitializeGameState() {
-            //backGroundImage =
-            //    new Entity(new DynamicShape(0, 0, 1, 1),
-            //    new Image(Path.Combine("..", "Galaga", "Assets", "Images", "TitleImage.png")));
-            
             menuButtons = new Text[] {
                 new Text("New Game", new Vec2F(0.15f, 0), new Vec2F(0.8f, 0.8f)),
                 new Text("Quit", new Vec2F(0.35f, -0.3f), new Vec2F(0.8f, 0.8f))
@@ -42,16 +38,13 @@ namespace Breakout.Game.States {
         }
 
         public void RenderState() {
-            //backGroundImage.RenderEntity();
-
             for (int i = 0; i < menuButtons.Length; i++) {
                 if (activeMenuButton == i)
                     menuButtons[i].SetColor(new Vec3F(0, 1, 0));
                 else
                     menuButtons[i].SetColor(new Vec3F(1, 1, 1));
                 menuButtons[i].RenderText();
-            }
-                    
+            }   
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {

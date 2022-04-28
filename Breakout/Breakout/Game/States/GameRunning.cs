@@ -1,16 +1,6 @@
 using DIKUArcade.State;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
 using DIKUArcade.Input;
-using System.Security.Principal;
-using System.Collections.Generic;
 using DIKUArcade.Events;
-using DIKUArcade.GUI;
-using DIKUArcade;
-using System.IO;
-using DIKUArcade.Math;
-using DIKUArcade.Physics;
-using System;
 
 namespace Breakout.Game.States {
     public class GameRunning : IGameState {
@@ -28,7 +18,6 @@ namespace Breakout.Game.States {
 
         public void InitializeGameState() {
             
-
         }
 
         public void ResetState() {
@@ -53,8 +42,6 @@ namespace Breakout.Game.States {
                     break;
             }
         }
-
-       
 
         private void KeyPress(KeyboardKey key) {
             switch (key) {
