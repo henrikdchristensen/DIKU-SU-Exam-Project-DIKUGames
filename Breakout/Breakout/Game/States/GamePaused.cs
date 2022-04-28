@@ -1,5 +1,4 @@
 using DIKUArcade.State;
-using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Input;
 using DIKUArcade.Math;

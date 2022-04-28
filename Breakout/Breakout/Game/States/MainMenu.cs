@@ -2,15 +2,12 @@ using DIKUArcade.State;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Input;
-using System.IO;
-using System;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 
 namespace Breakout.Game.States {
     public class MainMenu : IGameState {
         private static MainMenu instance = null;
-        private Entity backGroundImage;
         private Text[] menuButtons;
         private int activeMenuButton;
         public static MainMenu GetInstance() {
