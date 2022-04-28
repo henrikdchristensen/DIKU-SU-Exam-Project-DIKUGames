@@ -1,7 +1,6 @@
 using System.IO;
 
-namespace Breakout.Level
-{
+namespace Breakout.Levels {
     public class LevelLoader : ILoader {
         
         public LevelLoader() { }
@@ -15,7 +14,7 @@ namespace Breakout.Level
         }
 
         private string[] extractData(string text, string keyword) {
-            int start = text.IndexOf(keyword)  + keyword.Length + 1;
+            int start = text.IndexOf(keyword) + keyword.Length + 1;
             int end = text.LastIndexOf(keyword);
             string content = text.Substring(start, end - start).Trim();
             return content.Split("\r\n");
@@ -24,7 +23,7 @@ namespace Breakout.Level
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             foreach (string line in lines) {
-                string[] pair = line.Split(delimiter, 2);
+                string[] pair = line.Split(delimiter + " ", 2);
                 dict.Add(pair[0], pair[1]);
             }
             return dict;

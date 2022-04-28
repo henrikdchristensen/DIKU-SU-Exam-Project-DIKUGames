@@ -1,14 +1,49 @@
-namespace Breakout.Level
+using DIKUArcade.Entities;
+using DIKUArcade.Math;
+using DIKUArcade.Graphics;
+using Breakout.Items;
+
+namespace Breakout.Levels
 {
     public class Level {
         public char[,] Map {get;}
         public Dictionary<string, string> Meta {get;}
         public Dictionary<string, string> Legend {get;}
-        
+
+        public EntityContainer<Block> entities {
+            get; private set;
+        } = new EntityContainer<Block>();
+
+        private Vec2F blockSize;
+
         public Level (char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
             Meta = meta;
             Legend = legend;
+
+            blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
+
+            generateBlocks();
+        }
+
+        public void Render() {
+            entities.RenderEntities();
+        }
+
+        private void generateBlocks() {
+            for (int i = 0; i < Map.GetLength(0); i++) {
+                for (int j = 0; j < Map.GetLength(1); j++) {
+                    string c = Map[i, j] + "";
+                    if (Legend.ContainsKey(Map[i, j] + "")) {
+                        entities.AddEntity(
+                            new Block(
+                                new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y),
+                                new Image(Path.Combine("Assets", "Images", Legend[c])),
+                                5, 1));
+                    }
+                
+                }
+            }
         }
 
         public override bool Equals(object obj) {

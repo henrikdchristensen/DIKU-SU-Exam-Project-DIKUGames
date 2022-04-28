@@ -1,4 +1,4 @@
-using Breakout.Level;
+using Breakout.Levels;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -42,15 +42,15 @@ namespace BreakoutTests {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}};
 
             Dictionary<string, string> meta = new Dictionary<string, string>(){{
-                    "Name", " LEVEL 1"}, {
-                    "Time", " 300"}, {
-                    "Hardened", " #"}, {
-                    "PowerUp", " 2"}};
+                    "Name", "LEVEL 1"}, {
+                    "Time", "300"}, {
+                    "Hardened", "#"}, {
+                    "PowerUp", "2"}};
             Dictionary<string, string> legend = new Dictionary<string, string>(){{
-                    "%", " blue-block.png"}, {
-                    "0", " grey-block.png"}, {
-                    "1", " orange-block.png"}, {
-                    "a", " purple-block.png"}};
+                    "%", "blue-block.png"}, {
+                    "0", "grey-block.png"}, {
+                    "1", "orange-block.png"}, {
+                    "a", "purple-block.png"}};
 
             Level expected = new Level(map, meta, legend);
             Assert.AreEqual(expected, level);
@@ -87,14 +87,14 @@ namespace BreakoutTests {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}};
 
             Dictionary<string, string> meta = new Dictionary<string, string>(){{
-                    "Name", " LEVEL 2"}, {
-                    "Time", " 180"}, {
-                    "PowerUp", " i"}};
+                    "Name", "LEVEL 2"}, {
+                    "Time", "180"}, {
+                    "PowerUp", "i"}};
             Dictionary<string, string> legend = new Dictionary<string, string>(){{
-                    "h", " green-block.png"}, {
-                    "i", " teal-block.png"}, {
-                    "j", " blue-block.png"}, {
-                    "k", " brown-block.png"}};
+                    "h", "green-block.png"}, {
+                    "i", "teal-block.png"}, {
+                    "j", "blue-block.png"}, {
+                    "k", "brown-block.png"}};
 
             Level expected = new Level(map, meta, legend);
             Assert.AreEqual(expected, level);
@@ -131,16 +131,16 @@ namespace BreakoutTests {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}};
 
             Dictionary<string, string> meta = new Dictionary<string, string>(){{
-                    "Name", " LEVEL 3"}, {
-                    "Time", " 180"}, {
-                    "PowerUp", " #"}, {
-                    "Unbreakable", " Y"}};
+                    "Name", "LEVEL 3"}, {
+                    "Time", "180"}, {
+                    "PowerUp", "#"}, {
+                    "Unbreakable", "Y"}};
             Dictionary<string, string> legend = new Dictionary<string, string>(){{
-                    "0", " orange-block.png"}, {
-                    "w", " darkgreen-block.png"}, {
-                    "#", " green-block.png"}, {
-                    "Y", " brown-block.png"}, {
-                    "b", " yellow-block.png"}};
+                    "0", "orange-block.png"}, {
+                    "w", "darkgreen-block.png"}, {
+                    "#", "green-block.png"}, {
+                    "Y", "brown-block.png"}, {
+                    "b", "yellow-block.png"}};
 
             Level expected = new Level(map, meta, legend);
             Assert.AreEqual(expected, level);

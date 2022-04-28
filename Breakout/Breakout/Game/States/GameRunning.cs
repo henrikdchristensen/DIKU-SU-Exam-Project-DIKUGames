@@ -1,12 +1,24 @@
 using DIKUArcade.State;
 using DIKUArcade.Input;
 using DIKUArcade.Events;
+using DIKUArcade.Graphics;
+using DIKUArcade.Entities;
+using DIKUArcade.Math;
+using Breakout.Levels;
 
 namespace Breakout.Game.States {
     public class GameRunning : IGameState {
         private static GameRunning instance = null;
 
         private GameEventBus eventBus;
+
+        private Level currentLevel;
+
+        private LevelLoader loader;
+
+        private Player player;
+
+        private GameRunning() { }
 
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
@@ -17,19 +29,27 @@ namespace Breakout.Game.States {
         }
 
         public void InitializeGameState() {
-            
+            loader = new LevelLoader();
+            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt"));
+
+            player = new Player(
+                new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
+                new Image(Path.Combine("Assets", "Images", "player.png")));
+
+            eventBus = GameBus.GetBus();
+            eventBus.Subscribe(GameEventType.PlayerEvent, player);
         }
 
         public void ResetState() {
-           
         }
 
         public void UpdateState() {
-            
+        
         }
 
         public void RenderState() {
-            
+            currentLevel.Render();
+            player.Render();
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {

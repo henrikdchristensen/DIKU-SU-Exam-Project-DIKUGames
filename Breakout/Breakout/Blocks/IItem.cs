@@ -1,5 +1,6 @@
-namespace Breakout;
+namespace Breakout {
+    public interface IItem {
+        bool Hit();
+    }
 
-public interface IItem {
-    bool Hit();
 }
