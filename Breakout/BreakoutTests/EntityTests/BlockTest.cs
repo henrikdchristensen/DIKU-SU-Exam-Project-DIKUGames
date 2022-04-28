@@ -29,8 +29,6 @@ namespace BreakoutTests.Items {
             block.Hit();
             Assert.True(block.Hit());
         }
-
-
     }
 
 }
