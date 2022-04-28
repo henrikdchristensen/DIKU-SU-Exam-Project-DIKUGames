@@ -18,7 +18,7 @@ namespace Breakout.Level
             int start = text.IndexOf(keyword)  + keyword.Length + 1;
             int end = text.LastIndexOf(keyword);
             string content = text.Substring(start, end - start).Trim();
-            return content.Split("\n");
+            return content.Split("\r\n");
         }
 
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {

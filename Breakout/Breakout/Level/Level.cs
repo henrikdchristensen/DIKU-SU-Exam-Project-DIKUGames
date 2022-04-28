@@ -16,8 +16,8 @@ namespace Breakout.Level
 
             if (other == null ||
                     other.Map.Length != Map.Length ||
-                    other.Meta.Count != Meta.Count || !other.Meta.Except(Meta).Any() ||
-                    other.Legend.Count != Legend.Count || !other.Legend.Except(Legend).Any()) 
+                    other.Meta.Count != Meta.Count || other.Meta.Except(Meta).Any() ||
+                    other.Legend.Count != Legend.Count || other.Legend.Except(Legend).Any()) 
                 return false;
 
             for (int i = 0; i < Map.GetLength(0); i++) 
@@ -29,17 +29,34 @@ namespace Breakout.Level
         }
 
         public override string ToString() {
-            string str = "{{ ";
+            string map = "map = {{";
             for (int i = 0; i < Map.GetLength(0); i++) {
+                if (i != 0)
+                    map += "}, {";
                 for (int j = 0; j < Map.GetLength(1); j++) {
                     if (j == 0)
-                        str += Map[i, j];
+                        map += $"'{Map[i, j]}'";
                     else
-                        str += Map[i, j];
+                        map += $", '{Map[i, j]}'";
                 }
-                str += " }, { ";
             }
-            return str + "}}";
+            map += "}}\n";
+
+            string meta = "meta = {";
+            foreach (KeyValuePair<string, string> pair in Meta)
+                meta += $"{{\"{pair.Key}\", \"{pair.Value}\"}}, ";
+            if (Meta.Count > 0)
+                meta = meta.Remove(meta.Length - 2);
+            meta += "}\n";
+
+            string legend = "legend = {";
+            foreach (KeyValuePair<string, string> pair in Legend)
+                legend += $"{{\"{pair.Key}\", \"{pair.Value}\"}}, ";
+            if (Legend.Count > 0)
+                legend = legend.Remove(legend.Length - 2);
+            legend += "}";
+
+            return map + meta + legend;
         }
 
     }
