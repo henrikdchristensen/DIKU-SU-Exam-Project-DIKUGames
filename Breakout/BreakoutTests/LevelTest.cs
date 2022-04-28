@@ -1,19 +1,29 @@
 using Breakout.Levels;
 using NUnit.Framework;
 using System.Collections.Generic;
+using DIKUArcade.GUI;
+using System.IO;
+using Breakout.Input;
+using System;
 
 namespace BreakoutTests {
 
+    
     public class Tests {
         private ILoader loader = new LevelLoader();
 
+        private string levelFolder;
+
         [SetUp]
         public void Setup() {
+            levelFolder = FilePath.GetAbsolutePath(Path.Combine("..", "Breakout", "Assets", "Levels"));
         }
 
         [Test]
         public void TestLevel1() {
-            Level? level = loader.CreateLevel(@"..\..\..\..\Breakout\Assets\Levels\level1.txt");
+            Window.CreateOpenGLContext();
+            Console.WriteLine(levelFolder);
+            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level1.txt"));
             char[,] map = {{
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -58,7 +68,8 @@ namespace BreakoutTests {
 
         [Test]
         public void TestLevel2() {
-            Level? level = loader.CreateLevel(@"..\..\..\..\Breakout\Assets\Levels\level2.txt");
+            Window.CreateOpenGLContext();
+            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level2.txt"));
             char[,] map = {{
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -102,7 +113,8 @@ namespace BreakoutTests {
 
         [Test]
         public void TestLevel3() {
-            Level? level = loader.CreateLevel(@"..\..\..\..\Breakout\Assets\Levels\level3.txt");
+            Window.CreateOpenGLContext();
+            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level3.txt"));
             char[,] map = {{
                     'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -144,28 +156,33 @@ namespace BreakoutTests {
 
             Level expected = new Level(map, meta, legend);
             Assert.AreEqual(expected, level);
-            //Assert.Fail(level?.ToString());
         }
 
 
         [Test]
         public void TestInvalidPath() {
+            Window.CreateOpenGLContext();
             try {
-                Level? level = loader.CreateLevel("INVALID_PATH");
-                Assert.IsTrue(level == null);
-            } catch {
-                Assert.Fail();
+                Level level = loader.CreateLevel("INVALID_PATH");
+            } catch (ArgumentException e) {
+                //Correct exception is thrown
+                if (e.Message == "file could not be found")
+                    Assert.Pass();
             }
+            Assert.Fail();
         }
 
         [Test]
         public void TestNoContent() {
+            Window.CreateOpenGLContext();
             try {
-                Level? level = loader.CreateLevel(@"..\Breakout\Assets\Levels\noContent.txt");
-                Assert.IsTrue(level == null);
-            } catch {
-                Assert.Fail();
+                Level level = loader.CreateLevel(Path.Combine(levelFolder, "noContent.txt"));
+            } catch (ArgumentException e) {
+                //Correct exception is thrown
+                if (e.Message == "file does not have correct format")
+                    Assert.Pass();
             }
+            Assert.Fail();
         }
     }
 

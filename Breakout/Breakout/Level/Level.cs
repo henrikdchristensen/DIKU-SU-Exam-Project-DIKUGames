@@ -10,9 +10,9 @@ namespace Breakout.Levels
         public Dictionary<string, string> Meta {get;}
         public Dictionary<string, string> Legend {get;}
 
-        public EntityContainer<Block> entities {
+        public EntityContainer<Entity> entities {
             get; private set;
-        } = new EntityContainer<Block>();
+        } = new EntityContainer<Entity>();
 
         private Vec2F blockSize;
 
@@ -38,7 +38,7 @@ namespace Breakout.Levels
                         entities.AddEntity(
                             new Block(
                                 new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y),
-                                new Image(Path.Combine("Assets", "Images", Legend[c])),
+                                new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[c])),
                                 5, 1));
                     }
                 

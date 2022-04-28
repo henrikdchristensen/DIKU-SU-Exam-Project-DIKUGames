@@ -1,6 +1,6 @@
 
 namespace Breakout.Levels {
     public interface ILoader {
-        public Level? CreateLevel(string path);
+        public Level CreateLevel(string path);
     }
 }
