@@ -7,6 +7,7 @@ namespace Breakout.Items {
         public int Health {
             get; set;
         }
+        
         private int value {
             get; set;
         }
