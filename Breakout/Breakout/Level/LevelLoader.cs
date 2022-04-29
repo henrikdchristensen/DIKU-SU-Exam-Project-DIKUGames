@@ -7,7 +7,7 @@ namespace Breakout.Levels {
 
 
         /// <summary>
-        ///
+        /// Creates a level from a level-txt-file
         /// require:
         ///     the file parameter is an existing file
         ///     the file has to have a correct setup
@@ -16,7 +16,7 @@ namespace Breakout.Levels {
         ///     it returns a level accordance to preperties specified in the file
         /// </summary>
         /// <param name="file"></param>
-        /// <returns></returns>
+        /// <returns>The corresponding level</returns>
         public Level CreateLevel(string file) {
             if (!File.Exists(file))
                 throw new ArgumentException("file could not be found"); 
@@ -27,7 +27,7 @@ namespace Breakout.Levels {
                     !text.Contains("Map:") || !text.Contains("Map/"))
                 throw new ArgumentException("file does not have correct format");
 
-            var map = linesToCharArr(extractData(text, "Map"));
+            var map = linesTo2DCharArr(extractData(text, "Map"));
             var meta = linesToDict(extractData(text, "Meta"), ':');
             var legend = linesToDict(extractData(text, "Legend"), ')');
             return new Level(map, meta, legend);
@@ -50,7 +50,7 @@ namespace Breakout.Levels {
             return dict;
         }
 
-        private char[,] linesToCharArr(string[] lines) {
+        private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
             for (int i = 0; i < lines.Length; i++) 
                 for (int j = 0; j < lines[i].Length; j++)
