@@ -22,9 +22,7 @@ namespace Breakout.Levels {
                 throw new ArgumentException("file could not be found"); 
 
             string text = File.ReadAllText(file);
-            if (!text.Contains("Map:") || !text.Contains("Map/") ||
-                    !text.Contains("Map:") || !text.Contains("Map/") ||
-                    !text.Contains("Map:") || !text.Contains("Map/"))
+            if (!isTextValid(text))
                 throw new ArgumentException("file does not have correct format");
 
             var map = linesTo2DCharArr(extractData(text, "Map"));
@@ -56,6 +54,12 @@ namespace Breakout.Levels {
                 for (int j = 0; j < lines[i].Length; j++)
                     ch[i, j] = lines[i][j];
             return ch;
+        }
+
+        private bool isTextValid(string text) {
+            return text.Contains("Map:") && text.Contains("Map/") ||
+                   text.Contains("Meta:") && text.Contains("Meta/") ||
+                   text.Contains("Legend:") && text.Contains("Legend/");
         }
 
     }
