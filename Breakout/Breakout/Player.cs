@@ -85,7 +85,7 @@ namespace Breakout {
             return shape;
         }
 
-        public void IsCollided(Shape shape) { }
+        public void IsCollided(DynamicShape shape) { }
 
     }
 

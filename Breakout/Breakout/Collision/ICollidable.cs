@@ -2,10 +2,10 @@
 
 namespace Breakout.Collision {
 
-    interface ICollidable {
+    public interface ICollidable {
 
         public DynamicShape GetShape();
 
-        public void IsCollided(Shape other);
+        public void IsCollided(DynamicShape other);
     }
 }

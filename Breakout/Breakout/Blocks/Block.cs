@@ -1,15 +1,18 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
-    public class Block : Entity, IItem {
-        public int Health { get; set; } = 10;
+    public class Block : Entity, IItem, ICollidable {
+        public int Health {
+            get; set;
+        } = 10;
 
         private int Threshold { get; set; } = 10;
 
         public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
-
+            CollisionHandler.GetInstance().Subsribe(this);
         }
 
         /// <summary> Should be called when the block is hit, and decrements health </summary>
@@ -25,9 +28,12 @@ namespace Breakout.Items {
             return base.Shape;
         }
 
-        public void IsCollided(Shape shape) {
-            this.Hit();
+        DynamicShape ICollidable.GetShape() {
+            return Shape.AsDynamicShape();
         }
 
+        void ICollidable.IsCollided(DynamicShape other) {
+            Hit();
+        }
     }
 }
