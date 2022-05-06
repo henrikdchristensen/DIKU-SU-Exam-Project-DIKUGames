@@ -6,6 +6,6 @@ namespace Breakout.Collision {
 
         public DynamicShape GetShape();
 
-        public void IsCollided(Shape other);
+        public void IsCollided(DynamicShape other);
     }
 }
