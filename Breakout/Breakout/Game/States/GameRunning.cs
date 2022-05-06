@@ -6,6 +6,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
+using Breakout.Blocks;
 
 namespace Breakout.Game.States {
     public class GameRunning : IGameState {
@@ -20,6 +21,8 @@ namespace Breakout.Game.States {
         private Player player;
 
         private CollisionHandler collisionHandler;
+
+        private Ball ball;
 
         private GameRunning() {
         }
@@ -41,6 +44,14 @@ namespace Breakout.Game.States {
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
                 new Image(Path.Combine("Assets", "Images", "player.png")));
 
+            ball = new Ball(
+                new DynamicShape(0, 0, 0.02f, 0.02f, 0.01f, 0.01f),
+                new Image(Path.Combine("Assets", "Images", "ball.png")));
+
+            collisionHandler = CollisionHandler.GetInstance();
+
+            //collisionHandler.Add(new Wall(new StationaryShape(0, 0, 1, 1, )))
+
             eventBus = GameBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
         }
@@ -49,13 +60,16 @@ namespace Breakout.Game.States {
         }
 
         public void UpdateState() {
+            collisionHandler.Update();
             player.Move();
+            ball.Move();
         }
 
         public void RenderState() {
             collisionHandler.Update();
             currentLevel.Render();
             player.Render();
+            ball.Render();
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
