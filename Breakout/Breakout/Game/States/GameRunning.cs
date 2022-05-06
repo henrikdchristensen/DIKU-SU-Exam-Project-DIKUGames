@@ -5,6 +5,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout.Levels;
+using Breakout.Collision;
 
 namespace Breakout.Game.States {
     public class GameRunning : IGameState {
@@ -17,6 +18,8 @@ namespace Breakout.Game.States {
         private LevelLoader loader;
 
         private Player player;
+
+        private CollisionHandler collisionHandler;
 
         private GameRunning() {
         }
@@ -32,6 +35,7 @@ namespace Breakout.Game.States {
         public void InitializeGameState() {
             loader = new LevelLoader();
             currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt"));
+            collisionHandler = new CollisionHandler();
 
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
@@ -49,6 +53,7 @@ namespace Breakout.Game.States {
         }
 
         public void RenderState() {
+            collisionHandler.Update();
             currentLevel.Render();
             player.Render();
         }

@@ -4,7 +4,7 @@ namespace Breakout.Collision {
 
     interface ICollidable {
 
-        public Shape GetShape();
+        public DynamicShape GetShape();
 
         public void IsCollided(Shape other);
     }
