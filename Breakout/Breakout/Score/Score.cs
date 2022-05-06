@@ -3,9 +3,8 @@ using DIKUArcade.Math;
 
 namespace Breakout.Score {
     public class Score {
-        public int Points {
-            get; private set;
-        }
+
+        private int points;
         private Text display;
 
         /// <summary> A scoreboard </summary>
@@ -13,15 +12,15 @@ namespace Breakout.Score {
         /// <param name = "extent"> The extent (size) of the scoreboard </param>
         /// <returns> A Score instance </returns>
         public Score(Vec2F position, Vec2F extent) {
-            Points = 0;
-            display = new Text(Points.ToString(), position, extent);
+            points = 0;
+            display = new Text(points.ToString(), position, extent);
             display.SetColor(new Vec3F(1f, 1f, 1f));
         }
 
         /// <summary> Add one point to the score </summary>
         public void AddPoints() {
-            Points++;
-            display.SetText(Points.ToString());
+            points++;
+            display.SetText(points.ToString());
         }
 
         /// <summary> Render the score on the screen </summary>
@@ -29,9 +28,15 @@ namespace Breakout.Score {
             display.RenderText();
         }
 
+        /// <summary> Reset score </summary>
         public void Reset() {
-            Points = 0;
-            display.SetText(Points.ToString());
+            points = 0;
+            display.SetText(points.ToString());
+        }
+
+        /// <summary> Get current score </summary>
+        public int GetScore() {
+            return points;
         }
     }
 }

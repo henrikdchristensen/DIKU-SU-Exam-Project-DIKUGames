@@ -17,9 +17,9 @@ namespace BreakoutTests {
 
         [Test]
         public void TestAddPoints() {
-            int oldPoints = score.Points;
+            int oldPoints = score.GetScore();
             score.AddPoints();
-            Assert.True(score.Points > oldPoints);
+            Assert.True(score.GetScore() > oldPoints);
         }
     }
 }
