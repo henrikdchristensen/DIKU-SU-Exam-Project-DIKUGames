@@ -1,6 +1,6 @@
 ﻿using DIKUArcade.Entities;
 
-namespace Galaga.Collision {
+namespace Breakout.Collision {
 
     interface ICollidable {
 
