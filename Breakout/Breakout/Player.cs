@@ -4,10 +4,11 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System;
+using Breakout.Collision;
 
 namespace Breakout {
 
-    public class Player : IGameEventProcessor {
+    public class Player : IGameEventProcessor, ICollidable {
 
         private Entity entity;
         private DynamicShape shape;
@@ -79,6 +80,13 @@ namespace Breakout {
         public float GetMovementSpeed() {
             return MOVEMENT_SPEED;
         }
+
+        public DynamicShape GetShape() {
+            return shape;
+        }
+
+        public void IsCollided(Shape shape) { }
+
     }
 
 }

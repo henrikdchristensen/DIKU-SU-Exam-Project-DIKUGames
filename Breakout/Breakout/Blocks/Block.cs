@@ -7,7 +7,7 @@ namespace Breakout.Items {
         public int Health {
             get; set;
         }
-        
+
         private int value {
             get; set;
         }
@@ -25,5 +25,14 @@ namespace Breakout.Items {
                 return true;
             return false;
         }
+
+        public Shape GetShape() {
+            return base.Shape;
+        }
+
+        public void IsCollided(Shape shape) { 
+            this.Hit();
+         }
+
     }
 }
