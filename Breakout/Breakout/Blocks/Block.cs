@@ -4,17 +4,12 @@ using DIKUArcade.Graphics;
 namespace Breakout.Items {
 
     public class Block : Entity, IItem {
-        public int Health {
-            get; set;
-        }
+        public int Health { get; set; } = 10;
 
-        private int value {
-            get; set;
-        }
+        private int Threshold { get; set; } = 10;
 
-        public Block(StationaryShape shape, IBaseImage image, int health, int value) : base(shape, image) {
-            this.Health = health;
-            this.value = value;
+        public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
+
         }
 
         /// <summary> Should be called when the block is hit, and decrements health </summary>
@@ -30,9 +25,9 @@ namespace Breakout.Items {
             return base.Shape;
         }
 
-        public void IsCollided(Shape shape) { 
+        public void IsCollided(Shape shape) {
             this.Hit();
-         }
+        }
 
     }
 }
