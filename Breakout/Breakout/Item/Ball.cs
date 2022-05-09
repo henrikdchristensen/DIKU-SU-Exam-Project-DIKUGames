@@ -7,8 +7,7 @@ using System;
 
 namespace Breakout.Items {
 
-
-    class Ball : Entity, ICollidable {
+    public class Ball : Entity, ICollidable {
 
         public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
             CollisionHandler.GetInstance().Subsribe(this);
