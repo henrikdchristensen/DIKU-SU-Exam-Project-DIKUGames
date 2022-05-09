@@ -37,7 +37,7 @@ namespace Breakout.Game.States {
 
         public void InitializeGameState() {
             loader = new LevelLoader();
-            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt"));
+            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt"));
             collisionHandler = new CollisionHandler();
 
             player = new Player(
