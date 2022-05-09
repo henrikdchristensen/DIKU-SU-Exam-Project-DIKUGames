@@ -13,7 +13,7 @@ public class HardenedBlock : Block {
 
     override public bool Hit() {
         Health--;
-        if (Health < 0)
+        if (Health <= 0)
             return true;
         else if (Health < StartHealt / 2) {
             Image = blockStridesAlt;
