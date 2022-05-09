@@ -1,4 +1,4 @@
-using Breakout.Levels;
+﻿using Breakout.Levels;
 using NUnit.Framework;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
@@ -9,7 +9,7 @@ using System;
 namespace BreakoutTests {
 
     [TestFixture]
-    public class LevelTest {
+    public class BallTest {
         private ILoader loader = new LevelLoader();
 
         private string levelFolder;
