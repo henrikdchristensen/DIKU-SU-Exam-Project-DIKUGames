@@ -10,7 +10,7 @@ namespace BreakoutTests.Items {
 
         [SetUp]
         public void Setup() {
-            block = new Block(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage(), 5, 2);
+            block = new Block(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage());
         }
 
         [Test]
