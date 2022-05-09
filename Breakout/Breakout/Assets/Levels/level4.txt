@@ -8,7 +8,7 @@ jjjjjijjjjjj
 jjijjjijjijj
 ------------
 kkkkkkkkkkkk
-kkkkkkkkkkkk
+############
 ------------
 ------------
 ------------
@@ -29,7 +29,7 @@ Map/
 Meta:
 Name: LEVEL 2
 Time: 180
-PowerUp: i
+Ubreakable: i
 Hardened: #
 Meta/
 
