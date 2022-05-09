@@ -24,6 +24,18 @@ namespace Breakout.Levels
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
             generateBlocks();
+
+        }
+
+        public void Update() {
+            //Delete entities that have been marked for deletion
+            var newList = new EntityContainer<Entity>();
+            foreach (Entity obj in entities) {
+                if (!obj.IsDeleted()) {
+                    newList.AddEntity(obj);
+                }
+            }
+            entities = newList;
         }
 
         public void Render() {
@@ -39,7 +51,7 @@ namespace Breakout.Levels
                             new Block(
                                 new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y),
                                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[c])),
-                                5, 1));
+                                1, 1));
                     }
                 
                 }
