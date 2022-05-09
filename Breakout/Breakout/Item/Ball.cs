@@ -33,7 +33,7 @@ namespace Breakout.Items {
             }
         }
 
-        public void IsCollided(DynamicShape other, CollisionData data) {
+        public void AtCollision(DynamicShape other, CollisionData data) {
             float rot = getDirFromCollisionVec(data.CollisionDir);
             //normal vector of the other game object are calculated
             Vec2F normal = new Vec2F((float)Math.Cos(rot), (float)Math.Sin(rot));
