@@ -24,10 +24,11 @@ namespace BreakoutTests.Items {
             block.Hit();
             Assert.True(block.Health < oldHealth);
         }
-
+        
+        [Test]
         public void TestHealth() {
-            int blockdHealth = block.Health;
-            int hardenedBlockHealth = hardenedBlock.Health;
+            int blockdHealth = block.StartHealt;
+            int hardenedBlockHealth = hardenedBlock.StartHealt;
            // block.Hit();
             Assert.True(block.Health == hardenedBlockHealth/2);
         }
