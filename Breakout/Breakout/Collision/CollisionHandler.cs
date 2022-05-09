@@ -21,7 +21,7 @@ namespace Breakout.Collision {
             collidableList.Add(obj);
         }
 
-        private void RemoveDestroýed() {
+        private void RemoveDestroyed() {
             List<ICollidable> newList = new List<ICollidable>();
             foreach (ICollidable c in collidableList)
                 if (!c.IsDestroyed())
@@ -30,7 +30,7 @@ namespace Breakout.Collision {
         }
 
         public void Update() {
-            RemoveDestroýed();
+            RemoveDestroyed();
 
             foreach (ICollidable col in collidableList) {
                 foreach (ICollidable other in collidableList) {
