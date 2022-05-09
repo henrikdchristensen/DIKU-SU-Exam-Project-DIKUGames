@@ -1,4 +1,6 @@
 ﻿using DIKUArcade.Entities;
+using DIKUArcade.Physics;
+
 
 namespace Breakout.Collision {
 
@@ -6,6 +8,8 @@ namespace Breakout.Collision {
 
         public DynamicShape GetShape();
 
-        public void IsCollided(DynamicShape other);
+        public void IsCollided(DynamicShape other, CollisionData data);
+
+        public bool IsDestroyed();
     }
 }

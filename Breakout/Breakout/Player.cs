@@ -5,6 +5,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System;
 using Breakout.Collision;
+using DIKUArcade.Physics;
 
 namespace Breakout {
 
@@ -14,7 +15,7 @@ namespace Breakout {
         private DynamicShape shape;
         private float moveLeft = 0.0f;
         private float moveRight = 0.0f;
-        private float MOVEMENT_SPEED = 0.01f;
+        private float MOVEMENT_SPEED = 0.015f;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -33,12 +34,17 @@ namespace Breakout {
         /// <summary> Move the player according to its direction </summary>
         public void Move() {
             shape.Move();
+
             shape.Position.X = Math.Max(0, shape.Position.X);
             shape.Position.X = Math.Min(1 - shape.Extent.X, shape.Position.X);
         }
 
         private void UpdateMovement() {
             this.shape.Direction.X = moveLeft + moveRight;
+        }
+
+        private void ResetMovement() {
+            
         }
 
         private void SetMoveLeft(bool val) {
@@ -85,7 +91,11 @@ namespace Breakout {
             return shape;
         }
 
-        public void IsCollided(DynamicShape shape) { }
+        public void IsCollided(DynamicShape shape, CollisionData data) { }
+
+        public bool IsDestroyed() {
+            return false;
+        }
 
     }
 

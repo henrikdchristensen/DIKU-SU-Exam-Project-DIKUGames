@@ -6,7 +6,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
-using Breakout.Blocks;
+using Breakout.Items;
 
 namespace Breakout.Game.States {
     public class GameRunning : IGameState {
@@ -37,7 +37,7 @@ namespace Breakout.Game.States {
 
         public void InitializeGameState() {
             loader = new LevelLoader();
-            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt"));
+            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt"));
             collisionHandler = new CollisionHandler();
 
             player = new Player(
@@ -45,12 +45,15 @@ namespace Breakout.Game.States {
                 new Image(Path.Combine("Assets", "Images", "player.png")));
 
             ball = new Ball(
-                new DynamicShape(0, 0, 0.02f, 0.02f, 0.01f, 0.01f),
+                new DynamicShape(0.5f, 0.5f, 0.02f, 0.02f, -0.01f, 0.01f),
                 new Image(Path.Combine("Assets", "Images", "ball.png")));
 
             collisionHandler = CollisionHandler.GetInstance();
 
-            //collisionHandler.Add(new Wall(new StationaryShape(0, 0, 1, 1, )))
+            collisionHandler.Subsribe(player);
+            collisionHandler.Subsribe(new Wall(new StationaryShape(1, 0, 0.1f, 1)));
+            collisionHandler.Subsribe(new Wall(new StationaryShape(-0.1f, 0, 0.1f, 1)));
+            collisionHandler.Subsribe(new Wall(new StationaryShape(0, 1, 1, 0.1f)));
 
             eventBus = GameBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
@@ -63,6 +66,7 @@ namespace Breakout.Game.States {
             collisionHandler.Update();
             player.Move();
             ball.Move();
+            currentLevel.Update();
         }
 
         public void RenderState() {

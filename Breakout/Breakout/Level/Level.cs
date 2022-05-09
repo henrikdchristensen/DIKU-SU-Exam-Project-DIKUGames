@@ -24,6 +24,18 @@ namespace Breakout.Levels
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
             generateBlocks();
+
+        }
+
+        public void Update() {
+            //Delete entities that have been marked for deletion
+            var newList = new EntityContainer<Entity>();
+            foreach (Entity obj in entities) {
+                if (!obj.IsDeleted()) {
+                    newList.AddEntity(obj);
+                }
+            }
+            entities = newList;
         }
 
         public void Render() {
@@ -34,16 +46,30 @@ namespace Breakout.Levels
             for (int i = 0; i < Map.GetLength(0); i++) {
                 for (int j = 0; j < Map.GetLength(1); j++) {
                     string c = Map[i, j] + "";
-                    if (Legend.ContainsKey(Map[i, j] + "")) {
-                        entities.AddEntity(
-                            new Block(
-                                new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y),
-                                new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[c])),
-                                5, 1));
+                    if (Legend.ContainsKey(c)) {
+
+                        entities.AddEntity(chooseBlock(c,
+                            new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y)));
                     }
                 
                 }
             }
+        }
+
+        private Block chooseBlock(string symbol, StationaryShape shape) {
+            var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
+            var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
+
+            string hardened = BlockTransformer.TransformStateToString(BlockType.Hardened);
+            if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol)
+                return new HardenedBlock(shape, img, dmg);
+
+            string unbreakable = BlockTransformer.TransformStateToString(BlockType.Unbreakable);
+            if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
+                return new Unbreakable(shape, img);
+
+            return new Block(shape, img);
+
         }
 
         public override bool Equals(object obj) {
