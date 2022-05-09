@@ -30,6 +30,7 @@ Meta:
 Name: LEVEL 2
 Time: 180
 PowerUp: i
+Hardened: #
 Meta/
 
 Legend:
