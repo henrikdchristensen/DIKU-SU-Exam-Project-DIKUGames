@@ -50,8 +50,7 @@ namespace Breakout.Levels
                         entities.AddEntity(
                             new Block(
                                 new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y),
-                                new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[c])),
-                                1, 1));
+                                new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[c]))));
                     }
                 
                 }

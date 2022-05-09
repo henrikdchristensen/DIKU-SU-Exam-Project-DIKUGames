@@ -8,7 +8,7 @@ namespace Breakout.Items {
     public class Block : Entity, IItem, ICollidable {
 
 
-        public int StartHealt { get; set; } = 10;
+        public int StartHealt { get; set; } = 1;
 
         public int Health { get; set; }
 
