@@ -1,4 +1,4 @@
-using System.IO;
+using Breakout.Input;
 
 namespace Breakout.Levels {
     public class LevelLoader : ILoader {
@@ -18,6 +18,7 @@ namespace Breakout.Levels {
         /// <param name="file"></param>
         /// <returns>The corresponding level</returns>
         public Level CreateLevel(string file) {
+            file = FilePath.GetAbsolutePath(file);
             if (!File.Exists(file))
                 throw new ArgumentException("file could not be found"); 
 

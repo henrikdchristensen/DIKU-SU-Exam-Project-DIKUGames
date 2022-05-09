@@ -37,7 +37,7 @@ namespace Breakout.Game.States {
 
         public void InitializeGameState() {
             loader = new LevelLoader();
-            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt"));
+            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"));
 
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
