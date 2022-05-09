@@ -40,8 +40,8 @@ namespace Breakout.Items {
 
             //calculate: dir - 2 (dir dot-produkt normal) * normal
             Vec2F dir = Shape.AsDynamicShape().Direction;
-            float dotProduct = Vec2F.Dot(normal, dir);
-            Vec2F newDir = dir - 2 * dir * normal;
+            float dotProduct = Vec2F.Dot(normal, dir); //TODO
+            Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir.X += other.Direction.X * 0.5f;
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }

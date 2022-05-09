@@ -6,7 +6,7 @@ using Breakout.Score;
 namespace BreakoutTests {
 
     [TestFixture]
-    public class TestScore {
+    public class ScoreTest {
         private Score score;
 
         [SetUp]

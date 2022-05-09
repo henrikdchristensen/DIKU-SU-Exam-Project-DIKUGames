@@ -12,7 +12,7 @@ using Breakout;
 namespace BreakoutTests {
 
     [TestFixture]
-    public class TestPlayer {
+    public class PlayerTest {
         private GameEventBus eventBus;
 
         private Player player;

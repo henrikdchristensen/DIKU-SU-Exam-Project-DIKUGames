@@ -37,7 +37,6 @@ namespace Breakout.Collision {
                     if (col != other) {
                         CollisionData data = CollisionDetection.Aabb(col.GetShape(), other.GetShape());
                         if (data.Collision) {
-                            Console.WriteLine($"Collision normal: {data.CollisionDir}");
                             col.IsCollided(other.GetShape(), data);
                             other.IsCollided(col.GetShape(), data);
                         }

@@ -8,8 +8,8 @@ using System;
 
 namespace BreakoutTests {
 
-    
-    public class Tests {
+    [TestFixture]
+    public class LevelTest {
         private ILoader loader = new LevelLoader();
 
         private string levelFolder;
