@@ -16,7 +16,7 @@ namespace Breakout.Items {
         }
 
         public void IsCollided(DynamicShape other, CollisionData data) {
-            System.Console.WriteLine("Wall collision");
+
         }
 
         public bool IsDestroyed() {

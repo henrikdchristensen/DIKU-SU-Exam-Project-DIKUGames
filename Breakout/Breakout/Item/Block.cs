@@ -5,7 +5,7 @@ using DIKUArcade.Physics;
 
 namespace Breakout.Items {
 
-    public class Block : Entity, IItem, ICollidable {
+    public class Block : Entity, ICollidable {
 
 
         public int StartHealt { get; set; } = 1;
@@ -19,25 +19,19 @@ namespace Breakout.Items {
 
         /// <summary> Should be called when the block is hit, and decrements health </summary>
         /// <returns> Returns true if it is dead, and false otherwise </returns>
-        virtual public bool Hit() {
+        virtual public void Hit() {
             Health--;
-            if (Health <= 0) {
+            if (Health <= 0) 
                 DeleteEntity();
-                return true;
-            }
-            return false;
         }
 
 
-        public Shape GetShape() {
-            return base.Shape;
-        }
 
-        DynamicShape ICollidable.GetShape() {
+        public DynamicShape GetShape() {
             return Shape.AsDynamicShape();
         }
 
-        void ICollidable.IsCollided(DynamicShape other, CollisionData data) {
+        virtual public void IsCollided(DynamicShape other, CollisionData data) {
             Hit();
         }
 

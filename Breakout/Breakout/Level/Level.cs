@@ -61,8 +61,11 @@ namespace Breakout.Levels
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
             string hardened = BlockTransformer.TransformStateToString(BlockType.Hardened);
-            if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol)
+            if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) {
+                Console.WriteLine("HARDENED ADDED");
                 return new HardenedBlock(shape, img, dmg);
+            }
+                
 
             string unbreakable = BlockTransformer.TransformStateToString(BlockType.Unbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
