@@ -5,7 +5,7 @@ using DIKUArcade.Physics;
 
 namespace Breakout.Items {
 
-    public class Block : Entity, IItem, ICollidable {
+    public class Block : Entity, ICollidable {
 
 
         public int StartHealt { get; set; } = 1;
