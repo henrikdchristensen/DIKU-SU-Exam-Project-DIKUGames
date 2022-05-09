@@ -31,7 +31,7 @@ namespace Breakout.Items {
             return Shape.AsDynamicShape();
         }
 
-        virtual public void IsCollided(DynamicShape other, CollisionData data) {
+        virtual public void AtCollision(DynamicShape other, CollisionData data) {
             Hit();
         }
 

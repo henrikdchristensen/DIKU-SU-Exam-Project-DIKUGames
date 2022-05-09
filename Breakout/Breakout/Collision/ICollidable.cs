@@ -8,7 +8,7 @@ namespace Breakout.Collision {
 
         public DynamicShape GetShape();
 
-        public void IsCollided(DynamicShape other, CollisionData data);
+        public void AtCollision(DynamicShape other, CollisionData data);
 
         public bool IsDestroyed();
     }

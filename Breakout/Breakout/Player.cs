@@ -91,7 +91,7 @@ namespace Breakout {
             return shape;
         }
 
-        public void IsCollided(DynamicShape shape, CollisionData data) { }
+        public void AtCollision(DynamicShape shape, CollisionData data) { }
 
         public bool IsDestroyed() {
             return false;
