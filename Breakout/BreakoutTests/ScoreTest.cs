@@ -32,6 +32,7 @@ namespace BreakoutTests {
             }
         }
 
+        /// <summary>Test maximum possible points.</summary>
         [Test]
         public void TestMaximumPoints() {
             score.AddPoints(int.MaxValue);
@@ -39,6 +40,7 @@ namespace BreakoutTests {
             Assert.True(score.GetScore() == int.MaxValue);
         }
 
+        /// <summary>Test resetting score.</summary>
         [Test]
         public void TestResetScore() {
             score.AddPoints();

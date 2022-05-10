@@ -9,7 +9,7 @@ namespace Breakout {
         private Text display;
 
         /// <summary> A scoreboard </summary>
-        /// <param name = "position"> Where the scoreboard is rendered</param>
+        /// <param name = "position"> Where the scoreboard is rendered </param>
         /// <param name = "extent"> The extent (size) of the scoreboard </param>
         /// <returns> A Score instance </returns>
         public Score(Vec2F position, Vec2F extent) {
@@ -18,18 +18,17 @@ namespace Breakout {
             display.SetColor(new Vec3F(1f, 1f, 1f));
         }
 
-        /// <summary> Add one point to the score </summary>
+        /// <summary> Add points to the score </summary>
+        /// <param name = "add"> The points to be added to the overall score </param>
+        /// <returns>None</returns>
         public void AddPoints(int add = 1) {
-            // If the integer points overflows the size of an int,
-            // an OverflowException error is raised
             if (add > 0 && points < int.MaxValue) {
                 if (points <= int.MaxValue - add) {
                     points += add;
-                    display.SetText(points.ToString());
                 } else {
                     points = int.MaxValue;
-                    display.SetText(points.ToString());
                 }
+                display.SetText(points.ToString());
             }
             
         }
@@ -46,6 +45,7 @@ namespace Breakout {
         }
 
         /// <summary> Get current score </summary>
+        /// <returns> The score </returns>
         public int GetScore() {
             return points;
         }
