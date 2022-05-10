@@ -7,20 +7,18 @@ using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
 using Breakout.Items;
-using Breakout;
 
 namespace Breakout.Game.States {
-
     public class GameRunning : IGameState {
         private static GameRunning instance = null;
 
         private GameEventBus eventBus;
 
-        private Score score;
-
         private Level currentLevel;
 
         private LevelLoader loader;
+
+        private LevelContainer levels;
 
         private Player player;
 
@@ -40,12 +38,7 @@ namespace Breakout.Game.States {
         }
 
         public void InitializeGameState() {
-            loader = new LevelLoader();
-
-            score = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
-
-            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"));
-
+            levels = LevelContainer.GetLevelContainer();
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
                 new Image(Path.Combine("Assets", "Images", "player.png")));
@@ -66,20 +59,18 @@ namespace Breakout.Game.States {
         }
 
         public void ResetState() {
-            score.Reset();
         }
 
         public void UpdateState() {
             collisionHandler.Update();
             player.Move();
             ball.Move();
-            currentLevel.Update();
+            levels.ActiveLevel.Update();
         }
 
         public void RenderState() {
-            score.Render();
             collisionHandler.Update();
-            currentLevel.Render();
+            levels.ActiveLevel.Render();
             player.Render();
             ball.Render();
         }

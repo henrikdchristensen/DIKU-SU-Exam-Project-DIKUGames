@@ -27,7 +27,7 @@ namespace BreakoutTests.Items {
             block.Hit();
             block.Hit();
             block.Hit();
-            Assert.True(block.Hit());
+            Assert.True(block.IsDeleted());
         }
     }
 

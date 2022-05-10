@@ -25,8 +25,6 @@ namespace Breakout.Items {
                 DeleteEntity();
         }
 
-
-
         public DynamicShape GetShape() {
             return Shape.AsDynamicShape();
         }

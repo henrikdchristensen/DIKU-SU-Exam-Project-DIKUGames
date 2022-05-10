@@ -10,9 +10,6 @@ namespace Breakout.Game {
             GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             GameBus.GetBus().Subscribe(GameEventType.InputEvent, this);
             ActiveState = States.MainMenu.GetInstance();
-            States.GameRunning.GetInstance();
-            States.GamePaused.GetInstance();
-
         }
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {

@@ -20,7 +20,7 @@ namespace Breakout.Levels {
         public Level CreateLevel(string file) {
             file = FilePath.GetAbsolutePath(file);
             if (!File.Exists(file))
-                throw new ArgumentException("file could not be found"); 
+                throw new ArgumentException("file could not be found. Invalid path: " + file); 
 
             string text = File.ReadAllText(file);
             if (!isTextValid(text))
@@ -37,7 +37,7 @@ namespace Breakout.Levels {
             int start = text.IndexOf(keyword) + keyword.Length + 1;
             int end = text.LastIndexOf(keyword);
             string content = text.Substring(start, end - start).Trim();
-            return content.Split("\r\n");
+            return content.Split(Environment.NewLine);
         }
 
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {
@@ -51,9 +51,16 @@ namespace Breakout.Levels {
 
         private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
-            for (int i = 0; i < lines.Length; i++) 
-                for (int j = 0; j < lines[i].Length; j++)
-                    ch[i, j] = lines[i][j];
+
+            try {
+             for (int i = 0; i < lines.Length; i++)
+                 for (int j = 0; j < lines[i].Length; j++)
+                     ch[i, j] = lines[i][j];
+            } catch (Exception) {
+
+                Console.WriteLine("Out of bounds proceeeding");
+            }
+
             return ch;
         }
 

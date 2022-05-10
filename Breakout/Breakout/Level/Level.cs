@@ -2,13 +2,20 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using Breakout.Items;
+using Breakout;
+using Breakout.Input;
 
-namespace Breakout.Levels
-{
+namespace Breakout.Levels {
     public class Level {
-        public char[,] Map {get;}
-        public Dictionary<string, string> Meta {get;}
-        public Dictionary<string, string> Legend {get;}
+        public char[,] Map {
+            get;
+        }
+        public Dictionary<string, string> Meta {
+            get;
+        }
+        public Dictionary<string, string> Legend {
+            get;
+        }
 
         public EntityContainer<Entity> entities {
             get; private set;
@@ -16,7 +23,7 @@ namespace Breakout.Levels
 
         private Vec2F blockSize;
 
-        public Level (char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
+        public Level(char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
             Meta = meta;
             Legend = legend;
@@ -28,6 +35,13 @@ namespace Breakout.Levels
         }
 
         public void Update() {
+
+            if (IsAllBlocksDestroyed()) {
+                LevelContainer levelContainer = LevelContainer.GetLevelContainer();
+                levelContainer.NextLevel();
+                return;
+            }
+
             //Delete entities that have been marked for deletion
             var newList = new EntityContainer<Entity>();
             foreach (Entity obj in entities) {
@@ -42,6 +56,15 @@ namespace Breakout.Levels
             entities.RenderEntities();
         }
 
+        public bool IsAllBlocksDestroyed() {
+            foreach (Entity obj in entities) {
+                if (obj is not Unbreakable && !obj.IsDeleted()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void generateBlocks() {
             for (int i = 0; i < Map.GetLength(0); i++) {
                 for (int j = 0; j < Map.GetLength(1); j++) {
@@ -51,21 +74,21 @@ namespace Breakout.Levels
                         entities.AddEntity(chooseBlock(c,
                             new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y)));
                     }
-                
+
                 }
             }
         }
 
         private Block chooseBlock(string symbol, StationaryShape shape) {
-            var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
-            var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
+            var img = new Image(Path.Combine("Assets", "Images", Legend[symbol]));
+            var dmg = new Image(Path.Combine("Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
             string hardened = BlockTransformer.TransformStateToString(BlockType.Hardened);
             if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) {
                 Console.WriteLine("HARDENED ADDED");
                 return new HardenedBlock(shape, img, dmg);
             }
-                
+
 
             string unbreakable = BlockTransformer.TransformStateToString(BlockType.Unbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
@@ -81,14 +104,14 @@ namespace Breakout.Levels
             if (other == null ||
                     other.Map.Length != Map.Length ||
                     other.Meta.Count != Meta.Count || other.Meta.Except(Meta).Any() ||
-                    other.Legend.Count != Legend.Count || other.Legend.Except(Legend).Any()) 
+                    other.Legend.Count != Legend.Count || other.Legend.Except(Legend).Any())
                 return false;
 
-            for (int i = 0; i < Map.GetLength(0); i++) 
-                for (int j = 0; j < Map.GetLength(1); j++) 
+            for (int i = 0; i < Map.GetLength(0); i++)
+                for (int j = 0; j < Map.GetLength(1); j++)
                     if (Map[i, j] != other.Map[i, j])
                         return false;
-                
+
             return true;
         }
 
