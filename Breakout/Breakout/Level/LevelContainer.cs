@@ -60,7 +60,7 @@ public class LevelContainer {
             levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
             // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
             // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level3.txt")),
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
+            //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
 
         };
         // Set initial active level
