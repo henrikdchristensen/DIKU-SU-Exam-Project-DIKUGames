@@ -23,6 +23,13 @@ namespace BreakoutTests {
         }
 
         [Test]
+        public void TestMaximumPoints() {
+            score.AddPoints(int.MaxValue);
+            score.AddPoints(1);
+            Assert.True(score.GetScore() == int.MaxValue);
+        }
+
+        [Test]
         public void TestResetScore() {
             score.AddPoints();
             score.Reset();

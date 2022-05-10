@@ -5,6 +5,7 @@ namespace Breakout {
     public class Score {
 
         private int points;
+
         private Text display;
 
         /// <summary> A scoreboard </summary>
@@ -18,9 +19,14 @@ namespace Breakout {
         }
 
         /// <summary> Add one point to the score </summary>
-        public void AddPoints() {
-            points++;
-            display.SetText(points.ToString());
+        public void AddPoints(int add = 1) {
+            // If the integer points overflows the size of an int,
+            // an OverflowException error is raised
+            if (points <= int.MaxValue - add) {
+                points += add;
+                display.SetText(points.ToString());
+            }
+            
         }
 
         /// <summary> Render the score on the screen </summary>
