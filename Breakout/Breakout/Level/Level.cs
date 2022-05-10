@@ -80,8 +80,8 @@ namespace Breakout.Levels {
         }
 
         private Block chooseBlock(string symbol, StationaryShape shape) {
-            var img = new Image(Path.Combine("Assets", "Images", Legend[symbol]));
-            var dmg = new Image(Path.Combine("Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
+            var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
+            var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
             string hardened = BlockTransformer.TransformStateToString(BlockType.Hardened);
             if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) {

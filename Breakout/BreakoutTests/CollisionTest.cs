@@ -8,7 +8,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Items;
 using Breakout;
-
+using DIKUArcade.Math;
 
 namespace BreakoutTests {
 
@@ -24,20 +24,26 @@ namespace BreakoutTests {
 
         [Test]
         public void TestCollisionBallAndBlock() {
-            Ball ball = new Ball(new DynamicShape(0.4f, 0.5f, 0.1f, 0.1f, 0.0f, 1.0f), new NoImage());
+            Ball ball = new Ball(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f, 0.0f, 1.0f), new NoImage());
             Block block = new Block(new StationaryShape(0.4f, 0.5f, 0.1f, 0.1f), new NoImage());
-            int blockOldHealth = block.Health;
+            int oldHealth = block.Health;
+            Vec2F oldDir = ball.GetShape().Direction.Copy();
             collision.Subsribe(ball);
             collision.Subsribe(block);
             collision.Update();
-            Assert.True(blockOldHealth > block.Health);
-            Assert.True(true);
+            Assert.True(oldHealth > block.Health);
+            Assert.True(oldDir.X != ball.GetShape().Direction.X || oldDir.Y != ball.GetShape().Direction.Y);
         }
 
         [Test]
         public void TestCollisionBallAndPlayer() {
-            Ball ball = new Ball(new DynamicShape(0.4f, 0.5f, 0.1f, 0.1f, 0.0f, -1.0f), new NoImage());
+            Ball ball = new Ball(new DynamicShape(0.4f, 0.11f, 0.1f, 0.1f, 0.0f, -0.3f), new NoImage());
             Player player = new Player(new DynamicShape(0.4f, 0.01f, 0.1f, 0.1f), new NoImage());
+            Vec2F oldDir = ball.GetShape().Direction.Copy();
+            collision.Subsribe(ball);
+            collision.Subsribe(player);
+            collision.Update();
+            Assert.True(oldDir.X != ball.GetShape().Direction.X || oldDir.Y != ball.GetShape().Direction.Y);
 
         }
 

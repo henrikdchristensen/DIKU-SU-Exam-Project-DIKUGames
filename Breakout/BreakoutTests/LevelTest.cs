@@ -16,13 +16,12 @@ namespace BreakoutTests {
 
         [SetUp]
         public void Setup() {
-            levelFolder = FilePath.GetAbsolutePath(Path.Combine("..", "Breakout", "Assets", "Levels"));
+            levelFolder = Path.Combine("..","Breakout", "Assets", "Levels");
         }
 
         [Test]
         public void TestLevel1() {
             Window.CreateOpenGLContext();
-            Console.WriteLine(levelFolder);
             Level level = loader.CreateLevel(Path.Combine(levelFolder, "level1.txt"));
             char[,] map = {{
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -166,7 +165,9 @@ namespace BreakoutTests {
                 Level level = loader.CreateLevel("INVALID_PATH");
             } catch (ArgumentException e) {
                 //Correct exception is thrown
-                if (e.Message == "file could not be found")
+                var path = FilePath.GetAbsolutePath("INVALID_PATH");
+                Console.WriteLine(e.Message);
+                if (e.Message == "File could not be found. Invalid path: " + path)
                     Assert.Pass();
             }
             Assert.Fail();
