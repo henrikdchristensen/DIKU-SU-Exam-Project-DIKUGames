@@ -3,6 +3,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using Breakout.Items;
 using Breakout;
+using Breakout.Input;
 
 namespace Breakout.Levels {
     public class Level {
