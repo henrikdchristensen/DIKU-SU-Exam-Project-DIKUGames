@@ -18,6 +18,8 @@ namespace Breakout.Game.States {
 
         private LevelLoader loader;
 
+        private LevelContainer levels;
+
         private Player player;
 
         private CollisionHandler collisionHandler;
@@ -36,8 +38,10 @@ namespace Breakout.Game.States {
         }
 
         public void InitializeGameState() {
-            loader = new LevelLoader();
-            currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"));
+            //loader = new LevelLoader();
+            levels = LevelContainer.GetLevelContainer();
+            
+            //currentLevel = loader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"));
 
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
@@ -65,12 +69,14 @@ namespace Breakout.Game.States {
             collisionHandler.Update();
             player.Move();
             ball.Move();
-            currentLevel.Update();
+            //currentLevel.Update();
+            levels.ActiveLevel.Update();
         }
 
         public void RenderState() {
             collisionHandler.Update();
-            currentLevel.Render();
+            //currentLevel.Render();
+            levels.ActiveLevel.Render();
             player.Render();
             ball.Render();
         }

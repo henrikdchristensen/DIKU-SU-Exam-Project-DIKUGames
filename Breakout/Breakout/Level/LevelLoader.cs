@@ -20,7 +20,7 @@ namespace Breakout.Levels {
         public Level CreateLevel(string file) {
             file = FilePath.GetAbsolutePath(file);
             if (!File.Exists(file))
-                throw new ArgumentException("file could not be found"); 
+                throw new ArgumentException("file could not be found. Invalid path: " + file); 
 
             string text = File.ReadAllText(file);
             if (!isTextValid(text))

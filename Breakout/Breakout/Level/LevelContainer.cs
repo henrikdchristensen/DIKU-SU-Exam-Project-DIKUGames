@@ -35,7 +35,7 @@ public class LevelContainer {
     /// get duplicated when LevelContainer is reset in the ResetLevelContainer method.
     /// </summary>
     public LevelContainer() {
-        eventBus = GameBus.GetBus();
+        //eventBus = GameBus.GetBus();
         //eventBus.Subscribe(GameEventType.TimedEvent, this);
         InitializeLevels();
     }
@@ -57,10 +57,11 @@ public class LevelContainer {
         levelLoader = new LevelLoader();
         // Initialize structure of levels
         levelList = new List<Level> {
-            levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level1.txt")),
-            levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
-            levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level3.txt")),
-            levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level4.txt"))
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
+            // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
+            // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level3.txt")),
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
+
         };
         // Set initial active level
         ActiveLevel = levelList[levelCounter];
