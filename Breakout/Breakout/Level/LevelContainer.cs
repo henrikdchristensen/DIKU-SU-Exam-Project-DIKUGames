@@ -55,18 +55,24 @@ public class LevelContainer {
 
 
     /// <summary>
-    /// Incrementing the level.
+    /// Incrementing the level. If last level is passed then the game returns to main menu.
     /// </summary>
     public void NextLevel() {
         if (++levelCounter <= levelList.Count - 1) {
             ActiveLevel = levelList[levelCounter];
+        } else {
+            GameBus.GetBus().RegisterEvent(new GameEvent {
+                EventType = GameEventType.GameStateEvent,
+                Message = "CHANGE_STATE",
+                StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
+            });
         }
     }
 
     /// <summary>
-    /// Can set an active level given a level name e.g. Level4.txt
+    /// Can set an active level given a level 
     /// </summary>
-    /// <param name="activeLevel">String with the name of level</param>
+    /// <param name="activeLevel">String with the name of level e.g. "Level1.txt"</param>
     public void SetActiveLevel(string activeLevel) {
         ActiveLevel = levelLoader.CreateLevel(Path.Combine("Assets", "Levels", activeLevel));
     }

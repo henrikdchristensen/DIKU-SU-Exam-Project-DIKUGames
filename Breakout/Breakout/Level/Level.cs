@@ -40,7 +40,6 @@ namespace Breakout.Levels {
                 LevelContainer levelContainer = LevelContainer.GetLevelContainer();
                 levelContainer.NextLevel();
                 return;
-                //newList = new EntityContainer<Entity>();
             }
 
             //Delete entities that have been marked for deletion
