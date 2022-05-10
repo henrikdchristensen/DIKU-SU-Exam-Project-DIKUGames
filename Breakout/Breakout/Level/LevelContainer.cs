@@ -19,24 +19,13 @@ public class LevelContainer {
 
     private LevelLoader levelLoader;
 
-    // A dictionary of the levels within the level container
-    // public Dictionary<string, Level> Levels {
-    //     get; private set;
-    // }
-    // Property to keep track of which level is currently being played
     public Level ActiveLevel {
         get; private set;
     }
 
     private int levelCounter { get; set; } = 0;
 
-    /// <summary>
-    /// Set up eventbus and subsribe to TimedEvents once, to make sure that events do not
-    /// get duplicated when LevelContainer is reset in the ResetLevelContainer method.
-    /// </summary>
     public LevelContainer() {
-        //eventBus = GameBus.GetBus();
-        //eventBus.Subscribe(GameEventType.TimedEvent, this);
         InitializeLevels();
     }
 
@@ -49,35 +38,24 @@ public class LevelContainer {
     }
 
     /// <summary>
-    /// Initializes levels. The levels are hard-coded and added to the dictionary
-    /// of levels. Levels are chained together in a structure, using the NextLevel property,
-    /// making easy to change to next level.
+    /// Initializes levels. The levels are hardcoded in a list and active level is set to the first element
     /// </summary>
     private void InitializeLevels() {
         levelLoader = new LevelLoader();
         // Initialize structure of levels
         levelList = new List<Level> {
             levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
-            // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
-            // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level3.txt")),
-            //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
-
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
         };
         // Set initial active level
         ActiveLevel = levelList[levelCounter];
     }
 
-    /// <summary>
-    /// Creating customers based on strings in the Level objects. Customers are created here
-    /// to make the references between a customer and platforms in all levels possible.
-    /// A customer is added to the queue on each level, such that they are rendered when
-    /// their spawn time has expired.
-    /// </summary>
 
     /// <summary>
-    /// Follow the chain of levels and set the ActiveLevel to the next level.
-    /// Invoke method to create timed events for customers in the new level, such that they
-    /// spawn according to their specified spawn time.
+    /// Incrementing the level.
     /// </summary>
     public void NextLevel() {
         if (++levelCounter <= levelList.Count - 1) {
@@ -86,13 +64,11 @@ public class LevelContainer {
     }
 
     /// <summary>
-    /// Used by the game state ChooseLevel to set the picked level.
-    /// Invoke method to create timed events for customers in the new level, such that they
-    /// spawn according to their specified spawn time.
+    /// Can set an active level given a level name e.g. Level4.txt
     /// </summary>
     /// <param name="activeLevel">String with the name of level</param>
     public void SetActiveLevel(string activeLevel) {
-        ActiveLevel = levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", activeLevel));
+        ActiveLevel = levelLoader.CreateLevel(Path.Combine("Assets", "Levels", activeLevel));
     }
 
     /// <summary>
@@ -101,30 +77,6 @@ public class LevelContainer {
     public void ResetLevelContainer() {
         InitializeLevels();
     }
-
-    /// <summary>
-    /// The LevelContainer is a IGameEventProcessor such that it can handle TimedEvents
-    /// and spawn customers.
-    /// </summary>
-    /// <param name="eventType"></param>
-    /// <param name="gameEvent"></param>
-    // public void ProcessEvent(GameEventType eventType, GameEvent<object> gameEvent) {
-    //     if (eventType == GameEventType.TimedEvent) {
-    //         switch (gameEvent.Message) {
-    //             case "ADD_CUSTOMER":
-    //                 AddCustomerToLevel(
-    //                     ActiveLevel.QueuedCustomers.Find(
-    //                         c => c.Name == gameEvent.Parameter1));
-    //                 break;
-    //             case "DERENDER_CUSTOMER":
-    //                 ActiveLevel.RemoveCustomerFromLevel(
-    //                     ActiveLevel.Customers.Find(c => c.Name == gameEvent.Parameter1));
-    //                 break;
-    //         }
-    //     }
-
-    // }
-
 
 
 }
