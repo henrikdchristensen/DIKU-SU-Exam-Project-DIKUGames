@@ -21,5 +21,13 @@ namespace BreakoutTests {
             score.AddPoints();
             Assert.True(score.GetScore() > oldPoints);
         }
+
+        [Test]
+        public void TestResetScore() {
+            score.AddPoints();
+            score.Reset();
+            Assert.True(score.GetScore() == 0);
+        }
+
     }
 }
