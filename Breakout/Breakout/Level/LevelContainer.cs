@@ -70,15 +70,15 @@ public class LevelContainer {
     }
 
     /// <summary>
-    /// Can set an active level given a level 
+    /// Can set an active level given a level file name 
     /// </summary>
-    /// <param name="activeLevel">String with the name of level e.g. "Level1.txt"</param>
+    /// <param name="activeLevel">String with the name of level file</param>
     public void SetActiveLevel(string activeLevel) {
         ActiveLevel = levelLoader.CreateLevel(Path.Combine("Assets", "Levels", activeLevel));
     }
 
     /// <summary>
-    /// Reset the LevelContainer. The method is invoked the game has ended.
+    /// Reset the LevelContainer.
     /// </summary>
     public void ResetLevelContainer() {
         InitializeLevels();
