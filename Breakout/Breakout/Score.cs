@@ -1,7 +1,7 @@
 ﻿using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 
-namespace Breakout.Score {
+namespace Breakout {
     public class Score {
 
         private int points;
@@ -24,7 +24,7 @@ namespace Breakout.Score {
         }
 
         /// <summary> Render the score on the screen </summary>
-        public void RenderScore() {
+        public void Render() {
             display.RenderText();
         }
 
