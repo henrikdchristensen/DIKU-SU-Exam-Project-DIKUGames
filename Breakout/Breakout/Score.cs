@@ -22,9 +22,14 @@ namespace Breakout {
         public void AddPoints(int add = 1) {
             // If the integer points overflows the size of an int,
             // an OverflowException error is raised
-            if (points <= int.MaxValue - add) {
-                points += add;
-                display.SetText(points.ToString());
+            if (add > 0 && points < int.MaxValue) {
+                if (points <= int.MaxValue - add) {
+                    points += add;
+                    display.SetText(points.ToString());
+                } else {
+                    points = int.MaxValue;
+                    display.SetText(points.ToString());
+                }
             }
             
         }
