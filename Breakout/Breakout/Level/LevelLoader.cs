@@ -51,9 +51,16 @@ namespace Breakout.Levels {
 
         private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
-            for (int i = 0; i < lines.Length; i++) 
-                for (int j = 0; j < lines[i].Length; j++)
-                    ch[i, j] = lines[i][j];
+
+            try {
+             for (int i = 0; i < lines.Length; i++)
+                 for (int j = 0; j < lines[i].Length; j++)
+                     ch[i, j] = lines[i][j];
+            } catch (Exception) {
+
+                Console.WriteLine("Out of bounds proceeeding");
+            }
+
             return ch;
         }
 

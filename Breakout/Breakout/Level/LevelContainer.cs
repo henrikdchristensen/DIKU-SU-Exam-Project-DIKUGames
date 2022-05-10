@@ -57,8 +57,8 @@ public class LevelContainer {
         levelLoader = new LevelLoader();
         // Initialize structure of levels
         levelList = new List<Level> {
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
-            // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
+            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "testLevel.txt")),
+            //levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level2.txt")),
             // levelLoader.CreateLevel(Path.Combine(Directory.GetCurrentDirectory(), "../Assets/Levels", "level3.txt")),
             levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
 
