@@ -9,7 +9,7 @@ using Breakout.Collision;
 using Breakout.Items;
 
 namespace Breakout.Game.States {
-    public class GameRunning : IGameState {
+    public class GameRunning : IGameState, IGameEventProcessor {
         private static GameRunning instance = null;
 
         private GameEventBus eventBus;
@@ -26,8 +26,6 @@ namespace Breakout.Game.States {
 
         private CollisionHandler collisionHandler;
 
-        private Ball ball;
-
         private GameRunning() {
         }
 
@@ -41,14 +39,11 @@ namespace Breakout.Game.States {
 
         public void InitializeGameState() {
             levels = LevelContainer.GetLevelContainer();
+            
             score = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
                 new Image(Path.Combine("Assets", "Images", "player.png")));
-
-            ball = new Ball(
-                new DynamicShape(0.5f, 0.5f, 0.02f, 0.02f, -0.01f, 0.01f),
-                new Image(Path.Combine("Assets", "Images", "ball.png")));
 
             collisionHandler = CollisionHandler.GetInstance();
 
@@ -59,16 +54,17 @@ namespace Breakout.Game.States {
 
             eventBus = GameBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+            eventBus.Subscribe(GameEventType.StatusEvent, this);
         }
 
         public void ResetState() {
             score.Reset();
+            levels.Reset();
         }
 
         public void UpdateState() {
             collisionHandler.Update();
             player.Move();
-            ball.Move();
             levels.ActiveLevel.Update();
         }
 
@@ -77,7 +73,6 @@ namespace Breakout.Game.States {
             collisionHandler.Update();
             levels.ActiveLevel.Render();
             player.Render();
-            ball.Render();
         }
 
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
@@ -118,6 +113,9 @@ namespace Breakout.Game.States {
                 case KeyboardKey.Right:
                     registerPlayerEvent("RightReleased");
                     break;
+                case KeyboardKey.Space:
+                    levels.ActiveLevel.Destroy();
+                    break;
             }
         }
 
@@ -127,6 +125,17 @@ namespace Breakout.Game.States {
                 EventType = GameEventType.PlayerEvent
             };
             eventBus.RegisterEvent(e);
+        }
+
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.StatusEvent) {
+                Console.WriteLine(gameEvent.Message);
+                switch (gameEvent.Message) {
+                    case "BLOCK_DESTROYED":
+                        score.AddPoints(gameEvent.IntArg1);
+                        break;
+                }
+            }
         }
     }
 }

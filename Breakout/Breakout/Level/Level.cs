@@ -4,6 +4,7 @@ using DIKUArcade.Graphics;
 using Breakout.Items;
 using Breakout;
 using Breakout.Input;
+using Breakout.Collision;
 
 namespace Breakout.Levels {
     public class Level {
@@ -17,9 +18,9 @@ namespace Breakout.Levels {
             get;
         }
 
-        public EntityContainer<Entity> entities {
-            get; private set;
-        } = new EntityContainer<Entity>();
+        private EntityContainer<Block> blocks = new EntityContainer<Block>();
+
+        private EntityContainer<Ball> balls = new EntityContainer<Ball>();
 
         private Vec2F blockSize;
 
@@ -30,34 +31,50 @@ namespace Breakout.Levels {
 
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
-            generateBlocks();
+            balls.AddEntity(new Ball(
+                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
+                new Image(Path.Combine("Assets", "Images", "ball.png"))));
 
+            generateBlocks();
+        }
+
+        public void Activate() {
+            blocks.Iterate(CollisionHandler.GetInstance().Subsribe);
+            balls.Iterate(CollisionHandler.GetInstance().Subsribe);
         }
 
         public void Update() {
+            //Delete entities that have been marked for deletion
+            blocks = DeleteMarked(blocks);
+            balls = DeleteMarked(balls);
 
-            if (IsAllBlocksDestroyed()) {
-                LevelContainer levelContainer = LevelContainer.GetLevelContainer();
-                levelContainer.NextLevel();
+            if (isAllBlocksDestroyed()) {
+                Destroy();
+                LevelContainer.GetLevelContainer().NextLevel();
                 return;
             }
 
-            //Delete entities that have been marked for deletion
-            var newList = new EntityContainer<Entity>();
-            foreach (Entity obj in entities) {
+            foreach (Ball b in balls)
+                b.Move();
+        }
+
+        private EntityContainer<T> DeleteMarked<T>(EntityContainer<T> entities) where T : Entity {
+            var newList = new EntityContainer<T>();
+            foreach (T obj in entities) {
                 if (!obj.IsDeleted()) {
                     newList.AddEntity(obj);
                 }
             }
-            entities = newList;
+            return newList;
         }
 
         public void Render() {
-            entities.RenderEntities();
+            blocks.RenderEntities();
+            balls.RenderEntities();
         }
 
-        public bool IsAllBlocksDestroyed() {
-            foreach (Entity obj in entities) {
+        private bool isAllBlocksDestroyed() {
+            foreach (Entity obj in blocks) {
                 if (obj is not Unbreakable && !obj.IsDeleted()) {
                     return false;
                 }
@@ -71,12 +88,19 @@ namespace Breakout.Levels {
                     string c = Map[i, j] + "";
                     if (Legend.ContainsKey(c)) {
 
-                        entities.AddEntity(chooseBlock(c,
-                            new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y)));
+                        Block block = chooseBlock(c, new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y));
+                        blocks.AddEntity(block);
                     }
 
                 }
             }
+        }
+
+        public void Destroy() {
+            foreach (Block b in blocks)
+                b.DeleteEntity();
+            foreach (Ball b in balls)
+                b.DeleteEntity();
         }
 
         private Block chooseBlock(string symbol, StationaryShape shape) {

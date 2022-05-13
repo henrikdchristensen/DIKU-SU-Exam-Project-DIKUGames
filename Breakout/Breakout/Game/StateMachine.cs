@@ -9,7 +9,11 @@ namespace Breakout.Game {
         public StateMachine() {
             GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             GameBus.GetBus().Subscribe(GameEventType.InputEvent, this);
+
+            //Instantiate state-objects to avoid lagging at game transition
             ActiveState = States.MainMenu.GetInstance();
+            States.GameRunning.GetInstance();
+            States.GamePaused.GetInstance();
         }
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {

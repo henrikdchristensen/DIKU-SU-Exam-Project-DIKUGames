@@ -9,8 +9,15 @@ namespace Breakout.Items {
 
     public class Ball : Entity, ICollidable {
 
+        private const float SPEED = 0.01f;
+        private const double MAX_START_ANGLE = Math.PI / 2;
+
         public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
-            CollisionHandler.GetInstance().Subsribe(this);
+            Random rand = new Random();
+            float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
+            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
+            dir *= SPEED;
+            shape.Direction = dir;
         }
 
         public DynamicShape GetShape() {
@@ -43,10 +50,12 @@ namespace Breakout.Items {
             Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir.X += other.Direction.X * 0.5f;
             Shape.AsDynamicShape().ChangeDirection(newDir);
+
+            Console.WriteLine("BALL COLLISION");
         }
 
         public bool IsDestroyed() {
-            return false;
+            return IsDeleted();
         }
 
         public void Move() {

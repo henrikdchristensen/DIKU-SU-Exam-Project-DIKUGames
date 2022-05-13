@@ -9,6 +9,7 @@ public class HardenedBlock : Block {
 
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
+        value *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 
@@ -16,7 +17,7 @@ public class HardenedBlock : Block {
         Console.WriteLine("Hardened hit");
         Health--;
         if (Health < 0)
-            DeleteEntity();
+            Die();
         else if (Health < StartHealt / 2)
             Image = blockStridesAlt;
     }

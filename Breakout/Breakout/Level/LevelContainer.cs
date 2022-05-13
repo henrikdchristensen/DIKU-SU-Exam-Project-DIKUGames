@@ -26,9 +26,7 @@ namespace Breakout.Levels {
 
         private int levelCounter { get; set; } = 0;
 
-        public LevelContainer() {
-            InitializeLevels();
-        }
+        private LevelContainer() { }
 
         /// <summary>
         /// Singleton pattern used to make sure only one LevelContainer exists.
@@ -38,6 +36,12 @@ namespace Breakout.Levels {
             return LevelContainer.instance ?? (LevelContainer.instance = new LevelContainer());
         }
 
+        public void Reset() {
+            levelCounter = 0;
+            ActiveLevel?.Destroy();
+            InitializeLevels();
+        }
+
         /// <summary>
         /// Initializes levels. The levels are hardcoded in a list and active level is set to the first element
         /// </summary>
@@ -45,13 +49,13 @@ namespace Breakout.Levels {
             levelLoader = new LevelLoader();
             // Initialize structure of levels
             levelList = new List<Level> {
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
-            levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
-        };
+                //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
+                //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
+                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
+                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
+            };
             // Set initial active level
-            ActiveLevel = levelList[levelCounter];
+            NextLevel();
         }
 
 
@@ -59,8 +63,9 @@ namespace Breakout.Levels {
         /// Incrementing the level. If last level is passed then the game returns to main menu.
         /// </summary>
         public void NextLevel() {
-            if (++levelCounter <= levelList.Count - 1) {
-                ActiveLevel = levelList[levelCounter];
+            if (levelCounter <= levelList.Count - 1) {
+                ActiveLevel = levelList[levelCounter++];
+                ActiveLevel.Activate();
             } else {
                 GameBus.GetBus().RegisterEvent(new GameEvent {
                     EventType = GameEventType.GameStateEvent,

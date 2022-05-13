@@ -2,18 +2,21 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Collision;
 using DIKUArcade.Physics;
+using Breakout.Game;
+using DIKUArcade.Events;
 
 namespace Breakout.Items {
 
     public class Block : Entity, ICollidable {
 
 
-        public int StartHealt { get; set; } = 1;
+        public int StartHealt { get; protected set; } = 1;
 
-        public int Health { get; set; }
+        public int Health { get; protected set; }
+
+        public int value { get; protected set; } = 1;
 
         public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
-            CollisionHandler.GetInstance().Subsribe(this);
             Health = StartHealt;
         }
 
@@ -21,8 +24,18 @@ namespace Breakout.Items {
         /// <returns> Returns true if it is dead, and false otherwise </returns>
         virtual public void Hit() {
             Health--;
-            if (Health <= 0) 
-                DeleteEntity();
+            if (Health <= 0)
+                Die();  
+        }
+
+        protected void Die() {
+            DeleteEntity();
+
+            GameBus.GetBus().RegisterEvent(new GameEvent {
+                Message = "BLOCK_DESTROYED",
+                EventType = GameEventType.StatusEvent,
+                IntArg1 = value
+            });
         }
 
         public DynamicShape GetShape() {
