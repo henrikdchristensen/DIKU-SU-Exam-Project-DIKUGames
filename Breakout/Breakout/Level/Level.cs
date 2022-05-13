@@ -45,8 +45,8 @@ namespace Breakout.Levels {
 
         public void Update() {
             //Delete entities that have been marked for deletion
-            blocks = DeleteMarked(blocks);
-            balls = DeleteMarked(balls);
+            blocks = DeleteMarkedEntity(blocks);
+            balls = DeleteMarkedEntity(balls);
 
             if (isAllBlocksDestroyed()) {
                 Destroy();
@@ -58,7 +58,7 @@ namespace Breakout.Levels {
                 b.Move();
         }
 
-        private EntityContainer<T> DeleteMarked<T>(EntityContainer<T> entities) where T : Entity {
+        private EntityContainer<T> DeleteMarkedEntity<T>(EntityContainer<T> entities) where T : Entity {
             var newList = new EntityContainer<T>();
             foreach (T obj in entities) {
                 if (!obj.IsDeleted()) {

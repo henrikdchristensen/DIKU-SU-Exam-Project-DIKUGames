@@ -60,6 +60,9 @@ namespace Breakout.Items {
 
         public void Move() {
             Shape.AsDynamicShape().Move();
+
+            if (Shape.Position.Y + Shape.Extent.Y < 0)
+                DeleteEntity();
         }
 
         public void Render() {
