@@ -21,6 +21,7 @@ namespace BreakoutTests {
 
         [Test]
         public void TestLevel1() {
+            Console.WriteLine(levelFolder);
             Window.CreateOpenGLContext();
             Level level = loader.CreateLevel(Path.Combine(levelFolder, "level1.txt"));
             char[,] map = {{

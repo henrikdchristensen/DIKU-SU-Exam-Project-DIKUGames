@@ -27,20 +27,23 @@ namespace BreakoutTests.Items {
         
         [Test]
         public void TestHealth() {
-            int blockdHealth = block.StartHealt;
-            int hardenedBlockHealth = hardenedBlock.StartHealt;
-           // block.Hit();
-            Assert.True(block.Health == hardenedBlockHealth/2);
+            Assert.True(block.Health == hardenedBlock.StartHealt / 2);
         }
 
         [Test]
-        public void TestDie() { // Does hit return true when dead (6 times hit)
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            Assert.True(hardenedBlock.IsDeleted());
+        public void TestDieBlock() { // Does hit return true when dead (6 times hit)
+            int startHealth = block.StartHealt;
+            for (int i = 0; i < startHealth; i++)
+                block.Hit();
+            Assert.True(block.IsDeleted());
+        }
+
+        [Test]
+        public void TestDieHardened() { // Does hit return true when dead (6 times hit)
+            int startHealth = hardenedBlock.StartHealt;
+            for (int i = 0; i < startHealth; i++)
+                block.Hit();
+            Assert.True(block.IsDeleted());
         }
     }
 

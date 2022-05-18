@@ -33,7 +33,7 @@ namespace Breakout.Levels {
 
             balls.AddEntity(new Ball(
                 new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
-                new Image(Path.Combine("Assets", "Images", "ball.png"))));
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png"))));
 
             generateBlocks();
         }

@@ -9,6 +9,7 @@ using DIKUArcade.Graphics;
 using Breakout.Items;
 using Breakout;
 using DIKUArcade.Math;
+using System;
 
 namespace BreakoutTests {
 
@@ -24,8 +25,10 @@ namespace BreakoutTests {
 
         [Test]
         public void TestCollisionBallAndBlock() {
-            Ball ball = new Ball(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f, 0.0f, 1.0f), new NoImage());
+            Ball ball = new Ball(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f), new NoImage());
+            ball.GetShape().ChangeDirection(new Vec2F(0.0f, 1.0f));
             Block block = new Block(new StationaryShape(0.4f, 0.5f, 0.1f, 0.1f), new NoImage());
+
             int oldHealth = block.Health;
             Vec2F oldDir = ball.GetShape().Direction.Copy();
             collision.Subsribe(ball);
@@ -37,8 +40,10 @@ namespace BreakoutTests {
 
         [Test]
         public void TestCollisionBallAndPlayer() {
-            Ball ball = new Ball(new DynamicShape(0.4f, 0.11f, 0.1f, 0.1f, 0.0f, -0.3f), new NoImage());
+            Ball ball = new Ball(new DynamicShape(0.4f, 0.11f, 0.1f, 0.1f), new NoImage());
+            ball.GetShape().ChangeDirection(new Vec2F(0.0f, -0.3f));
             Player player = new Player(new DynamicShape(0.4f, 0.01f, 0.1f, 0.1f), new NoImage());
+
             Vec2F oldDir = ball.GetShape().Direction.Copy();
             collision.Subsribe(ball);
             collision.Subsribe(player);
