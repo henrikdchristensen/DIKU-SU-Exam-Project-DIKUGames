@@ -47,8 +47,8 @@ namespace BreakoutTests {
                 player.Move();
             }
             registerPlayerEvent("RightReleased");
-            float expected = prevPos + player.GetMovementSpeed() * 10;
-            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF);
+            float expected = 0.684f;
+            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace BreakoutTests {
                 player.Move();
             }
             registerPlayerEvent("RightReleased");
-            float expected = prevPos - player.GetMovementSpeed() * 10;
-            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF);
+            float expected = 0.316f;
+            Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
         [Test]

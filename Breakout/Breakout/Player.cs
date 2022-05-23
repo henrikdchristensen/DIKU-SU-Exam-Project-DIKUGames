@@ -13,9 +13,10 @@ namespace Breakout {
 
         private Entity entity;
         private DynamicShape shape;
-        private float moveLeft = 0.0f;
-        private float moveRight = 0.0f;
-        private float MOVEMENT_SPEED = 0.015f;
+        private int moveLeft = 0;
+        private int moveRight = 0;
+        private const float MOVEMENT_ACC = 0.004f;
+        private const float MAX_SPEED = 0.025f;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -33,14 +34,27 @@ namespace Breakout {
 
         /// <summary> Move the player according to its direction </summary>
         public void Move() {
+            UpdateMovement();
             shape.Move();
-
+            
             shape.Position.X = Math.Max(0, shape.Position.X);
             shape.Position.X = Math.Min(1 - shape.Extent.X, shape.Position.X);
         }
 
         private void UpdateMovement() {
-            this.shape.Direction.X = moveLeft + moveRight;
+            float dirX = shape.Direction.X;
+            int signDir = moveLeft + moveRight;
+            if (signDir == 0) {
+                if (Math.Abs(dirX) <= MOVEMENT_ACC)
+                    shape.Direction.X = 0;
+                else
+                    shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC;
+            } else {
+                if (Math.Abs(dirX) + MOVEMENT_ACC <= MAX_SPEED)
+                    shape.Direction.X += signDir * MOVEMENT_ACC;
+                else
+                    shape.Direction.X = signDir * MAX_SPEED;
+            }
         }
 
         private void ResetMovement() {
@@ -48,12 +62,10 @@ namespace Breakout {
         }
 
         private void SetMoveLeft(bool val) {
-            moveLeft = val ? -MOVEMENT_SPEED : 0;
-            UpdateMovement();
+            moveLeft = val ? -1 : 0;
         }
         private void SetMoveRight(bool val) {
-            moveRight = val ? MOVEMENT_SPEED : 0;
-            UpdateMovement();
+            moveRight = val ? 1 : 0;
         }
 
         /// <summary> Get the current position of the player. </summary>
@@ -81,10 +93,6 @@ namespace Breakout {
                         break;
                 }
             }
-        }
-
-        public float GetMovementSpeed() {
-            return MOVEMENT_SPEED;
         }
 
         public DynamicShape GetShape() {
