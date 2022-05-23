@@ -43,6 +43,7 @@ namespace Breakout.Items {
         }
 
         virtual public void AtCollision(DynamicShape other, CollisionData data) {
+            Console.WriteLine("BLOCK HIT");
             Hit();
         }
 

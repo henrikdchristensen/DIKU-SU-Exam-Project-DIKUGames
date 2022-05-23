@@ -15,8 +15,8 @@ namespace Breakout {
         private DynamicShape shape;
         private int moveLeft = 0;
         private int moveRight = 0;
-        private const float MOVEMENT_ACC = 0.004f;
-        private const float MAX_SPEED = 0.025f;
+        private const float MOVEMENT_ACC = 0.005f;
+        private const float MAX_SPEED = 0.02f;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -36,9 +36,14 @@ namespace Breakout {
         public void Move() {
             UpdateMovement();
             shape.Move();
-            
-            shape.Position.X = Math.Max(0, shape.Position.X);
-            shape.Position.X = Math.Min(1 - shape.Extent.X, shape.Position.X);
+
+            if (shape.Position.X > 1 - shape.Extent.X) {
+                resetDir();
+                shape.Position.X = 1 - shape.Extent.X;
+            } else if (shape.Position.X < 0) {
+                resetDir();
+                shape.Position.X = 0;
+            }
         }
 
         private void UpdateMovement() {
@@ -57,8 +62,10 @@ namespace Breakout {
             }
         }
 
-        private void ResetMovement() {
-            
+        private void resetDir() {
+            moveLeft = 0;
+            moveRight = 0;
+            shape.Direction.X = 0;
         }
 
         private void SetMoveLeft(bool val) {
@@ -99,7 +106,9 @@ namespace Breakout {
             return shape;
         }
 
-        public void AtCollision(DynamicShape shape, CollisionData data) { }
+        public void AtCollision(DynamicShape other, CollisionData data) {
+
+        }
 
         public bool IsDestroyed() {
             return false;

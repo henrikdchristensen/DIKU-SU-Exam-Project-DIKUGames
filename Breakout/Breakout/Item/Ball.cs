@@ -27,11 +27,11 @@ namespace Breakout.Items {
         private float getDirFromCollisionVec(CollisionDirection dir) {
             switch (dir) {
                 case CollisionDirection.CollisionDirDown:
-                    return (float) (Math.PI / 2);
+                    return -(float) (Math.PI / 2);
                 case CollisionDirection.CollisionDirUp:
                     return (float) (Math.PI / 2);
                 case CollisionDirection.CollisionDirLeft:
-                    return 0;
+                    return (float) Math.PI;
                 case CollisionDirection.CollisionDirRight:
                     return 0;
                 default:
@@ -48,7 +48,7 @@ namespace Breakout.Items {
             Vec2F dir = Shape.AsDynamicShape().Direction;
             float dotProduct = Vec2F.Dot(normal, dir); //TODO
             Vec2F newDir = dir - 2 * dotProduct * normal;
-            newDir.X += other.Direction.X * 0.5f;
+            newDir += other.Direction * 0.25f;
             Shape.AsDynamicShape().ChangeDirection(newDir);
 
             Console.WriteLine("BALL COLLISION");
