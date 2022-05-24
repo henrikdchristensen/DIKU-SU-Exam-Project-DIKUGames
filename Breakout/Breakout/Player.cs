@@ -15,6 +15,10 @@ namespace Breakout {
         private DynamicShape shape;
         private int moveLeft = 0;
         private int moveRight = 0;
+        public int Life {
+            get => Life;
+            private set => Life = value < 0 ? 0 : value;
+        }
         private const float MOVEMENT_ACC = 0.005f;
         private const float MAX_SPEED = 0.02f;
 
@@ -25,6 +29,7 @@ namespace Breakout {
         public Player(DynamicShape shape, IBaseImage image) {
             entity = new Entity(shape, image);
             this.shape = shape;
+            Life = 3;
         }
 
         /// <summary> Render the player </summary>
@@ -81,11 +86,18 @@ namespace Breakout {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
+        private void LooseLife() {
+            life--;
+        }
+
         /// <summary> To receive events from the event bus. </summary>
         /// <param name = "gameEvent"> the game-event recieved </param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
+                    case "LostLife":
+                        LooseLife();
+                        break;
                     case "LeftPressed":
                         SetMoveLeft(true);
                         break;
