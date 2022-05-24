@@ -33,7 +33,12 @@ namespace Breakout.Levels {
             return new Level(map, meta, legend);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
         private string[] extractData(string text, string keyword) {
             int start = text.IndexOf(keyword) + keyword.Length + 1;
             int end = text.LastIndexOf(keyword);
@@ -41,6 +46,12 @@ namespace Breakout.Levels {
             return content.Split(Environment.NewLine);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <param name="delimiter"></param>
+        /// <returns></returns>
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             foreach (string line in lines) {
@@ -50,6 +61,11 @@ namespace Breakout.Levels {
             return dict;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
         private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
 
@@ -65,6 +81,11 @@ namespace Breakout.Levels {
             return ch;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         private bool isTextValid(string text) {
             return text.Contains("Map:") && text.Contains("Map/") ||
                    text.Contains("Meta:") && text.Contains("Meta/") ||
@@ -72,4 +93,5 @@ namespace Breakout.Levels {
         }
 
     }
+
 }

@@ -8,7 +8,9 @@ using Breakout.Collision;
 using System.Diagnostics;
 
 namespace Breakout.Levels {
+
     public class Level {
+
         private Text display;
         private Stopwatch stopwatch = new Stopwatch();
         private int timeToEnd;
@@ -21,12 +23,16 @@ namespace Breakout.Levels {
         public Dictionary<string, string> Legend {
             get;
         }
-
         private EntityContainer<Item> items = new EntityContainer<Item>();
         private int balls = 0;
-
         private Vec2F blockSize;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="map"></param>
+        /// <param name="meta"></param>
+        /// <param name="legend"></param>
         public Level(char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
             Meta = meta;
@@ -52,6 +58,9 @@ namespace Breakout.Levels {
             generateBlocks();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void spawnBall() {
             balls++;
             Ball ball = new Ball(
@@ -62,19 +71,26 @@ namespace Breakout.Levels {
             items.AddEntity(ball);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void OnBallDeletion() {
             balls--;
             if (balls <= 0)
                 spawnBall();
         }
 
-
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Activate() {
             items.Iterate(CollisionHandler.GetInstance().Subsribe);
             spawnBall();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Update() {
             //Delete entities that have been marked for deletion
             items = DeleteMarkedEntity(items);
@@ -89,6 +105,11 @@ namespace Breakout.Levels {
                 item.Update();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         private EntityContainer<Item> DeleteMarkedEntity(EntityContainer<Item> entities)  {
             var newList = new EntityContainer<Item>();
             foreach (Item obj in entities) {
@@ -102,11 +123,17 @@ namespace Breakout.Levels {
             return newList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Render() {
             items.RenderEntities();
             RenderTime();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void RenderTime() {
             if (stopwatch.ElapsedMilliseconds / 1000 < timeToEnd) {
                 display.SetText((timeToEnd - stopwatch.ElapsedMilliseconds / 1000).ToString());
@@ -114,6 +141,10 @@ namespace Breakout.Levels {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private bool hasWon() {
             foreach (Item item in items) {
                 if (item.IsDestroyable && !item.IsDeleted()) {
@@ -123,6 +154,9 @@ namespace Breakout.Levels {
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void generateBlocks() {
             for (int i = 0; i < Map.GetLength(0); i++) {
                 for (int j = 0; j < Map.GetLength(1); j++) {
@@ -137,11 +171,17 @@ namespace Breakout.Levels {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Destroy() {
             foreach (Item item in items)
                 item.DeleteEntity();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void DeleteBlock() {
             foreach (Item item in items) {
                 if (item is Block) {
@@ -151,6 +191,12 @@ namespace Breakout.Levels {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         private Block chooseBlock(string symbol, StationaryShape shape) {
             var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
@@ -170,6 +216,11 @@ namespace Breakout.Levels {
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj) {
             Level? other = obj as Level;
 
@@ -187,6 +238,10 @@ namespace Breakout.Levels {
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() {
             string map = "map = {{";
             for (int i = 0; i < Map.GetLength(0); i++) {
@@ -219,4 +274,5 @@ namespace Breakout.Levels {
         }
 
     }
+
 }

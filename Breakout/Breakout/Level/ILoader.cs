@@ -1,5 +1,9 @@
 
 namespace Breakout.Levels {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ILoader {
         /// <summary>
         /// Creates a level from a level-file

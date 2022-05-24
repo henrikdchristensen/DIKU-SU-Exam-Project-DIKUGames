@@ -55,6 +55,9 @@ namespace Breakout {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void UpdateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight;
@@ -71,15 +74,27 @@ namespace Breakout {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ResetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         private void SetMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         private void SetMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
@@ -90,6 +105,9 @@ namespace Breakout {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void LooseLife() {
             life--;
             display.SetText(life.ToString());
@@ -101,6 +119,9 @@ namespace Breakout {
             display.SetText(life.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GameOver() {
             GameBus.GetBus().RegisterEvent(new GameEvent {
                 EventType = GameEventType.GameStateEvent,
@@ -137,14 +158,27 @@ namespace Breakout {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public DynamicShape GetShape() {
             return shape;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="data"></param>
         public void Accept(ICollidable other, CollisionData data) {
             other.PlayerCollision(this, data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool IsDestroyed() {
             return false;
         }

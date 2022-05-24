@@ -9,9 +9,13 @@ namespace BreakoutTests {
 
     [TestFixture]
     public class StateMachineTest {
+
         private StateMachine stateMachine;
         private GameEventBus eventBus;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp]
         public void InitiateStateMachine() {
             Window.CreateOpenGLContext();
@@ -21,11 +25,18 @@ namespace BreakoutTests {
             eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestInitialState() {
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestEventGamePaused() {
             eventBus.RegisterEvent(
@@ -39,6 +50,9 @@ namespace BreakoutTests {
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestEventGameRunning() {
             eventBus.RegisterEvent(
@@ -52,6 +66,9 @@ namespace BreakoutTests {
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<GameRunning>());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestEventMainMenu() {
             eventBus.RegisterEvent(
@@ -64,5 +81,7 @@ namespace BreakoutTests {
             eventBus.ProcessEventsSequentially();
             Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
         }
+
     }
+
 }

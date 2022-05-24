@@ -13,12 +13,15 @@ namespace BreakoutTests {
 
     [TestFixture]
     public class PlayerTest {
+
         private GameEventBus eventBus;
-
         private Player player;
-
         private const float COMPARE_DIFF = 10e-6f;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         private void registerPlayerEvent(string message) {
             var e = new GameEvent {
                 Message = message,
@@ -27,6 +30,9 @@ namespace BreakoutTests {
             eventBus.RegisterEvent(e);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp]
         public void InitializeTest() {
             Window.CreateOpenGLContext();
@@ -38,6 +44,9 @@ namespace BreakoutTests {
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestMoveRight() {
             float prevPos = player.GetPosition().X;
@@ -51,6 +60,9 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestMoveLeft() {
             float prevPos = player.GetPosition().X;
@@ -64,6 +76,9 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestMoveBoth() {
             float prevPos = player.GetPosition().X;
@@ -75,5 +90,7 @@ namespace BreakoutTests {
             }
             Assert.True(player.GetPosition().X == prevPos);
         }
+
     }
+
 }

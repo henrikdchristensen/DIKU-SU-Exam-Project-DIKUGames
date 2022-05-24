@@ -7,12 +7,21 @@ public class HardenedBlock : Block {
 
     private IBaseImage blockStridesAlt;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="shape"></param>
+    /// <param name="image"></param>
+    /// <param name="blockStridesAlt"></param>
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
         value *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     override public void Hit() {
         Console.WriteLine("Hardened hit");
         Health--;
@@ -21,6 +30,5 @@ public class HardenedBlock : Block {
         else if (Health < StartHealt / 2)
             Image = blockStridesAlt;
     }
-
 
 }

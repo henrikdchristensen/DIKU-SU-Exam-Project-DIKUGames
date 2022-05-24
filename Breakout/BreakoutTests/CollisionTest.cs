@@ -17,12 +17,17 @@ namespace BreakoutTests {
     public class CollisionTest {
 
         private CollisionHandler collision = CollisionHandler.GetInstance();
-       
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp]
         public void InitiateTest() {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestCollisionBallAndBlock() {
             Ball ball = new Ball(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f), new NoImage());
@@ -38,6 +43,9 @@ namespace BreakoutTests {
             Assert.True(oldDir.X != ball.GetShape().Direction.X || oldDir.Y != ball.GetShape().Direction.Y);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestCollisionBallAndPlayer() {
             Ball ball = new Ball(new DynamicShape(0.4f, 0.11f, 0.1f, 0.1f), new NoImage());
@@ -53,4 +61,5 @@ namespace BreakoutTests {
         }
 
     }
+
 }

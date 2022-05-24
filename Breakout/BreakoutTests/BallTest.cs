@@ -18,12 +18,23 @@ namespace BreakoutTests {
 
         private const float DIFF = 10e-5f;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp]
         public void InitializeTest() {
             Window.CreateOpenGLContext();
             
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dirX"></param>
+        /// <param name="dirY"></param>
+        /// <param name="colDir"></param>
+        /// <param name="expectedX"></param>
+        /// <param name="expectedY"></param>
         [Test]
         [TestCase(0, 0, CollisionDirection.CollisionDirDown, 0, 0)]
         [TestCase(1, 1, CollisionDirection.CollisionDirDown, 1, -1)]
@@ -43,6 +54,16 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(expectedY - newDir.Y) < DIFF, $"dir.Y = {newDir.Y}");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dirX"></param>
+        /// <param name="dirY"></param>
+        /// <param name="dynX"></param>
+        /// <param name="dynY"></param>
+        /// <param name="colDir"></param>
+        /// <param name="expectedX"></param>
+        /// <param name="expectedY"></param>
         [Test]
         [TestCase(0, 0, 10, 10, CollisionDirection.CollisionDirDown, 5, 0)]
         [TestCase(1, 1, 1, 1, CollisionDirection.CollisionDirDown, 1.5f, -1)]

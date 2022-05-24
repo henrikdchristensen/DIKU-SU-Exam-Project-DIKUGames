@@ -2,10 +2,10 @@
 using DIKUArcade.Math;
 
 namespace Breakout {
+
     public class Score {
 
         private int points;
-
         private Text display;
 
         /// <summary> A scoreboard </summary>
@@ -49,5 +49,7 @@ namespace Breakout {
         public int GetScore() {
             return points;
         }
+
     }
+
 }

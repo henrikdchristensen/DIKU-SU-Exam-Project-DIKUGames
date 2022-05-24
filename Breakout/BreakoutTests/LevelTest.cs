@@ -10,15 +10,21 @@ namespace BreakoutTests {
 
     [TestFixture]
     public class LevelTest {
-        private ILoader loader = new LevelLoader();
 
+        private ILoader loader = new LevelLoader();
         private string levelFolder;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [SetUp]
         public void Setup() {
             levelFolder = Path.Combine("..","Breakout", "Assets", "Levels");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestLevel1() {
             Console.WriteLine(levelFolder);
@@ -66,6 +72,9 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestLevel2() {
             Window.CreateOpenGLContext();
@@ -111,6 +120,9 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestLevel3() {
             Window.CreateOpenGLContext();
@@ -158,7 +170,9 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestInvalidPath() {
             Window.CreateOpenGLContext();
@@ -174,6 +188,9 @@ namespace BreakoutTests {
             Assert.Fail();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         public void TestNoContent() {
             Window.CreateOpenGLContext();
@@ -186,6 +203,7 @@ namespace BreakoutTests {
             }
             Assert.Fail();
         }
+
     }
 
 }

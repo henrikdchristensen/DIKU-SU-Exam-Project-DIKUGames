@@ -12,20 +12,16 @@ using Breakout.Game;
 namespace Breakout.Levels {
 
     public class LevelContainer {
+
         // Singleton pattern
         private static LevelContainer instance = null;
         private GameEventBus eventBus;
-
         private List<Level> levelList;
-
         private LevelLoader levelLoader;
-
         public Level ActiveLevel {
             get; private set;
         }
-
         private int levelCounter { get; set; } = 0;
-
         private LevelContainer() { }
 
         /// <summary>
@@ -36,6 +32,9 @@ namespace Breakout.Levels {
             return LevelContainer.instance ?? (LevelContainer.instance = new LevelContainer());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Reset() {
             levelCounter = 0;
             ActiveLevel?.Destroy();
