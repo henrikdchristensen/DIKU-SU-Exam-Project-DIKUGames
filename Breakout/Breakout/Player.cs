@@ -6,19 +6,18 @@ using DIKUArcade.Input;
 using System;
 using Breakout.Collision;
 using DIKUArcade.Physics;
+using Breakout.Game;
 
 namespace Breakout {
 
     public class Player : IGameEventProcessor, ICollidable {
 
+        private GameEventBus eventBus;
         private Entity entity;
         private DynamicShape shape;
         private int moveLeft = 0;
         private int moveRight = 0;
-        public int Life {
-            get => Life;
-            private set => Life = value < 0 ? 0 : value;
-        }
+        private int life;
         private const float MOVEMENT_ACC = 0.005f;
         private const float MAX_SPEED = 0.02f;
 
@@ -29,7 +28,7 @@ namespace Breakout {
         public Player(DynamicShape shape, IBaseImage image) {
             entity = new Entity(shape, image);
             this.shape = shape;
-            Life = 3;
+            life = 3;
         }
 
         /// <summary> Render the player </summary>
@@ -87,7 +86,15 @@ namespace Breakout {
         }
 
         private void LooseLife() {
-            Life--;
+            life--;
+        }
+
+        private void GameOver() {
+            eventBus.RegisterEvent(new GameEvent {
+                EventType = GameEventType.GameStateEvent,
+                Message = "CHANGE_STATE_RESET",
+                StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
+            });
         }
 
         /// <summary> To receive events from the event bus. </summary>
@@ -96,7 +103,11 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        LooseLife();
+                        if (life > 0) {
+                            LooseLife();
+                        } else {
+                            GameOver();
+                        }
                         break;
                     case "LeftPressed":
                         SetMoveLeft(true);
