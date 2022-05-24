@@ -13,11 +13,11 @@ public class HardenedBlock : Block {
         this.blockStridesAlt = blockStridesAlt;
     }
 
-    public override void Hit() {
+    override public void Hit() {
         Console.WriteLine("Hardened hit");
         Health--;
         if (Health < 0)
-            DeleteEntity();
+            Die();
         else if (Health < StartHealt / 2)
             Image = blockStridesAlt;
     }

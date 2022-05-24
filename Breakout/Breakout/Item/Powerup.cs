@@ -14,9 +14,10 @@ public class PowerupBlock : Block {
     override public void Hit() {
         Console.WriteLine("powerup hit");
         Health--;
-        if (Health < 0) {
-            DeleteEntity();
-        }
+        if (Health < 0)
+            ReleasePowerup();
+            Die();
+
     }
 
     public void ReleasePowerup() {
