@@ -4,6 +4,8 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using System;
+using Breakout.Game;
+using DIKUArcade.Events;
 
 namespace Breakout.Items {
 
@@ -77,9 +79,16 @@ namespace Breakout.Items {
 
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
-                
+                onDeletion();
             }
                 
+        }
+
+        private void onDeletion() {
+            GameBus.GetBus().RegisterEvent(new GameEvent {
+                Message = "LostLife",
+                EventType = GameEventType.PlayerEvent
+            });
         }
 
         public void Render() {
