@@ -60,6 +60,7 @@ namespace Breakout.Game.States {
         public void ResetState() {
             levels.Reset();
             score.Reset();
+            player.Reset();
         }
 
         public void UpdateState() {

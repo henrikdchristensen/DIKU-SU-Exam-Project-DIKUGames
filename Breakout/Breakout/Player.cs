@@ -21,6 +21,7 @@ namespace Breakout {
         private int life;
         private const float MOVEMENT_ACC = 0.005f;
         private const float MAX_SPEED = 0.02f;
+        private const int START_LIVES = 3;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -29,7 +30,7 @@ namespace Breakout {
         public Player(DynamicShape shape, IBaseImage image, Vec2F position, Vec2F extent) {
             entity = new Entity(shape, image);
             this.shape = shape;
-            life = 3;
+            life = START_LIVES;
             display = new Text(life.ToString(), position, extent);
             display.SetColor(new Vec3F(1f, 1f, 1f));
         }
@@ -96,12 +97,12 @@ namespace Breakout {
 
         /// <summary> Reset life </summary>
         public void Reset() {
-            life = 3;
+            life = START_LIVES;
             display.SetText(life.ToString());
         }
 
         private void GameOver() {
-            eventBus.RegisterEvent(new GameEvent {
+            GameBus.GetBus().RegisterEvent(new GameEvent {
                 EventType = GameEventType.GameStateEvent,
                 Message = "CHANGE_STATE_RESET",
                 StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
@@ -114,7 +115,7 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 0) {
+                        if (life >= 0) {
                             LooseLife();
                         } else {
                             GameOver();
