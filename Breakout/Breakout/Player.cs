@@ -87,7 +87,7 @@ namespace Breakout {
         }
 
         private void LooseLife() {
-            life--;
+            Life--;
         }
 
         /// <summary> To receive events from the event bus. </summary>
