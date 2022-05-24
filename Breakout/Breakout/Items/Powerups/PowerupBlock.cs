@@ -1,7 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Items;
-using DIKUArcade.Physics;
+using Breakout.Levels;
 
 public class PowerupBlock : Block {
 
@@ -15,12 +15,11 @@ public class PowerupBlock : Block {
         Console.WriteLine("powerup hit");
         Health--;
         if (Health < 0)
-            ReleasePowerup();
-            Die();
+            DeleteEntity();
 
     }
 
-    public void ReleasePowerup() {
+    public override void AtDeletion(Level level) {
         
     }
 

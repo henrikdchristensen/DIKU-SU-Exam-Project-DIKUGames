@@ -3,13 +3,13 @@ using Breakout.Collision;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
-using System;
+using Breakout.Levels;
 using Breakout.Game;
 using DIKUArcade.Events;
 
 namespace Breakout.Items {
 
-    public class Ball : Entity, ICollidable {
+    public class Ball : Item, ICollidable {
 
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
@@ -20,10 +20,6 @@ namespace Breakout.Items {
             Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
             dir *= SPEED;
             shape.Direction = dir;
-        }
-
-        public DynamicShape GetShape() {
-            return Shape.AsDynamicShape();
         }
 
         private float getDirFromCollisionVec(CollisionDirection dir) {
@@ -41,16 +37,16 @@ namespace Breakout.Items {
             }
         }
 
-        public void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(ICollidable other, CollisionData data) {
             other.BallCollision(this, data);
         }
-        public void BlockCollision(Block block, CollisionData data) {
+        public override void BlockCollision(Block block, CollisionData data) {
             changeDirection(block, data);
         }
-        public void PlayerCollision(Player player, CollisionData data) {
+        public override void PlayerCollision(Player player, CollisionData data) {
             changeDirection(player, data);
         }
-        public void WallCollision(Wall wall, CollisionData data) {
+        public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
         }
 
@@ -70,21 +66,17 @@ namespace Breakout.Items {
             Console.WriteLine("BALL COLLISION");
         }
 
-        public bool IsDestroyed() {
-            return IsDeleted();
-        }
-
-        public void Move() {
+        public override void Update() {
             Shape.AsDynamicShape().Move();
 
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
-                onDeletion();
             }
                 
         }
 
-        private void onDeletion() {
+        public override void AtDeletion(Level level) {
+            level.OnBallDeletion();
             GameBus.GetBus().RegisterEvent(new GameEvent {
                 Message = "LostLife",
                 EventType = GameEventType.PlayerEvent
