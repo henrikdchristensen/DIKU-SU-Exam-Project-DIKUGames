@@ -5,9 +5,13 @@ using Breakout.Items;
 using Breakout;
 using Breakout.Input;
 using Breakout.Collision;
+using System.Diagnostics;
 
 namespace Breakout.Levels {
     public class Level {
+        private Text display;
+        private Stopwatch stopwatch = new Stopwatch();
+        private int timeToEnd;
         public char[,] Map {
             get;
         }
@@ -28,13 +32,27 @@ namespace Breakout.Levels {
             Map = map;
             Meta = meta;
             Legend = legend;
-
+            
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
             balls.AddEntity(new Ball(
                 new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png"))));
 
+            string time = MetaTransformer.TransformStateToString(MetaType.Time);
+            if (Meta.ContainsKey(time)) {
+                try {
+                    timeToEnd = Int32.Parse(Meta[time]);
+                    stopwatch.Start();
+                    Console.WriteLine("TIME ADDED: {0}", timeToEnd);
+                    if (timeToEnd > 0) {
+                        display = new Text((timeToEnd-stopwatch.ElapsedMilliseconds/1000).ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
+                        display.SetColor(new Vec3F(1f, 1f, 1f));
+                    }
+                } catch (FormatException) {
+                    Console.WriteLine($"Unable to parse meta time '{Meta[time]}'");
+                }
+            }
             generateBlocks();
         }
 
@@ -71,6 +89,14 @@ namespace Breakout.Levels {
         public void Render() {
             blocks.RenderEntities();
             balls.RenderEntities();
+            RenderTime();
+        }
+
+        private void RenderTime() {
+            if (stopwatch.ElapsedMilliseconds / 1000 < timeToEnd) {
+                display.SetText((timeToEnd - stopwatch.ElapsedMilliseconds / 1000).ToString());
+                display.RenderText();
+            }
         }
 
         private bool isAllBlocksDestroyed() {
@@ -107,14 +133,14 @@ namespace Breakout.Levels {
             var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
-            string hardened = BlockTransformer.TransformStateToString(BlockType.Hardened);
+            string hardened = MetaTransformer.TransformStateToString(MetaType.BlockHardened);
             if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) {
                 Console.WriteLine("HARDENED ADDED");
                 return new HardenedBlock(shape, img, dmg);
             }
 
 
-            string unbreakable = BlockTransformer.TransformStateToString(BlockType.Unbreakable);
+            string unbreakable = MetaTransformer.TransformStateToString(MetaType.BlockUnbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
                 return new Unbreakable(shape, img);
 
