@@ -28,7 +28,7 @@ namespace Breakout.Items {
                 Die();  
         }
 
-        protected void Die() {
+        public void Die() {
             DeleteEntity();
 
             GameBus.GetBus().RegisterEvent(new GameEvent {
