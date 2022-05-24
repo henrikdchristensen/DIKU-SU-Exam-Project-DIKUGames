@@ -6,15 +6,19 @@ using DIKUArcade.Input;
 using System;
 using Breakout.Collision;
 using DIKUArcade.Physics;
+using Breakout.Game;
 
 namespace Breakout {
 
     public class Player : IGameEventProcessor, ICollidable {
 
+        private Text display;
+        private GameEventBus eventBus;
         private Entity entity;
         private DynamicShape shape;
         private int moveLeft = 0;
         private int moveRight = 0;
+        private int life;
         private const float MOVEMENT_ACC = 0.005f;
         private const float MAX_SPEED = 0.02f;
 
@@ -22,14 +26,18 @@ namespace Breakout {
         /// <param name = "shape"> the shape of the player </param>
         /// <param name = "image"> the image of the player </param>
         /// <returns> A player instance </returns>
-        public Player(DynamicShape shape, IBaseImage image) {
+        public Player(DynamicShape shape, IBaseImage image, Vec2F position, Vec2F extent) {
             entity = new Entity(shape, image);
             this.shape = shape;
+            life = 3;
+            display = new Text(life.ToString(), position, extent);
+            display.SetColor(new Vec3F(1f, 1f, 1f));
         }
 
         /// <summary> Render the player </summary>
         public void Render() {
             entity.RenderEntity();
+            display.RenderText();
         }
 
         /// <summary> Move the player according to its direction </summary>
@@ -38,10 +46,10 @@ namespace Breakout {
             shape.Move();
 
             if (shape.Position.X > 1 - shape.Extent.X) {
-                resetDir();
+                ResetDir();
                 shape.Position.X = 1 - shape.Extent.X;
             } else if (shape.Position.X < 0) {
-                resetDir();
+                ResetDir();
                 shape.Position.X = 0;
             }
         }
@@ -62,7 +70,7 @@ namespace Breakout {
             }
         }
 
-        private void resetDir() {
+        private void ResetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
@@ -81,11 +89,37 @@ namespace Breakout {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
+        private void LooseLife() {
+            life--;
+            display.SetText(life.ToString());
+        }
+
+        /// <summary> Reset life </summary>
+        public void Reset() {
+            life = 3;
+            display.SetText(life.ToString());
+        }
+
+        private void GameOver() {
+            eventBus.RegisterEvent(new GameEvent {
+                EventType = GameEventType.GameStateEvent,
+                Message = "CHANGE_STATE_RESET",
+                StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
+            });
+        }
+
         /// <summary> To receive events from the event bus. </summary>
         /// <param name = "gameEvent"> the game-event recieved </param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
+                    case "LostLife":
+                        if (life > 0) {
+                            LooseLife();
+                        } else {
+                            GameOver();
+                        }
+                        break;
                     case "LeftPressed":
                         SetMoveLeft(true);
                         break;
