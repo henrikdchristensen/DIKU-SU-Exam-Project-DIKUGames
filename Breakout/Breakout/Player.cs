@@ -12,6 +12,7 @@ namespace Breakout {
 
     public class Player : IGameEventProcessor, ICollidable {
 
+        private Text display;
         private GameEventBus eventBus;
         private Entity entity;
         private DynamicShape shape;
@@ -25,15 +26,18 @@ namespace Breakout {
         /// <param name = "shape"> the shape of the player </param>
         /// <param name = "image"> the image of the player </param>
         /// <returns> A player instance </returns>
-        public Player(DynamicShape shape, IBaseImage image) {
+        public Player(DynamicShape shape, IBaseImage image, Vec2F position, Vec2F extent) {
             entity = new Entity(shape, image);
             this.shape = shape;
             life = 3;
+            display = new Text(life.ToString(), position, extent);
+            display.SetColor(new Vec3F(1f, 1f, 1f));
         }
 
         /// <summary> Render the player </summary>
         public void Render() {
             entity.RenderEntity();
+            display.RenderText();
         }
 
         /// <summary> Move the player according to its direction </summary>
@@ -42,10 +46,10 @@ namespace Breakout {
             shape.Move();
 
             if (shape.Position.X > 1 - shape.Extent.X) {
-                resetDir();
+                ResetDir();
                 shape.Position.X = 1 - shape.Extent.X;
             } else if (shape.Position.X < 0) {
-                resetDir();
+                ResetDir();
                 shape.Position.X = 0;
             }
         }
@@ -66,7 +70,7 @@ namespace Breakout {
             }
         }
 
-        private void resetDir() {
+        private void ResetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
@@ -87,6 +91,13 @@ namespace Breakout {
 
         private void LooseLife() {
             life--;
+            display.SetText(life.ToString());
+        }
+
+        /// <summary> Reset life </summary>
+        public void Reset() {
+            life = 3;
+            display.SetText(life.ToString());
         }
 
         private void GameOver() {
