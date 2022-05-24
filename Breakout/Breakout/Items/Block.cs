@@ -4,10 +4,11 @@ using Breakout.Collision;
 using DIKUArcade.Physics;
 using Breakout.Game;
 using DIKUArcade.Events;
+using Breakout.Levels;
 
 namespace Breakout.Items {
 
-    public class Block : Entity, ICollidable {
+    public class Block : Item, ICollidable {
 
 
         public int StartHealt { get; protected set; } = 1;
@@ -17,18 +18,19 @@ namespace Breakout.Items {
         public int value { get; protected set; } = 1;
 
         public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
+            IsDestroyable = true;
             Health = StartHealt;
         }
 
         /// <summary> Should be called when the block is hit, and decrements health </summary>
         /// <returns> Returns true if it is dead, and false otherwise </returns>
-        virtual public void Hit() {
+        public virtual void Hit() {
             Health--;
             if (Health <= 0)
-                Die();  
+                DeleteEntity();  
         }
 
-        protected void Die() {
+        public override void AtDeletion(Level level) {
             DeleteEntity();
 
             GameBus.GetBus().RegisterEvent(new GameEvent {
@@ -38,21 +40,13 @@ namespace Breakout.Items {
             });
         }
 
-        public DynamicShape GetShape() {
-            return Shape.AsDynamicShape();
-        }
-
-        public void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(ICollidable other, CollisionData data) {
             other.BlockCollision(this, data);
         }
 
-        public void BallCollision(Ball ball, CollisionData data) {
-            Console.WriteLine("BLOCK HIT");
+        public override void BallCollision(Ball ball, CollisionData data) {
             Hit();
         }
 
-        public bool IsDestroyed() {
-            return IsDeleted();
-        }
     }
 }

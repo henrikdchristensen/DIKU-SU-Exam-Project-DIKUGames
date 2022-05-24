@@ -22,9 +22,8 @@ namespace Breakout.Levels {
             get;
         }
 
-        private EntityContainer<Block> blocks = new EntityContainer<Block>();
-
-        private EntityContainer<Ball> balls = new EntityContainer<Ball>();
+        private EntityContainer<Item> items = new EntityContainer<Item>();
+        private int balls = 0;
 
         private Vec2F blockSize;
 
@@ -34,10 +33,6 @@ namespace Breakout.Levels {
             Legend = legend;
             
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
-
-            balls.AddEntity(new Ball(
-                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png"))));
 
             string time = MetaTransformer.TransformStateToString(MetaType.Time);
             if (Meta.ContainsKey(time)) {
@@ -53,42 +48,62 @@ namespace Breakout.Levels {
                     Console.WriteLine($"Unable to parse meta time '{Meta[time]}'");
                 }
             }
+
             generateBlocks();
         }
 
+        private void spawnBall() {
+            balls++;
+            Ball ball = new Ball(
+                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
+
+            CollisionHandler.GetInstance().Subsribe(ball);
+            items.AddEntity(ball);
+        }
+
+        public void OnBallDeletion() {
+            balls--;
+            if (balls <= 0)
+                spawnBall();
+        }
+
+
+
         public void Activate() {
-            blocks.Iterate(CollisionHandler.GetInstance().Subsribe);
-            balls.Iterate(CollisionHandler.GetInstance().Subsribe);
+            items.Iterate(CollisionHandler.GetInstance().Subsribe);
+            spawnBall();
         }
 
         public void Update() {
             //Delete entities that have been marked for deletion
-            blocks = DeleteMarkedEntity(blocks);
-            balls = DeleteMarkedEntity(balls);
+            items = DeleteMarkedEntity(items);
 
-            if (isAllBlocksDestroyed()) {
+            if (hasWon()) {
                 Destroy();
                 LevelContainer.GetLevelContainer().NextLevel();
                 return;
             }
 
-            foreach (Ball b in balls)
-                b.Move();
+            foreach (Item item in items)
+                item.Update();
         }
 
-        private EntityContainer<T> DeleteMarkedEntity<T>(EntityContainer<T> entities) where T : Entity {
-            var newList = new EntityContainer<T>();
-            foreach (T obj in entities) {
+        private EntityContainer<Item> DeleteMarkedEntity(EntityContainer<Item> entities)  {
+            var newList = new EntityContainer<Item>();
+            foreach (Item obj in entities) {
                 if (!obj.IsDeleted()) {
                     newList.AddEntity(obj);
+                }
+                else {
+                    obj.AtDeletion(this);
                 }
             }
             return newList;
         }
 
         public void Render() {
-            blocks.RenderEntities();
-            balls.RenderEntities();
+            items.RenderEntities();
             RenderTime();
         }
 
@@ -99,9 +114,9 @@ namespace Breakout.Levels {
             }
         }
 
-        private bool isAllBlocksDestroyed() {
-            foreach (Entity obj in blocks) {
-                if (obj is not Unbreakable && !obj.IsDeleted()) {
+        private bool hasWon() {
+            foreach (Item item in items) {
+                if (item.IsDestroyable && !item.IsDeleted()) {
                     return false;
                 }
             }
@@ -115,7 +130,7 @@ namespace Breakout.Levels {
                     if (Legend.ContainsKey(c)) {
 
                         Block block = chooseBlock(c, new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y));
-                        blocks.AddEntity(block);
+                        items.AddEntity(block);
                     }
 
                 }
@@ -123,10 +138,17 @@ namespace Breakout.Levels {
         }
 
         public void Destroy() {
-            foreach (Block b in blocks)
-                b.DeleteEntity();
-            foreach (Ball b in balls)
-                b.DeleteEntity();
+            foreach (Item item in items)
+                item.DeleteEntity();
+        }
+
+        public void DeleteBlock() {
+            foreach (Item item in items) {
+                if (item is Block) {
+                    item.DeleteEntity();
+                    break;
+                }  
+            }
         }
 
         private Block chooseBlock(string symbol, StationaryShape shape) {

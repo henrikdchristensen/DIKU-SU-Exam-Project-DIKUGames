@@ -17,7 +17,7 @@ public class HardenedBlock : Block {
         Console.WriteLine("Hardened hit");
         Health--;
         if (Health < 0)
-            Die();
+            DeleteEntity();
         else if (Health < StartHealt / 2)
             Image = blockStridesAlt;
     }

@@ -114,7 +114,7 @@ namespace Breakout.Game.States {
                     registerPlayerEvent("RightReleased");
                     break;
                 case KeyboardKey.Space:
-                    levels.ActiveLevel.Destroy();
+                    levels.ActiveLevel.DeleteBlock();
                     break;
             }
         }
