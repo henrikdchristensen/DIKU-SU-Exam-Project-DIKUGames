@@ -9,26 +9,23 @@ using Breakout.Collision;
 using Breakout.Items;
 
 namespace Breakout.Game.States {
+
     public class GameRunning : IGameState, IGameEventProcessor {
+
         private static GameRunning instance = null;
-
         private GameEventBus eventBus;
-
         private Score score;
-
         private Level currentLevel;
-
         private LevelLoader loader;
-
         private LevelContainer levels;
-
         private Player player;
-
         private CollisionHandler collisionHandler;
+        private GameRunning() { }
 
-        private GameRunning() {
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -37,6 +34,9 @@ namespace Breakout.Game.States {
             return GameRunning.instance;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void InitializeGameState() {
             levels = LevelContainer.GetLevelContainer();
             
@@ -57,24 +57,38 @@ namespace Breakout.Game.States {
             eventBus.Subscribe(GameEventType.StatusEvent, this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ResetState() {
             levels.Reset();
             score.Reset();
             player.Reset();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void UpdateState() {
             collisionHandler.Update();
             player.Move();
             levels.ActiveLevel.Update();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void RenderState() {
             levels.ActiveLevel.Render();
             player.Render();
             score.Render();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"></param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
@@ -86,6 +100,10 @@ namespace Breakout.Game.States {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
         private void KeyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
@@ -105,6 +123,11 @@ namespace Breakout.Game.States {
                     break;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
         private void KeyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
@@ -119,6 +142,10 @@ namespace Breakout.Game.States {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         private void registerPlayerEvent(string message) {
             var e = new GameEvent {
                 Message = message,
@@ -127,6 +154,10 @@ namespace Breakout.Game.States {
             eventBus.RegisterEvent(e);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
                 Console.WriteLine(gameEvent.Message);
@@ -137,5 +168,7 @@ namespace Breakout.Game.States {
                 }
             }
         }
+
     }
+
 }

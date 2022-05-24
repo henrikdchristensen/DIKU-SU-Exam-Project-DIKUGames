@@ -4,10 +4,10 @@ using DIKUArcade.Input;
 using DIKUArcade.GUI;
 
 namespace Breakout.Game {
+
     public class Game : DIKUGame, IGameEventProcessor {
 
         private GameEventBus eventBus;
-
         private StateMachine stateMachine;
 
         /// <summary> Game are responsible for updating and rendering the game </summary>
@@ -33,7 +33,12 @@ namespace Breakout.Game {
             stateMachine.ActiveState.UpdateState();
             eventBus.ProcessEventsSequentially();
         }
-      
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"></param>
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
             stateMachine.ActiveState.HandleKeyEvent(action, key);
         }
