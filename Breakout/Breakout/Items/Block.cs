@@ -4,10 +4,11 @@ using Breakout.Collision;
 using DIKUArcade.Physics;
 using Breakout.Game;
 using DIKUArcade.Events;
+using Breakout.Levels;
 
 namespace Breakout.Items {
 
-    public class Block : Entity, ICollidable {
+    public class Block : Item, ICollidable {
 
 
         public int StartHealt { get; protected set; } = 1;
@@ -25,12 +26,10 @@ namespace Breakout.Items {
         virtual public void Hit() {
             Health--;
             if (Health <= 0)
-                Die();  
+                DeleteEntity();
         }
 
-        public void Die() {
-            DeleteEntity();
-
+        public override void Die(Level level) {
             GameBus.GetBus().RegisterEvent(new GameEvent {
                 Message = "BLOCK_DESTROYED",
                 EventType = GameEventType.StatusEvent,
