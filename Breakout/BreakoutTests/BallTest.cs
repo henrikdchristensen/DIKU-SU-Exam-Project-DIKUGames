@@ -34,9 +34,9 @@ namespace BreakoutTests {
         public void TestBounceStationary(float dirX, float dirY, CollisionDirection colDir, float expectedX, float expectedY) {
             Ball ball = new Ball(new DynamicShape(0,0,0,0), new NoImage());
             ball.GetShape().ChangeDirection(new Vec2F(dirX, dirY));
-            var dummyShape = new Shape().AsDynamicShape();
+            //var dummyShape = new Shape().AsDynamicShape();
 
-            ball.AtCollision(dummyShape, new CollisionData() {CollisionDir = colDir});
+            //ball.Accept(dummyShape, new CollisionData() {CollisionDir = colDir});
             var newDir = ball.GetShape().Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}");
@@ -51,7 +51,7 @@ namespace BreakoutTests {
             ball.GetShape().ChangeDirection(new Vec2F(dirX, dirY));
             var dynShape = new DynamicShape(0, 0, 0, 0, dynX, dynY);
 
-            ball.AtCollision(dynShape, new CollisionData() { CollisionDir = colDir });
+            //ball.Accept(dynShape, new CollisionData() { CollisionDir = colDir });
             var newDir = ball.GetShape().Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}");

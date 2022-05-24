@@ -42,7 +42,11 @@ namespace Breakout.Items {
             return Shape.AsDynamicShape();
         }
 
-        virtual public void AtCollision(DynamicShape other, CollisionData data) {
+        public void Accept(ICollidable other, CollisionData data) {
+            other.BlockCollision(this, data);
+        }
+
+        public void BallCollision(Ball ball, CollisionData data) {
             Console.WriteLine("BLOCK HIT");
             Hit();
         }

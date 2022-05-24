@@ -5,7 +5,7 @@ using DIKUArcade.Physics;
 
 namespace Breakout.Items {
 
-    class Wall : Entity, ICollidable {
+    public class Wall : Entity, ICollidable {
 
         public Wall(StationaryShape shape) : base(shape, new NoImage()) {
 
@@ -15,7 +15,9 @@ namespace Breakout.Items {
             return Shape.AsDynamicShape();
         }
 
-        public void AtCollision(DynamicShape other, CollisionData data) { }
+        public void Accept(ICollidable other, CollisionData data) {
+            other.WallCollision(this, data);
+        }
 
         public bool IsDestroyed() {
             return false;
