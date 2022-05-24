@@ -1,11 +1,25 @@
 namespace Breakout.Game {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public enum GameStateType {
         GameRunning,
         GamePaused,
         MainMenu
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class StateTransformer {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static GameStateType TransformStringToState(string state) {
             switch (state) {
                 case "GAME_RUNNING":
@@ -19,6 +33,12 @@ namespace Breakout.Game {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static string TransformStateToString(GameStateType state) {
             switch (state) {
                 case GameStateType.GameRunning:
@@ -31,5 +51,7 @@ namespace Breakout.Game {
                     throw new ArgumentException();
             }
         }
+
     }
+
 }

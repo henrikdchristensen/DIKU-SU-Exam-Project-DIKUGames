@@ -1,5 +1,8 @@
 ﻿namespace Breakout.Items.Powerups {
 
+    /// <summary>
+    /// 
+    /// </summary>
     public enum PowerupType {
         ExtraLife,
         PlayerSpeed,

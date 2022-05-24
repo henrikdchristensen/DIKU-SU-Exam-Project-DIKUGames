@@ -10,13 +10,15 @@ namespace Breakout.Items {
 
     public class Block : Item, ICollidable {
 
-
         public int StartHealt { get; protected set; } = 1;
-
         public int Health { get; protected set; }
-
         public int value { get; protected set; } = 1;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <param name="image"></param>
         public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
             IsDestroyable = true;
             Health = StartHealt;
@@ -30,6 +32,10 @@ namespace Breakout.Items {
                 DeleteEntity();  
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="level"></param>
         public override void AtDeletion(Level level) {
             DeleteEntity();
 
@@ -40,13 +46,24 @@ namespace Breakout.Items {
             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="data"></param>
         public override void Accept(ICollidable other, CollisionData data) {
             other.BlockCollision(this, data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ball"></param>
+        /// <param name="data"></param>
         public override void BallCollision(Ball ball, CollisionData data) {
             Hit();
         }
 
     }
+
 }

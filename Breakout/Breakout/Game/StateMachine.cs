@@ -2,10 +2,19 @@ using DIKUArcade.Events;
 using DIKUArcade.State;
 
 namespace Breakout.Game {
+
     public class StateMachine : IGameEventProcessor {
+
+        /// <summary>
+        /// 
+        /// </summary>
         public IGameState ActiveState {
             get; private set;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public StateMachine() {
             GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             GameBus.GetBus().Subscribe(GameEventType.InputEvent, this);
@@ -15,6 +24,11 @@ namespace Breakout.Game {
             States.GameRunning.GetInstance();
             States.GamePaused.GetInstance();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stateType"></param>
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.MainMenu:
@@ -28,6 +42,11 @@ namespace Breakout.Game {
                     break;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.GameStateEvent) {
                 GameStateType state = StateTransformer.TransformStringToState(gameEvent.StringArg1);
@@ -44,5 +63,7 @@ namespace Breakout.Game {
 
             }
         }
+
     }
+
 }

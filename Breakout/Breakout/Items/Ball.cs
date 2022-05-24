@@ -14,6 +14,11 @@ namespace Breakout.Items {
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shape"></param>
+        /// <param name="image"></param>
         public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
             Random rand = new Random();
             float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
@@ -22,6 +27,11 @@ namespace Breakout.Items {
             shape.Direction = dir;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         private float getDirFromCollisionVec(CollisionDirection dir) {
             switch (dir) {
                 case CollisionDirection.CollisionDirDown:
@@ -37,19 +47,47 @@ namespace Breakout.Items {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="data"></param>
         public override void Accept(ICollidable other, CollisionData data) {
             other.BallCollision(this, data);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="data"></param>
         public override void BlockCollision(Block block, CollisionData data) {
             changeDirection(block, data);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="data"></param>
         public override void PlayerCollision(Player player, CollisionData data) {
             changeDirection(player, data);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <param name="data"></param>
         public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="otherCol"></param>
+        /// <param name="data"></param>
         private void changeDirection(ICollidable otherCol, CollisionData data) {
             DynamicShape other = otherCol.GetShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
@@ -66,6 +104,9 @@ namespace Breakout.Items {
             Console.WriteLine("BALL COLLISION");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Update() {
             Shape.AsDynamicShape().Move();
 
@@ -75,6 +116,10 @@ namespace Breakout.Items {
                 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="level"></param>
         public override void AtDeletion(Level level) {
             level.OnBallDeletion();
             GameBus.GetBus().RegisterEvent(new GameEvent {
@@ -83,9 +128,13 @@ namespace Breakout.Items {
             });
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Render() {
             RenderEntity();
         }
 
     }
+
 }
