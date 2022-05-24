@@ -106,8 +106,8 @@ namespace Breakout {
             return shape;
         }
 
-        public void AtCollision(DynamicShape other, CollisionData data) {
-
+        public void Accept(ICollidable other, CollisionData data) {
+            other.PlayerCollision(this, data);
         }
 
         public bool IsDestroyed() {

@@ -39,10 +39,24 @@ namespace Breakout.Items {
             }
         }
 
-        public void AtCollision(DynamicShape other, CollisionData data) {
+        public void Accept(ICollidable other, CollisionData data) {
+            other.BallCollision(this, data);
+        }
+        public void BlockCollision(Block block, CollisionData data) {
+            changeDirection(block, data);
+        }
+        public void PlayerCollision(Player player, CollisionData data) {
+            changeDirection(player, data);
+        }
+        public void WallCollision(Wall wall, CollisionData data) {
+            changeDirection(wall, data);
+        }
+
+        private void changeDirection(ICollidable otherCol, CollisionData data) {
+            DynamicShape other = otherCol.GetShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
             //normal vector of the other game object are calculated
-            Vec2F normal = new Vec2F((float)Math.Cos(rot), (float)Math.Sin(rot));
+            Vec2F normal = new Vec2F((float) Math.Cos(rot), (float) Math.Sin(rot));
 
             //calculate: dir - 2 (dir dot-produkt normal) * normal
             Vec2F dir = Shape.AsDynamicShape().Direction;
@@ -61,8 +75,11 @@ namespace Breakout.Items {
         public void Move() {
             Shape.AsDynamicShape().Move();
 
-            if (Shape.Position.Y + Shape.Extent.Y < 0)
+            if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
+                
+            }
+                
         }
 
         public void Render() {
