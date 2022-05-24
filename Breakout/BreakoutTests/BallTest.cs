@@ -36,7 +36,7 @@ namespace BreakoutTests {
             ball.GetShape().ChangeDirection(new Vec2F(dirX, dirY));
             var dummyShape = new Shape().AsDynamicShape();
 
-            ball.AtCollision(dummyShape, new CollisionData() {CollisionDir = colDir});
+            ball.Accept(dummyShape, new CollisionData() {CollisionDir = colDir});
             var newDir = ball.GetShape().Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}");
@@ -51,7 +51,7 @@ namespace BreakoutTests {
             ball.GetShape().ChangeDirection(new Vec2F(dirX, dirY));
             var dynShape = new DynamicShape(0, 0, 0, 0, dynX, dynY);
 
-            ball.AtCollision(dynShape, new CollisionData() { CollisionDir = colDir });
+            ball.Accept(dynShape, new CollisionData() { CollisionDir = colDir });
             var newDir = ball.GetShape().Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}");

@@ -31,22 +31,30 @@ namespace Breakout.Levels {
 
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
-            balls.AddEntity(new Ball(
-                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png"))));
-
             generateBlocks();
+        }
+
+        private void SpawnBall() {
+            Ball ball = new Ball(
+                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
+
+            CollisionHandler.GetInstance().Subsribe(ball);
+            balls.AddEntity(ball);
         }
 
         public void Activate() {
             blocks.Iterate(CollisionHandler.GetInstance().Subsribe);
-            balls.Iterate(CollisionHandler.GetInstance().Subsribe);
+            SpawnBall();
         }
 
         public void Update() {
             //Delete entities that have been marked for deletion
             blocks = DeleteMarkedEntity(blocks);
             balls = DeleteMarkedEntity(balls);
+
+            if (balls.CountEntities() == 0)
+                SpawnBall();
 
             if (isAllBlocksDestroyed()) {
                 Destroy();

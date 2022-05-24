@@ -43,7 +43,7 @@ namespace Breakout.Game.States {
             score = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "player.png")));
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "player.png")), new Vec2F(0.3f, 0.5f), new Vec2F(0.6f, 0.5f));
 
             collisionHandler = CollisionHandler.GetInstance();
 
