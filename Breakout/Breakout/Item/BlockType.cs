@@ -2,7 +2,8 @@
 
     public enum BlockType {
         Hardened,
-        Unbreakable
+        Unbreakable,
+        Powerup
     }
 
     public class BlockTransformer {
@@ -13,6 +14,8 @@
                     return "Hardened";
                 case BlockType.Unbreakable:
                     return "Unbreakable";
+                case BlockType.Powerup:
+                    return "Powerup";
                 default:
                     throw new ArgumentException();
             }

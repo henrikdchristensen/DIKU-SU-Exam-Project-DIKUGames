@@ -113,10 +113,14 @@ namespace Breakout.Levels {
                 return new HardenedBlock(shape, img, dmg);
             }
 
-
             string unbreakable = BlockTransformer.TransformStateToString(BlockType.Unbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
                 return new Unbreakable(shape, img);
+
+
+            string powerup = BlockTransformer.TransformStateToString(BlockType.Powerup);
+            if (Meta.ContainsKey(powerup) && Meta[unbreakable] == symbol)
+                return new PowerupBlock(shape, img, dmg);
 
             return new Block(shape, img);
 
