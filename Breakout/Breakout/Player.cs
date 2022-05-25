@@ -8,6 +8,7 @@ using Breakout.Collision;
 using DIKUArcade.Physics;
 using Breakout.Game;
 using Breakout.Items;
+using Breakout.Items.Powerups;
 
 namespace Breakout {
 
@@ -134,7 +135,7 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life >= 0) {
+                        if (life > 0) {
                             LooseLife();
                         } else {
                             GameOver();
@@ -153,6 +154,9 @@ namespace Breakout {
                         SetMoveRight(false);
                         break;
                 }
+            } else if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
+                var powerup = (Powerup) gameEvent.ObjectArg1;
+                powerup.Apply(this);
             }
         }
 

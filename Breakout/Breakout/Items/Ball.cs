@@ -100,8 +100,6 @@ namespace Breakout.Items {
             Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir += other.Direction * 0.25f;
             Shape.AsDynamicShape().ChangeDirection(newDir);
-
-            Console.WriteLine("BALL COLLISION");
         }
 
         /// <summary>

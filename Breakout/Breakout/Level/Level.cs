@@ -6,6 +6,7 @@ using Breakout;
 using Breakout.Input;
 using Breakout.Collision;
 using System.Diagnostics;
+using Breakout.Items.Powerups;
 
 namespace Breakout.Levels {
 
@@ -58,6 +59,11 @@ namespace Breakout.Levels {
             generateBlocks();
         }
 
+        public void AddGameObject(GameObject obj) {
+            items.AddEntity(obj);
+            CollisionHandler.GetInstance().Subsribe(obj);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -67,8 +73,7 @@ namespace Breakout.Levels {
                 new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
 
-            CollisionHandler.GetInstance().Subsribe(ball);
-            items.AddEntity(ball);
+            AddGameObject(ball);
         }
 
         /// <summary>
@@ -202,11 +207,12 @@ namespace Breakout.Levels {
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
             string hardened = MetaTransformer.TransformStateToString(MetaType.BlockHardened);
-            if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) {
-                Console.WriteLine("HARDENED ADDED");
+            if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) 
                 return new HardenedBlock(shape, img, dmg);
+            string powerup = MetaTransformer.TransformStateToString(MetaType.PowerUp);
+            if (Meta.ContainsKey(powerup) && Meta[powerup] == symbol) {
+                return new PowerupBlock(shape, img);
             }
-
 
             string unbreakable = MetaTransformer.TransformStateToString(MetaType.BlockUnbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)

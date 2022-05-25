@@ -54,6 +54,7 @@ namespace Breakout.Game.States {
 
             eventBus = GameBus.GetBus();
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
+            eventBus.Subscribe(GameEventType.ControlEvent, player);
             eventBus.Subscribe(GameEventType.StatusEvent, this);
         }
 
@@ -160,7 +161,6 @@ namespace Breakout.Game.States {
         /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
-                Console.WriteLine(gameEvent.Message);
                 switch (gameEvent.Message) {
                     case "BLOCK_DESTROYED":
                         score.AddPoints(gameEvent.IntArg1);

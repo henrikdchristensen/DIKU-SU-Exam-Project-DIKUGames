@@ -6,7 +6,8 @@
     public enum MetaType {
         BlockHardened,
         BlockUnbreakable,
-        Time
+        Time,
+        PowerUp
     }
 
     public class MetaTransformer {
@@ -25,6 +26,8 @@
                     return "Unbreakable";
                 case MetaType.Time:
                     return "Time";
+                case MetaType.PowerUp:
+                    return "PowerUp";
                 default:
                     throw new ArgumentException();
             }

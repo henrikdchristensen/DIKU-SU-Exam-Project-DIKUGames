@@ -8,6 +8,7 @@ using Breakout.Items.Powerups;
 namespace Breakout.Items {
 
     public abstract class GameObject : Entity {
+        public List<Powerup> Active { get; } = new List<Powerup>();
 
         public bool IsDestroyable { get;  protected set; } = false;
         public GameObject(Shape shape, IBaseImage image) : base(shape, image) { }
