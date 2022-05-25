@@ -20,7 +20,7 @@ public class PowerupBlock : Block {
     /// <summary>
     /// 
     /// </summary>
-    override public void Hit() {
+    public override void Hit() {
         Console.WriteLine("powerup hit");
         Health--;
         if (Health < 0)

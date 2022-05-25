@@ -8,7 +8,7 @@ using Breakout.Levels;
 
 namespace Breakout.Items {
 
-    public class Block : Item, ICollidable {
+    public class Block : GameObject {
 
         public int StartHealt { get; protected set; } = 1;
         public int Health { get; protected set; }
@@ -51,7 +51,7 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public override void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionData data) {
             other.BlockCollision(this, data);
         }
 

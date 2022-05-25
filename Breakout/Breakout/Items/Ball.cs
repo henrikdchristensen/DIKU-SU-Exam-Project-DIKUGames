@@ -9,7 +9,7 @@ using DIKUArcade.Events;
 
 namespace Breakout.Items {
 
-    public class Ball : Item, ICollidable {
+    public class Ball : GameObject {
 
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
@@ -52,7 +52,7 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public override void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionData data) {
             other.BallCollision(this, data);
         }
 
@@ -88,8 +88,8 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="otherCol"></param>
         /// <param name="data"></param>
-        private void changeDirection(ICollidable otherCol, CollisionData data) {
-            DynamicShape other = otherCol.GetShape();
+        private void changeDirection(GameObject otherCol, CollisionData data) {
+            DynamicShape other = otherCol.Shape.AsDynamicShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
             //normal vector of the other game object are calculated
             Vec2F normal = new Vec2F((float) Math.Cos(rot), (float) Math.Sin(rot));

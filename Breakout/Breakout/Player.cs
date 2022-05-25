@@ -7,28 +7,26 @@ using System;
 using Breakout.Collision;
 using DIKUArcade.Physics;
 using Breakout.Game;
+using Breakout.Items;
 
 namespace Breakout {
 
-    public class Player : IGameEventProcessor, ICollidable {
+    public class Player : GameObject, IGameEventProcessor {
 
         private Text display;
-        private GameEventBus eventBus;
-        private Entity entity;
-        private DynamicShape shape;
         private int moveLeft = 0;
         private int moveRight = 0;
         private int life;
         private const float MOVEMENT_ACC = 0.005f;
         private const float MAX_SPEED = 0.02f;
         private const int START_LIVES = 3;
+        private DynamicShape shape;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
         /// <param name = "image"> the image of the player </param>
         /// <returns> A player instance </returns>
-        public Player(DynamicShape shape, IBaseImage image) {
-            entity = new Entity(shape, image);
+        public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
             this.shape = shape;
             life = START_LIVES;
             display = new Text(life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
@@ -37,12 +35,12 @@ namespace Breakout {
 
         /// <summary> Render the player </summary>
         public void Render() {
-            entity.RenderEntity();
+            RenderEntity();
             display.RenderText();
         }
 
         /// <summary> Move the player according to its direction </summary>
-        public void Move() {
+        public override void Update() {
             UpdateMovement();
             shape.Move();
 
@@ -158,30 +156,16 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public DynamicShape GetShape() {
-            return shape;
-        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionData data) {
             other.PlayerCollision(this, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsDestroyed() {
-            return false;
-        }
 
     }
 

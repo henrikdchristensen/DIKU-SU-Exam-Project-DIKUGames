@@ -71,7 +71,7 @@ namespace Breakout.Game.States {
         /// </summary>
         public void UpdateState() {
             collisionHandler.Update();
-            player.Move();
+            player.Update();
             levels.ActiveLevel.Update();
         }
 

@@ -7,7 +7,7 @@ using DIKUArcade.Events;
 
 namespace Breakout.Items.Powerups {
 
-    public class Powerup : Item {
+    public class Powerup : GameObject {
 
         private PowerupType type;
 
@@ -27,7 +27,7 @@ namespace Breakout.Items.Powerups {
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public override void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionData data) {
             other.PowerUpCollision(this, data);
         }
 

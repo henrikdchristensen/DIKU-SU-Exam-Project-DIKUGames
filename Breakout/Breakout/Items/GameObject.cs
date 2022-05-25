@@ -7,32 +7,16 @@ using Breakout.Items.Powerups;
 
 namespace Breakout.Items {
 
-    public abstract class Item : Entity, ICollidable {
+    public abstract class GameObject : Entity {
 
         public bool IsDestroyable { get;  protected set; } = false;
-        public Item(Shape shape, IBaseImage image) : base(shape, image) { }
+        public GameObject(Shape shape, IBaseImage image) : base(shape, image) { }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="level"></param>
         public virtual void AtDeletion(Level level) { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public DynamicShape GetShape() {
-            return Shape.AsDynamicShape();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsDestroyed() {
-            return IsDeleted();
-        }
 
         /// <summary>
         /// 
@@ -44,7 +28,7 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public abstract void Accept(ICollidable other, CollisionData data);
+        public abstract void Accept(GameObject other, CollisionData data);
 
         /// <summary>
         /// 

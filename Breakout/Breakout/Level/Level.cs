@@ -23,7 +23,7 @@ namespace Breakout.Levels {
         public Dictionary<string, string> Legend {
             get;
         }
-        private EntityContainer<Item> items = new EntityContainer<Item>();
+        private EntityContainer<GameObject> items = new EntityContainer<GameObject>();
         private int balls = 0;
         private Vec2F blockSize;
 
@@ -101,7 +101,7 @@ namespace Breakout.Levels {
                 return;
             }
 
-            foreach (Item item in items)
+            foreach (GameObject item in items)
                 item.Update();
         }
 
@@ -110,9 +110,9 @@ namespace Breakout.Levels {
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        private EntityContainer<Item> DeleteMarkedEntity(EntityContainer<Item> entities)  {
-            var newList = new EntityContainer<Item>();
-            foreach (Item obj in entities) {
+        private EntityContainer<GameObject> DeleteMarkedEntity(EntityContainer<GameObject> entities)  {
+            var newList = new EntityContainer<GameObject>();
+            foreach (GameObject obj in entities) {
                 if (!obj.IsDeleted()) {
                     newList.AddEntity(obj);
                 }
@@ -146,7 +146,7 @@ namespace Breakout.Levels {
         /// </summary>
         /// <returns></returns>
         private bool hasWon() {
-            foreach (Item item in items) {
+            foreach (GameObject item in items) {
                 if (item.IsDestroyable && !item.IsDeleted()) {
                     return false;
                 }
@@ -175,7 +175,7 @@ namespace Breakout.Levels {
         /// 
         /// </summary>
         public void Destroy() {
-            foreach (Item item in items)
+            foreach (GameObject item in items)
                 item.DeleteEntity();
         }
 
@@ -183,7 +183,7 @@ namespace Breakout.Levels {
         /// 
         /// </summary>
         public void DeleteBlock() {
-            foreach (Item item in items) {
+            foreach (GameObject item in items) {
                 if (item is Block) {
                     item.DeleteEntity();
                     break;

@@ -5,7 +5,7 @@ using DIKUArcade.Physics;
 
 namespace Breakout.Items {
 
-    public class Wall : Entity, ICollidable {
+    public class Wall : GameObject {
 
         /// <summary>
         /// 
@@ -28,16 +28,8 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other"></param>
         /// <param name="data"></param>
-        public void Accept(ICollidable other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionData data) {
             other.WallCollision(this, data);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsDestroyed() {
-            return false;
         }
 
     }

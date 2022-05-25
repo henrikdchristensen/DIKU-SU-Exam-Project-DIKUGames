@@ -2,6 +2,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
 using Breakout.Collision;
+using Breakout.Items;
 
 namespace Breakout.Collision {
 
@@ -20,13 +21,13 @@ namespace Breakout.Collision {
             return instance;
         }
 
-        private List<ICollidable> collidableList = new List<ICollidable>();
+        private List<GameObject> collidableList = new List<GameObject>();
 
         /// <summary>
         /// Add an object to the list of collidables
         /// </summary>
         /// <param name="obj"></param>
-        public void Subsribe(ICollidable obj) {
+        public void Subsribe(GameObject obj) {
             collidableList.Add(obj);
         }
 
@@ -34,9 +35,9 @@ namespace Breakout.Collision {
         /// Removed destroyed items from collidable list
         /// </summary>
         private void RemoveDestroyed() {
-            List<ICollidable> newList = new List<ICollidable>();
-            foreach (ICollidable c in collidableList)
-                if (!c.IsDestroyed())
+            List<GameObject> newList = new List<GameObject>();
+            foreach (GameObject c in collidableList)
+                if (!c.IsDeleted())
                     newList.Add(c);
             collidableList = newList;
         }
@@ -47,13 +48,13 @@ namespace Breakout.Collision {
         public void Update() {
             RemoveDestroyed();
 
-            foreach (ICollidable col in collidableList) {
-                foreach (ICollidable other in collidableList) {
+            foreach (GameObject col in collidableList) {
+                foreach (GameObject other in collidableList) {
                     if (col != other) {
-                        CollisionData data = CollisionDetection.Aabb(col.GetShape(), other.GetShape());
+                        CollisionData data = CollisionDetection.Aabb(col.Shape.AsDynamicShape(), other.Shape);
                         if (data.Collision) {
                             col.Accept(other, data);
-                            other.Accept   (col, data);
+                            other.Accept(col, data);
                         }
                     }
                 }

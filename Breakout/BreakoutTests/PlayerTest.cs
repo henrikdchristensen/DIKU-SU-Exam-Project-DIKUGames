@@ -53,7 +53,7 @@ namespace BreakoutTests {
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
-                player.Move();
+                player.Update();
             }
             registerPlayerEvent("RightReleased");
             float expected = 0.684f;
@@ -69,7 +69,7 @@ namespace BreakoutTests {
             registerPlayerEvent("LeftPressed");
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
-                player.Move();
+                player.Update();
             }
             registerPlayerEvent("RightReleased");
             float expected = 0.316f;
@@ -86,7 +86,7 @@ namespace BreakoutTests {
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
-                player.Move();
+                player.Update();
             }
             Assert.True(player.GetPosition().X == prevPos);
         }
