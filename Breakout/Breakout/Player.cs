@@ -19,7 +19,7 @@ namespace Breakout {
         private int moveRight = 0;
         private int life;
         private const float MOVEMENT_ACC = 0.005f;
-        private const float MAX_SPEED = 0.02f;
+        public float MAX_SPEED { get; set; } = 0.02f;
         private const int START_LIVES = 3;
         private DynamicShape shape;
 
@@ -111,6 +111,10 @@ namespace Breakout {
             life--;
             display.SetText(life.ToString());
         }
+        public void AddLife() {
+            life++;
+            display.SetText(life.ToString());
+        }
 
         /// <summary> Reset life </summary>
         public void Reset() {
@@ -156,8 +160,19 @@ namespace Breakout {
                 }
             } else if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
                 var powerup = (Powerup) gameEvent.ObjectArg1;
-                if (powerup.TAG == PowerupType.DoubleSize)
+                if (validPowerUp(powerup.TAG))
                     Powerup.HandlePowerup(this, powerup);                
+            }
+        }
+
+        private bool validPowerUp(PowerupType type) {
+            switch (type) {
+                case PowerupType.ExtraLife:
+                    return true;
+                case PowerupType.Wide:
+                    return true;
+                default:
+                    return false;
             }
         }
 

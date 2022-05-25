@@ -6,10 +6,11 @@ using DIKUArcade.Physics;
 using Breakout.Levels;
 using Breakout.Game;
 using DIKUArcade.Events;
+using Breakout.Items.Powerups;
 
 namespace Breakout.Items {
 
-    public class Ball : GameObject {
+    public class Ball : GameObject, IGameEventProcessor {
 
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
@@ -131,6 +132,23 @@ namespace Breakout.Items {
         /// </summary>
         public void Render() {
             RenderEntity();
+        }
+
+
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
+                Console.WriteLine("POWERUP ball");
+                var powerup = (Powerup) gameEvent.ObjectArg1;
+                if (validPowerUp(powerup.TAG))
+                    Powerup.HandlePowerup(this, powerup);
+            }
+        }
+
+        private bool validPowerUp(PowerupType type) {
+            switch (type) {
+                default:
+                    return false;
+            }
         }
 
     }

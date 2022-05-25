@@ -5,16 +5,16 @@
     /// </summary>
     public enum PowerupType {
         ExtraLife,
-        PlayerSpeed,
+        //PlayerSpeed,
         DoubleSpeed,
-        Invincible,
+        //Invincible,
         Wide,
-        DoubleSize,
-        Infinite,
-        Rocket,
-        GravityBall,
-        Split,
-        HardBall
+        //DoubleSize,
+        //Infinite,
+        //Rocket,
+        //GravityBall,
+        //Split,
+        //HardBall
     }
 
 }

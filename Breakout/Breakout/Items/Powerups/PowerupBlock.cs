@@ -20,8 +20,7 @@ namespace Breakout.Items.Powerups {
         /// </summary>
         /// <param name="level"></param>
         public override void AtDeletion(Level level) {
-            level.AddGameObject(new DoubleSize(Shape.AsDynamicShape(),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "HalfSpeedPowerUp.png"))));
+            level.AddGameObject(Powerup.CreateRandom(Shape.AsDynamicShape()));
         }
 
     }

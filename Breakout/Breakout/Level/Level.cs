@@ -7,6 +7,8 @@ using Breakout.Input;
 using Breakout.Collision;
 using System.Diagnostics;
 using Breakout.Items.Powerups;
+using Breakout.Game;
+using DIKUArcade.Events;
 
 namespace Breakout.Levels {
 
@@ -73,6 +75,7 @@ namespace Breakout.Levels {
                 new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
 
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ball);
             AddGameObject(ball);
         }
 
