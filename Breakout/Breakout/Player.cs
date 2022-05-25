@@ -135,7 +135,7 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 0) {
+                        if (life > 1) {
                             LooseLife();
                         } else {
                             GameOver();
@@ -156,7 +156,8 @@ namespace Breakout {
                 }
             } else if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
                 var powerup = (Powerup) gameEvent.ObjectArg1;
-                powerup.Apply(this);
+                if (powerup.TAG == PowerupType.DoubleSize)
+                    Powerup.HandlePowerup(this, powerup);                
             }
         }
 

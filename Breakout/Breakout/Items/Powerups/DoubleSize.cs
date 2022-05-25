@@ -10,18 +10,14 @@ namespace Breakout.Items.Powerups {
             duration = 5;
         }
 
-        public override void Apply(GameObject obj) {
-            var shape = obj.Shape.AsDynamicShape();
-            if (!obj.Active.Contains(this)) {          
-                shape.Extent.X *= SIZE_SACLE;
-                obj.Active.Add(this);
-            }
-            else {
-                obj.Active.Remove(this);
-                shape.Extent.X /= SIZE_SACLE;
-            }
+        public override PowerupType TAG => PowerupType.DoubleSize;
 
+        public override void Activate(GameObject obj) {
+            obj.Shape.Extent.X *= SIZE_SACLE;
+        }
 
+        public override void Deactivate(GameObject obj) {
+            obj.Shape.Extent.X /= SIZE_SACLE;
         }
     }
 }
