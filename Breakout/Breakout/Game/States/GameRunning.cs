@@ -15,8 +15,6 @@ namespace Breakout.Game.States {
         private static GameRunning instance = null;
         private GameEventBus eventBus;
         private Score score;
-        private Level currentLevel;
-        private LevelLoader loader;
         private LevelContainer levels;
         private Player player;
         private CollisionHandler collisionHandler;
