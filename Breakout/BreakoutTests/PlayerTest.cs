@@ -49,14 +49,13 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveRight() {
-            float prevPos = player.GetPosition().X;
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
                 player.Update();
             }
             registerPlayerEvent("RightReleased");
-            float expected = 0.684f;
+            float expected = 0.635f;
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
@@ -65,14 +64,13 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveLeft() {
-            float prevPos = player.GetPosition().X;
             registerPlayerEvent("LeftPressed");
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 10; i++) {
                 player.Update();
             }
             registerPlayerEvent("RightReleased");
-            float expected = 0.316f;
+            float expected = 0.365f;
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
