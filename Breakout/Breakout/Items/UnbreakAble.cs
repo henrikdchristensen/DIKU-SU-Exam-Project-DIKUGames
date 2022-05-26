@@ -1,6 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Items;
+using DIKUArcade.Physics;
 
 public class Unbreakable : Block {
 
@@ -17,5 +18,9 @@ public class Unbreakable : Block {
     /// 
     /// </summary>
     override public void Hit() { }
+
+    public override void Accept(GameObject other, CollisionData data) {
+        other.UnbreakableCollision(this, data);
+    }
 
 }

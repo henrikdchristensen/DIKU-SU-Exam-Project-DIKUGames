@@ -4,11 +4,13 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
 using Breakout.Levels;
 using Breakout.Items.Powerups;
+using DIKUArcade.Events;
 
 namespace Breakout.Items {
 
     public abstract class GameObject : Entity {
         public List<Powerup> Active { get; } = new List<Powerup>();
+
 
         public bool IsDestroyable { get;  protected set; } = false;
         public GameObject(Shape shape, IBaseImage image) : base(shape, image) { }
@@ -66,18 +68,17 @@ namespace Breakout.Items {
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="block"></param>
+        /// <param name="powerup"></param>
         /// <param name="data"></param>
-        public virtual void PowerUpCollision(Block block, CollisionData data) {
+        public virtual void PowerUpCollision(Powerup powerup, CollisionData data) {
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="powerup"></param>
+        /// <param name="block"></param>
         /// <param name="data"></param>
-        public virtual void PowerUpCollision(Powerup powerup, CollisionData data) {
-        }
+        public virtual void UnbreakableCollision(Unbreakable block, CollisionData data) {}
 
     }
 }

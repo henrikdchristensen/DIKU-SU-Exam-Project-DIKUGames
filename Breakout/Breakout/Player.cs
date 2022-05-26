@@ -14,14 +14,18 @@ namespace Breakout {
 
     public class Player : GameObject, IGameEventProcessor {
 
+        private PowerupContainer powerups;
         private Text display;
         private int moveLeft = 0;
         private int moveRight = 0;
         private int life;
         private const float MOVEMENT_ACC = 0.005f;
-        public float MAX_SPEED { get; set; } = 0.02f;
+        private float maxSpeed;
         private const int START_LIVES = 3;
         private DynamicShape shape;
+        private const float SIZE_SCALE = 1.3f;
+        private const float SPEED_SCALE = 1.5f;
+        private const float START_SPEED = 0.015f;
 
         /// <summary> A player in the game </summary>
         /// <param name = "shape"> the shape of the player </param>
@@ -30,8 +34,13 @@ namespace Breakout {
         public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
             this.shape = shape;
             life = START_LIVES;
+            maxSpeed = START_SPEED;
+
             display = new Text(life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
             display.SetColor(new Vec3F(1f, 1f, 1f));
+
+            powerups = new PowerupContainer(
+                new PowerupType[] { PowerupType.PlayerSpeed, PowerupType.ExtraLife, PowerupType.Wide });
         }
 
         /// <summary> Render the player </summary>
@@ -44,6 +53,9 @@ namespace Breakout {
         public override void Update() {
             UpdateMovement();
             shape.Move();
+
+            while (!powerups.IsEmpty())
+                handlePowerups(powerups.DequeEvent());
 
             if (shape.Position.X > 1 - shape.Extent.X) {
                 ResetDir();
@@ -66,10 +78,10 @@ namespace Breakout {
                 else
                     shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC;
             } else {
-                if (Math.Abs(dirX) + MOVEMENT_ACC <= MAX_SPEED)
+                if (Math.Abs(dirX) + MOVEMENT_ACC <= maxSpeed)
                     shape.Direction.X += signDir * MOVEMENT_ACC;
                 else
-                    shape.Direction.X = signDir * MAX_SPEED;
+                    shape.Direction.X = signDir * maxSpeed;
             }
         }
 
@@ -111,7 +123,7 @@ namespace Breakout {
             life--;
             display.SetText(life.ToString());
         }
-        public void AddLife() {
+        private void addLife() {
             life++;
             display.SetText(life.ToString());
         }
@@ -139,11 +151,10 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 1) {
+                        if (life > 1) 
                             LooseLife();
-                        } else {
+                        else 
                             GameOver();
-                        }
                         break;
                     case "LeftPressed":
                         SetMoveLeft(true);
@@ -158,21 +169,37 @@ namespace Breakout {
                         SetMoveRight(false);
                         break;
                 }
-            } else if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
-                var powerup = (Powerup) gameEvent.ObjectArg1;
-                if (validPowerUp(powerup.TAG))
-                    Powerup.HandlePowerup(this, powerup);                
+            } else if (gameEvent.EventType == GameEventType.ControlEvent) {
+                switch (gameEvent.Message) {
+                    case "POWERUP_ACTIVATE":
+                        powerups.Activate(gameEvent.StringArg1);
+                        break;
+                    case "POWERUP_DEACTIVATE":
+                        powerups.Deactivate(gameEvent.StringArg1);
+                        break;
+                }
             }
         }
 
-        private bool validPowerUp(PowerupType type) {
+        private void handlePowerups(string type) {
             switch (type) {
-                case PowerupType.ExtraLife:
-                    return true;
-                case PowerupType.Wide:
-                    return true;
-                default:
-                    return false;
+                case "EXTRA_LIFE_ACTIVATE":
+                    addLife();
+                    break;
+                case "WIDE_ACTIVATE":
+                    Shape.Position.X += (Shape.Extent.X - Shape.Extent.X * SIZE_SCALE) / 2;
+                    Shape.Extent.X *= SIZE_SCALE;
+                    break;
+                case "WIDE_DEACTIVATE":
+                    Shape.Extent.X /= SIZE_SCALE;
+                    break;
+                case "PLAYER_SPEED_ACTIVATE":
+                    Console.WriteLine("PLAYER SPEED");
+                    maxSpeed *= SPEED_SCALE;
+                    break;
+                case "PLAYER_SPEED_DEACTIVATE":
+                    maxSpeed /= SPEED_SCALE;
+                    break;
             }
         }
 

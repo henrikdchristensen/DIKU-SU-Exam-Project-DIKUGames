@@ -12,8 +12,11 @@ namespace Breakout.Items {
 
     public class Ball : GameObject, IGameEventProcessor {
 
+        private PowerupContainer powerups;
+
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
+        private bool isHard = false;
 
         /// <summary>
         /// 
@@ -26,6 +29,9 @@ namespace Breakout.Items {
             Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
             dir *= SPEED;
             shape.Direction = dir;
+
+            powerups = new PowerupContainer(
+                new PowerupType[] { PowerupType.DoubleSize, PowerupType.DoubleSpeed, PowerupType.HardBall });
         }
 
         /// <summary>
@@ -63,7 +69,8 @@ namespace Breakout.Items {
         /// <param name="block"></param>
         /// <param name="data"></param>
         public override void BlockCollision(Block block, CollisionData data) {
-            changeDirection(block, data);
+            if (!isHard)
+                changeDirection(block, data);
         }
 
         /// <summary>
@@ -82,6 +89,10 @@ namespace Breakout.Items {
         /// <param name="data"></param>
         public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
+        }
+
+        public override void UnbreakableCollision(Unbreakable block, CollisionData data) {
+            changeDirection(block, data);
         }
 
         /// <summary>
@@ -108,6 +119,9 @@ namespace Breakout.Items {
         /// </summary>
         public override void Update() {
             Shape.AsDynamicShape().Move();
+
+            while (!powerups.IsEmpty())
+                handlePowerups(powerups.DequeEvent());
 
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
@@ -136,18 +150,38 @@ namespace Breakout.Items {
 
 
         public void ProcessEvent(GameEvent gameEvent) {
-            if (gameEvent.EventType == GameEventType.ControlEvent && gameEvent.Message == "POWERUP") {
-                Console.WriteLine("POWERUP ball");
-                var powerup = (Powerup) gameEvent.ObjectArg1;
-                if (validPowerUp(powerup.TAG))
-                    Powerup.HandlePowerup(this, powerup);
+            if (gameEvent.EventType == GameEventType.ControlEvent) {
+                switch (gameEvent.Message) {
+                    case "POWERUP_ACTIVATE":
+                        powerups.Activate(gameEvent.StringArg1);
+                        break;
+                    case "POWERUP_DEACTIVATE":
+                        powerups.Deactivate(gameEvent.StringArg1);
+                        break;
+                }
             }
         }
 
-        private bool validPowerUp(PowerupType type) {
+        private void handlePowerups(string type) {
             switch (type) {
-                default:
-                    return false;
+                case "DOUBLE_SIZE_ACTIVATE":
+                    Shape.Extent *= 2;
+                    break;
+                case "DOUBLE_SIZE_DEACTIVATE":
+                    Shape.Extent /= 2;
+                    break;
+                case "DOUBLE_SPEED_ACTIVATE":
+                    Shape.AsDynamicShape().Direction *= 2;
+                    break;
+                case "DOUBLE_SPEED_DEACTIVATE":
+                    Shape.AsDynamicShape().Direction /= 2;
+                    break;
+                case "HARD_BALL_ACTIVATE":
+                    isHard = true;
+                    break;
+                case "HARD_BALL_DEACTIVATE":
+                    isHard = false;
+                    break;
             }
         }
 
