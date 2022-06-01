@@ -33,8 +33,8 @@ namespace Breakout.Game {
         }
 
         /// <summary>Call HandleKeyEvent for the active state</summary>
-        /// <param name="action"></param>
-        /// <param name="key"></param>
+        /// <param name="action">An KeyBoardAction for sending over to activeState</param>
+        /// <param name="key">A KeyBoardKey for sending over to activeState</param>
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
             stateMachine.ActiveState.HandleKeyEvent(action, key);
         }
