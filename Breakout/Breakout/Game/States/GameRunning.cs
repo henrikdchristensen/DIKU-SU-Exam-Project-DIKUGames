@@ -97,7 +97,7 @@ namespace Breakout.Game.States {
         private void KeyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
-                    GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.TransformStateToString(GameStateType.GamePaused));
+                    GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.GamePaused));
                     break;
                 case KeyboardKey.Left:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftPressed");

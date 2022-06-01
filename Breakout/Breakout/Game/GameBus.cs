@@ -6,17 +6,13 @@ namespace Breakout.Game {
 
         private static GameEventBus gameBus;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>Returns a new instance of GameEventBus</summary>
+        /// <returns>A new instance of GameEventBus</returns>
         public static GameEventBus GetBus() {
             return gameBus ?? (gameBus = new GameEventBus());
         }
 
-        /// <summary>
-        /// Trigger event to game bus.
-        /// </summary>
+        /// <summary>Trigger event to game bus</summary>
         /// <param name="type">GameEventType</param>
         /// <param name="message">Message sent to GameEventBus</param>
         /// <param name="stringArg">StringArg sent to GameEventBus</param>
