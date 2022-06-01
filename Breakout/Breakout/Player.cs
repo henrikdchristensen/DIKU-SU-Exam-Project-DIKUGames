@@ -2,9 +2,6 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
-using DIKUArcade.Input;
-using System;
-using Breakout.Collision;
 using DIKUArcade.Physics;
 using Breakout.Game;
 using Breakout.Items;
@@ -57,7 +54,6 @@ namespace Breakout {
 
             while (!powerups.IsEmpty())
                 handlePowerups(powerups.DequeEvent());
-
             if (shape.Position.X > 1 - shape.Extent.X) {
                 ResetDir();
                 shape.Position.X = 1 - shape.Extent.X;
@@ -68,7 +64,7 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
         private void UpdateMovement() {
             float dirX = shape.Direction.X;
@@ -87,7 +83,7 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
         private void ResetDir() {
             moveLeft = 0;
@@ -96,17 +92,17 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
-        /// <param name="val"></param>
+        /// <param name="val">TODO</param>
         private void SetMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
-        /// <param name="val"></param>
+        /// <param name="val">TODO</param>
         private void SetMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
@@ -118,12 +114,16 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
         private void LooseLife() {
             life--;
             display.SetText(life.ToString());
         }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void addLife() {
             life++;
             display.SetText(life.ToString());
@@ -136,14 +136,14 @@ namespace Breakout {
         }
 
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
         private void GameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
 
-        /// <summary> To receive events from the event bus. </summary>
-        /// <param name = "gameEvent"> the game-event recieved </param>
+        /// <summary>To receive events from the event bus</summary>
+        /// <param name="gameEvent">The game-event recieved</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
@@ -178,6 +178,10 @@ namespace Breakout {
             }
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="type">TODO</param>
         private void handlePowerups(string type) {
             switch (type) {
                 case "EXTRA_LIFE_ACTIVATE":
@@ -200,16 +204,14 @@ namespace Breakout {
             }
         }
 
-
         /// <summary>
-        /// 
+        /// TODO
         /// </summary>
-        /// <param name="other"></param>
-        /// <param name="data"></param>
+        /// <param name="other">TODO</param>
+        /// <param name="data">TODO</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.PlayerCollision(this, data);
         }
-
 
     }
 

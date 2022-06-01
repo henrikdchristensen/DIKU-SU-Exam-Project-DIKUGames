@@ -1,11 +1,10 @@
 ﻿using DIKUArcade.Entities;
-using Breakout.Collision;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
+using DIKUArcade.Events;
 using Breakout.Levels;
 using Breakout.Game;
-using DIKUArcade.Events;
 using Breakout.Items.Powerups;
 
 namespace Breakout.Items {
@@ -13,32 +12,26 @@ namespace Breakout.Items {
     public class Ball : GameObject, IGameEventProcessor {
 
         private PowerupContainer powerups;
-
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
         private bool isHard = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="image"></param>
+        /// <summary>Constructor for Ball: Setup the</summary>
+        /// <param name="shape">The shape of the ball</param>
+        /// <param name="image">An image which should be used for Ball</param>
         public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
             Random rand = new Random();
             float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
             Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
             dir *= SPEED;
             shape.Direction = dir;
-
             powerups = new PowerupContainer(
                 new PowerupType[] { PowerupType.DoubleSize, PowerupType.DoubleSpeed, PowerupType.HardBall });
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dir"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="dir">TODO</param>
+        /// <returns>TODO</returns>
         private float getDirFromCollisionVec(CollisionDirection dir) {
             switch (dir) {
                 case CollisionDirection.CollisionDirDown:
@@ -54,52 +47,45 @@ namespace Breakout.Items {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="other">TODO</param>
+        /// <param name="data">TODO</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.BallCollision(this, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="block"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="block">TODO</param>
+        /// <param name="data">TODO</param>
         public override void BlockCollision(Block block, CollisionData data) {
             if (!isHard)
                 changeDirection(block, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="player">TODO</param>
+        /// <param name="data">TODO</param>
         public override void PlayerCollision(Player player, CollisionData data) {
             changeDirection(player, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wall"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="wall">TODO</param>
+        /// <param name="data">TODO</param>
         public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
         }
 
+        /// <summary>TODO</summary>
+        /// <param name="block">TODO</param>
+        /// <param name="data">TODO</param>
         public override void UnbreakableCollision(Unbreakable block, CollisionData data) {
             changeDirection(block, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="otherCol"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="otherCol">TODO</param>
+        /// <param name="data">TODO</param>
         private void changeDirection(GameObject otherCol, CollisionData data) {
             DynamicShape other = otherCol.Shape.AsDynamicShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
@@ -114,38 +100,30 @@ namespace Breakout.Items {
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public override void Update() {
             Shape.AsDynamicShape().Move();
-
             while (!powerups.IsEmpty())
                 handlePowerups(powerups.DequeEvent());
-
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
             }
-                
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="level"></param>
+        /// <summary>TODO</summary>
+        /// <param name="level">TODO</param>
         public override void AtDeletion(Level level) {
             level.OnBallDeletion();
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Render() {
             RenderEntity();
         }
 
-
+        /// <summary>TODO</summary>
+        /// <param name="gameEvent">TODO</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
@@ -159,6 +137,8 @@ namespace Breakout.Items {
             }
         }
 
+        /// <summary>TODO</summary>
+        /// <param name="type">TODO</param>
         private void handlePowerups(string type) {
             switch (type) {
                 case "DOUBLE_SIZE_ACTIVATE":

@@ -3,6 +3,13 @@
 namespace Breakout.Levels {
 
     public class LevelLoader : ILevelLoader {
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="path">TODO</param>
+        /// <returns>TODO</returns>
+        /// <exception cref="ArgumentException"></exception>
         public string[] Load(string path) {
             var file = Path.Combine(FileIO.GetProjectPath(), path);
 
@@ -12,5 +19,7 @@ namespace Breakout.Levels {
             string text = File.ReadAllText(file);
             return text.Split(Environment.NewLine);
         }
+
     }
+
 }

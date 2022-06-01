@@ -194,7 +194,7 @@ namespace BreakoutTests {
                 player.Update();
                 Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
             }
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3 ); 
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + 0.005*3 ); 
 
             Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         

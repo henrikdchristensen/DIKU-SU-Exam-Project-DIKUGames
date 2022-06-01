@@ -2,6 +2,13 @@
 
     public class SubarrayExtractor {
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="arr">TODO</param>
+        /// <param name="startKeyword">TODO</param>
+        /// <param name="endKeyword">TODO</param>
+        /// <returns>TODO</returns>
         public static string[] Extract(string[] arr, string startKeyword, string endKeyword) {
             List<string> lst = new List<string>();
             bool startExtract = false;

@@ -1,10 +1,10 @@
-using Breakout.Levels;
 using NUnit.Framework;
+using System;
+using System.IO;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
-using System.IO;
 using DIKUArcade.Utilities;
-using System;
+using Breakout.Levels;
 
 namespace BreakoutTests {
 

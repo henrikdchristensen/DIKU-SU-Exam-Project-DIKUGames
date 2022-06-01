@@ -1,5 +1,4 @@
-﻿using System;
-using DIKUArcade.GUI;
+﻿using DIKUArcade.GUI;
 
 namespace Breakout.Game {
 

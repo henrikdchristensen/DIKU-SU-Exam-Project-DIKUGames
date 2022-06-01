@@ -1,6 +1,5 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using Breakout.Items;
 using Breakout.Levels;
 
 namespace Breakout.Items.Powerups {

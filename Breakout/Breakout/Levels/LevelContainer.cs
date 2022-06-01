@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
-using DIKUArcade.Timers;
 using DIKUArcade.Events;
 using Breakout.Game;
 
@@ -15,12 +8,9 @@ namespace Breakout.Levels {
 
         // Singleton pattern
         private static LevelContainer instance = null;
-        private GameEventBus eventBus;
         private List<Level> levelList;
         private LevelParser levelLoader;
-        public Level ActiveLevel {
-            get; private set;
-        }
+        public Level ActiveLevel { get; private set; }
         private int levelCounter { get; set; } = 0;
         private LevelContainer() { }
 
@@ -32,9 +22,7 @@ namespace Breakout.Levels {
             return LevelContainer.instance ?? (LevelContainer.instance = new LevelContainer());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Reset() {
             levelCounter = 0;
             ActiveLevel?.Destroy();
@@ -88,7 +76,6 @@ namespace Breakout.Levels {
         public void ResetLevelContainer() {
             InitializeLevels();
         }
-
 
     }
 }

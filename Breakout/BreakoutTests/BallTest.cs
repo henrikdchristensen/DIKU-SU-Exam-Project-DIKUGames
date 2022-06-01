@@ -1,15 +1,12 @@
-﻿using Breakout.Levels;
-using NUnit.Framework;
-using System.Collections.Generic;
-using DIKUArcade.GUI;
-using System.IO;
+﻿using NUnit.Framework;
 using System;
-using Breakout.Items;
+using DIKUArcade.GUI;
 using DIKUArcade.Physics;
 using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout;
+using Breakout.Items;
 
 namespace BreakoutTests {
 

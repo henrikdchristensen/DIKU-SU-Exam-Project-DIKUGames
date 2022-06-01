@@ -1,6 +1,7 @@
 using Breakout.Utility;
 
 namespace Breakout.Levels {
+
     public class LevelParser {
 
         private const string MAP                = "Map";
@@ -13,6 +14,10 @@ namespace Breakout.Levels {
 
         private ILevelLoader loader;
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="loader">TODO</param>
         public LevelParser(ILevelLoader loader) {
             this.loader = loader;
         }
@@ -27,7 +32,7 @@ namespace Breakout.Levels {
         /// ensure:
         ///     it returns a level accordance to preperties specified in the file
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="path">TODO</param>
         /// <returns>The corresponding level</returns>
         public Level CreateLevel(string path) {
             string[] level;
@@ -52,12 +57,10 @@ namespace Breakout.Levels {
             return new Level(map, meta, legend);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="lines"></param>
-        /// <param name="delimiter"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="lines">TODO</param>
+        /// <param name="delimiter">TODO</param>
+        /// <returns>TODO</returns>
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             foreach (string line in lines) {
@@ -67,17 +70,14 @@ namespace Breakout.Levels {
             return dict;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="lines"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="lines">TODO</param>
+        /// <returns>TODO</returns>
         private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
-
-             for (int i = 0; i < lines.Length; i++)
-                 for (int j = 0; j < lines[i].Length; j++)
-                     ch[i, j] = lines[i][j];
+            for (int i = 0; i < lines.Length; i++)
+                for (int j = 0; j < lines[i].Length; j++)
+                    ch[i, j] = lines[i][j];
             return ch;
         }
 

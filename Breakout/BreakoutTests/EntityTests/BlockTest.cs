@@ -1,8 +1,8 @@
-using System;
 using NUnit.Framework;
-using Breakout.Items;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using Breakout.Items;
+
 namespace BreakoutTests.Items {
 
     public class Tests {
