@@ -38,12 +38,7 @@ namespace Breakout.Items {
         /// <param name="level"></param>
         public override void AtDeletion(Level level) {
             DeleteEntity();
-
-            GameBus.GetBus().RegisterEvent(new GameEvent {
-                Message = "BLOCK_DESTROYED",
-                EventType = GameEventType.StatusEvent,
-                IntArg1 = value
-            });
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", "", value);
         }
 
         /// <summary>

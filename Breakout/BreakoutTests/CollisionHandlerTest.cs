@@ -73,7 +73,7 @@ namespace BreakoutTests {
         [TestCase(0.0f, false)] // Only B1 executed
         [TestCase(1.0f, true)] // Both B1 & B1 executed (100% statement coverage)
         // Both test cases ensures 100% branch coverage
-        public void UpdateTest(float dir, bool expected) {
+        public void UpdateWBTest(float dir, bool expected) {
             DynamicShape shape = new DynamicShape(0.0f, 0.0f, 0.1f, 0.1f);
             GameObjectSpy obj1 = new GameObjectSpy(shape, new NoImage());
             GameObjectSpy obj2 = new GameObjectSpy(new StationaryShape(0.0f, 1.0f, 0.1f, 0.1f), new NoImage());
