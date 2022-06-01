@@ -19,11 +19,11 @@
 
     public class PowerupTransformer {
 
-        /// <summary>
+        /// <summary>Converts a String to a PowerupType
         /// 
         /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
+        /// <param name="state">A string to be converted to a PowerupType</param>
+        /// <returns>A PowerupType</returns>
         /// <exception cref="ArgumentException"></exception>
         public static PowerupType StringToState(string state) {
             switch (state) {
@@ -44,11 +44,9 @@
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
+        /// <summary>Converts a PowerupType to a String</summary>
+        /// <param name="state">A PowerupType to be converted to a String</param>
+        /// <returns>A String</returns>
         /// <exception cref="ArgumentException"></exception>
         public static string StateToString(PowerupType state) {
             switch (state) {
@@ -64,7 +62,6 @@
                     return "DOUBLE_SPEED";
                 case PowerupType.DoubleSize:
                     return "DOUBLE_SIZE";
-
                 default:
                     throw new ArgumentException();
             }
