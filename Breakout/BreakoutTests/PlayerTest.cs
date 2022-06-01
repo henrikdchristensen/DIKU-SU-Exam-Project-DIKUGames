@@ -96,7 +96,7 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveRightBoundary() {
-            int iterations = 50;
+            int iterations = 100;
             
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
@@ -115,7 +115,7 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveLeftBoundary() {
-            int iterations = 50;
+            int iterations = 100;
 
             registerPlayerEvent("LeftPressed");
             eventBus.ProcessEventsSequentially();
@@ -167,12 +167,16 @@ namespace BreakoutTests {
             }
 
             registerPlayerEvent("RightReleased");
+            eventBus.ProcessEventsSequentially();
+
             for (int i = 0; i < iterations+5; i++) {
                 player.Update();
+                Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
+
             }
             float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3)*2;
 
-            Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
+            Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
 
 
@@ -190,10 +194,9 @@ namespace BreakoutTests {
                 player.Update();
                 Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
             }
-            registerPlayerEvent("RightReleased");
             float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3 );
 
-            Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
+            Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         
         }
 
