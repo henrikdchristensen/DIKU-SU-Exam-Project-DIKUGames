@@ -53,6 +53,7 @@ namespace Breakout {
         public override void Update() {
             UpdateMovement();
             shape.Move();
+            Console.WriteLine("Found player speed: " + shape.Direction.X );
 
             while (!powerups.IsEmpty())
                 handlePowerups(powerups.DequeEvent());
@@ -71,17 +72,17 @@ namespace Breakout {
         /// </summary>
         private void UpdateMovement() {
             float dirX = shape.Direction.X;
-            int signDir = moveLeft + moveRight;
-            if (signDir == 0) {
-                if (Math.Abs(dirX) <= MOVEMENT_ACC)
+            int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
+            if (signDir == 0) { // if player has stopped moving
+                if (Math.Abs(dirX) <= MOVEMENT_ACC) // checking if slowing so much down that it will go in opposite direction stop player
                     shape.Direction.X = 0;
                 else
-                    shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC;
-            } else {
-                if (Math.Abs(dirX) + MOVEMENT_ACC <= maxSpeed)
+                    shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC; // else reduce player speed with the acceleration
+            } else { // if moving
+                if (Math.Abs(dirX) + MOVEMENT_ACC <= maxSpeed) // if under max speed keep accelerating by adding acceleration to current speed
                     shape.Direction.X += signDir * MOVEMENT_ACC;
                 else
-                    shape.Direction.X = signDir * maxSpeed;
+                    shape.Direction.X = signDir * maxSpeed; // if reached max speed keep going at max
             }
         }
 
