@@ -97,7 +97,7 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveRightBoundary() {
-            int iterations = 100;
+            int iterations = 50;
             
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
@@ -105,7 +105,7 @@ namespace BreakoutTests {
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
-            float expected = 1.0f - player.Shape.Extent.X;
+            float expected = 1.0f - player.Shape.Extent.X/2;
 
             Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
@@ -116,7 +116,7 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void TestMoveLeftBoundary() {
-            int iterations = 100;
+            int iterations = 50;
 
             registerPlayerEvent("LeftPressed");
             eventBus.ProcessEventsSequentially();
@@ -124,7 +124,7 @@ namespace BreakoutTests {
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
-            float expected = 0.0f;
+            float expected = 0.0f+player.Shape.Extent.X/2;;
             
             Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
