@@ -79,8 +79,8 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Handle KeyEventAction and call the corresponding method</summary>
-        /// <param name="action"></param>
-        /// <param name="key"></param>
+        /// <param name="action">An action could be KeyPress or KeyRelease</param>
+        /// <param name="key">A keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
@@ -93,11 +93,11 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Handle the different KeyPress actions and trigger their events</summary>
-        /// <param name="key"></param>
+        /// <param name="key">A key could be Escape, Key-Left or Key-Right</param>
         private void KeyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
-                    GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.TransformStateToString(GameStateType.GamePaused));
+                    GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.GamePaused));
                     break;
                 case KeyboardKey.Left:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftPressed");
@@ -111,7 +111,7 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Handle KeyRelease actions and trigger their events</summary>
-        /// <param name="key"></param>
+        /// <param name="key">A key could be Key-Left, Key-Right or Space</param>
         private void KeyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
@@ -127,7 +127,7 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Process events: Block destroyed</summary>
-        /// <param name="gameEvent"></param>
+        /// <param name="gameEvent">A GameEvent which are used to add points to score</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
                 switch (gameEvent.Message) {

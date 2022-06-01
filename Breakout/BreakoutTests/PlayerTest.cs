@@ -104,9 +104,9 @@ namespace BreakoutTests {
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
-            float expected = 1.0f - player.Shape.Extent.X;
+            float expected = 1.0f - player.Shape.Extent.X/2;
 
-            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
 
         /// <summary>
@@ -123,9 +123,9 @@ namespace BreakoutTests {
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
-            float expected = 0.0f;
+            float expected = 0.0f+player.Shape.Extent.X/2;;
             
-            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
 
 
@@ -133,6 +133,7 @@ namespace BreakoutTests {
         /// Black box
         /// Testing that max speed is reached after acceleration
         /// </summary>
+        [Test]
         public void TestMaxSpeed() {
 
             registerPlayerEvent("RightPressed");
@@ -144,7 +145,7 @@ namespace BreakoutTests {
             }
             
             float expectedSpeed = 0.015f;
-            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , "Failed, got speed" + player.Shape.AsDynamicShape().Direction.X);
+            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , TestLogger.OnFailedTestMessage<float>(Math.Abs(player.Shape.AsDynamicShape().Direction.X), expectedSpeed) );
         }
 
 
@@ -152,6 +153,7 @@ namespace BreakoutTests {
         /// <summary>
         /// Testing if the deaccelating and stopping correctly 
         /// </summary>
+        [Test]
         public void TestDeaccelerateAndStop() {
            
             float prevPos = player.GetPosition().X;
@@ -165,12 +167,16 @@ namespace BreakoutTests {
             }
 
             registerPlayerEvent("RightReleased");
+            eventBus.ProcessEventsSequentially();
+
             for (int i = 0; i < iterations+5; i++) {
                 player.Update();
-            }
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015)*2;
+                Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
 
-            Assert.True(player.GetPosition().X == expectedPos, "Failed pos got" + player.GetPosition().X);
+            }
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 )*2;// 0,0301
+
+            Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
 
 
@@ -178,6 +184,7 @@ namespace BreakoutTests {
         /// <summary>
         /// Testing acceleration
         /// </summary>
+        [Test]
         public void TestAcceleration() {
 
             float prevPos = player.GetPosition().X;
@@ -185,11 +192,11 @@ namespace BreakoutTests {
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 4; i++) {
                 player.Update();
+                Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
             }
-            registerPlayerEvent("RightReleased");
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015);
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3 ); 
 
-            Assert.True(player.GetPosition().X == expectedPos, "Failed pos got" + player.GetPosition().X);
+            Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         
         }
 

@@ -69,7 +69,7 @@ namespace Breakout.Levels {
                 GameBus.GetBus().RegisterEvent(new GameEvent {
                     EventType = GameEventType.GameStateEvent,
                     Message = "CHANGE_STATE",
-                    StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
+                    StringArg1 = StateTransformer.StateToString(GameStateType.MainMenu)
                 });
             }
         }

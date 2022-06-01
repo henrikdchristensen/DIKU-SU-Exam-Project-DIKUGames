@@ -63,7 +63,7 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Handle different KeyPressed action</summary>
-        /// <param name="key"></param>
+        /// <param name="key">A key could be Key-Up, Key-Down or Enter</param>
         private void KeyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
@@ -75,10 +75,10 @@ namespace Breakout.Game.States {
                 case KeyboardKey.Enter:
                     if (activeMenuButton == 0) {
                         GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
-                            StateTransformer.TransformStateToString(GameStateType.GameRunning));
+                            StateTransformer.StateToString(GameStateType.GameRunning));
                     } else {
                         GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
-                            StateTransformer.TransformStateToString(GameStateType.MainMenu));
+                            StateTransformer.StateToString(GameStateType.MainMenu));
                     }
                     break;
             }

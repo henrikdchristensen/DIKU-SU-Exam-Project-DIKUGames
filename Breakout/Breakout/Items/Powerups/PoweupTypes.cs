@@ -1,7 +1,7 @@
 ﻿namespace Breakout.Items.Powerups {
 
     /// <summary>
-    /// 
+    /// TODO: ADD SUMMARY AND REMOVE Uncommented code
     /// </summary>
     public enum PowerupType {
         ExtraLife,
@@ -19,13 +19,13 @@
 
     public class PowerupTransformer {
 
-        /// <summary>
+        /// <summary>Converts a String to a PowerupType
         /// 
         /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
+        /// <param name="state">A string to be converted to a PowerupType</param>
+        /// <returns>A PowerupType</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static PowerupType TransformStringToState(string state) {
+        public static PowerupType StringToState(string state) {
             switch (state) {
                 case "PLAYER_SPEED":
                     return PowerupType.PlayerSpeed;
@@ -44,13 +44,11 @@
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
+        /// <summary>Converts a PowerupType to a String</summary>
+        /// <param name="state">A PowerupType to be converted to a String</param>
+        /// <returns>A String</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static string TransformStateToString(PowerupType state) {
+        public static string StateToString(PowerupType state) {
             switch (state) {
                 case PowerupType.PlayerSpeed:
                     return "PLAYER_SPEED";
@@ -64,7 +62,6 @@
                     return "DOUBLE_SPEED";
                 case PowerupType.DoubleSize:
                     return "DOUBLE_SIZE";
-
                 default:
                     throw new ArgumentException();
             }
