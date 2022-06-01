@@ -170,7 +170,7 @@ namespace BreakoutTests {
             for (int i = 0; i < iterations+5; i++) {
                 player.Update();
             }
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015)*2;
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3)*2;
 
             Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
@@ -188,10 +188,10 @@ namespace BreakoutTests {
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 4; i++) {
                 player.Update();
-                Console.WriteLine($"Got curr pos in iteration {i} acceleration: " + player.GetPosition().X);
+                Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
             }
             registerPlayerEvent("RightReleased");
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015);
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3 );
 
             Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         
