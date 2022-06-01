@@ -28,9 +28,6 @@ namespace Breakout.Items {
             Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
             dir *= SPEED;
             shape.Direction = dir;
-
-            powerups = new PowerupContainer(
-                new PowerupType[] { PowerupType.DoubleSize, PowerupType.DoubleSpeed, PowerupType.HardBall });
         }
 
         /// <summary>TODO</summary>

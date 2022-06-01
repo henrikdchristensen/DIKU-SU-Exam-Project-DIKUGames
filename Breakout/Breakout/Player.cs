@@ -22,7 +22,6 @@ namespace Breakout {
         private float maxSpeed;
         private const int START_LIVES = 3;
         private DynamicShape shape;
-        private const float SIZE_SCALE = 1.3f;
         private const float START_SPEED = 0.015f;
 
         /// <summary> A player in the game </summary>
