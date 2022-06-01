@@ -5,29 +5,23 @@ namespace Breakout.Game {
 
     public class StateMachine : IGameEventProcessor {
 
-        /// <summary>
-        /// 
-        /// </summary>
         public IGameState ActiveState {
             get; private set;
         }
 
         /// <summary>
-        /// 
+        /// Constructor for StateMachine: Instantiate the state instances and subscribes for GameStateEvents
         /// </summary>
         public StateMachine() {
             GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
-            GameBus.GetBus().Subscribe(GameEventType.InputEvent, this);
 
-            //Instantiate state-objects to avoid lagging at game transition
+            // Instantiate state-objects to avoid lagging at game transition
             ActiveState = States.MainMenu.GetInstance();
             States.GameRunning.GetInstance();
             States.GamePaused.GetInstance();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Switch to a new active state</summary>
         /// <param name="stateType"></param>
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
@@ -43,13 +37,11 @@ namespace Breakout.Game {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Process events: Change state and Reset state</summary>
         /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.GameStateEvent) {
-                GameStateType state = StateTransformer.TransformStringToState(gameEvent.StringArg1);
+                GameStateType state = StateTransformer.StringToState(gameEvent.StringArg1);
                 switch (gameEvent.Message) {
                     case "CHANGE_STATE":
                         SwitchState(state);
@@ -59,8 +51,6 @@ namespace Breakout.Game {
                         ActiveState.ResetState();
                         break;
                 }
-            } else if (gameEvent.EventType == GameEventType.InputEvent) {
-
             }
         }
 
