@@ -15,19 +15,32 @@ namespace Breakout.Items {
         public const string SCALE_SIZE_MSG = "SCALE_BALL_SIZE";
         public const string SCALE_SPEED_MSG = "SCALE_BALL_SPEED";
 
-        private const float SPEED = 0.01f;
+        private const float START_SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
-        private bool isHard = false;
+        public bool isHard { get; private set; }
+        private readonly Vec2F startPos;
 
         /// <summary>Constructor for Ball: Setup the</summary>
         /// <param name="shape">The shape of the ball</param>
         /// <param name="image">An image which should be used for Ball</param>
-        public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
+        public Ball (Vec2F position, Vec2F extent, IBaseImage image, float speed = START_SPEED, int dir = 1, bool isHard = false, Vec2F startPos = null) : base(new DynamicShape(position, extent), image) {
+            this.startPos = startPos ?? position.Copy();
+            SetRandomDirection(speed, dir);
+            this.isHard = isHard;  
+        }
+
+        private void SetRandomDirection(float speed, int direction = 1) {
             Random rand = new Random();
             float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
-            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
-            dir *= SPEED;
+            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle) * Math.Sign(direction));
+            dir *= speed;
+            DynamicShape shape = Shape.AsDynamicShape();
             shape.Direction = dir;
+        }
+
+        public void ResetPosition() {
+            Shape.Position = startPos.Copy();
+            SetRandomDirection(START_SPEED);
         }
 
         /// <summary>TODO</summary>
@@ -113,8 +126,13 @@ namespace Breakout.Items {
         /// <summary>TODO</summary>
         /// <param name="level">TODO</param>
         public override void AtDeletion(Level level) {
-            level.OnBallDeletion();
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
+        }
+
+        public Ball Clone() {
+            var shape = Shape.AsDynamicShape();
+            float speed = (float) shape.Direction.Length();
+            return new Ball(shape.Position.Copy(), shape.Extent.Copy(), Image, speed, Math.Sign(shape.Direction.Y), isHard, startPos);
         }
 
         /// <summary>TODO</summary>

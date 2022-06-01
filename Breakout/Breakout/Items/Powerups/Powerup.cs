@@ -42,7 +42,7 @@ namespace Breakout.Items.Powerups {
                 case PowerupType.HardBall:
                     return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
             }TODO*/
-            return new HardBall(shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
+            return new Split(shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
         }
 
         /// <summary>Construtor for Powerup: Sets up e.g. the direction and duration of the powerup</summary>

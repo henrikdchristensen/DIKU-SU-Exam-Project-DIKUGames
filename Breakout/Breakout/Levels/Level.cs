@@ -19,7 +19,7 @@ namespace Breakout.Levels {
         public Dictionary<string, string> Meta { get; }
         public Dictionary<string, string> Legend { get; }
         private EntityContainer<GameObject> items = new EntityContainer<GameObject>();
-        private int balls = 0;
+        private BallContainer ballContainer = new BallContainer();
         private Vec2F blockSize;
 
         /// <summary>TODO</summary>
@@ -30,6 +30,7 @@ namespace Breakout.Levels {
             Map = map;
             Meta = meta;
             Legend = legend;
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ballContainer);
             
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
@@ -58,28 +59,12 @@ namespace Breakout.Levels {
             CollisionHandler.GetInstance().Subsribe(obj);
         }
 
-        /// <summary>TODO</summary>
-        private void spawnBall() {
-            balls++;
-            Ball ball = new Ball(
-                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
 
-            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ball);
-            AddGameObject(ball);
-        }
-
-        /// <summary>TODO</summary>
-        public void OnBallDeletion() {
-            balls--;
-            if (balls <= 0)
-                spawnBall();
-        }
 
         /// <summary>TODO</summary>
         public void Activate() {
             items.Iterate(CollisionHandler.GetInstance().Subsribe);
-            spawnBall();
+            ballContainer.AddBall();
         }
 
         /// <summary>TODO</summary>
@@ -93,6 +78,8 @@ namespace Breakout.Levels {
             }
             foreach (GameObject item in items)
                 item.Update();
+
+            ballContainer.Update();
         }
 
         /// <summary>TODO</summary>
@@ -114,6 +101,7 @@ namespace Breakout.Levels {
         /// <summary>TODO</summary>
         public void Render() {
             items.RenderEntities();
+            ballContainer.Render();
             renderTime();
         }
 
@@ -151,6 +139,7 @@ namespace Breakout.Levels {
 
         /// <summary>TODO</summary>
         public void Destroy() {
+            ballContainer.Destroy();
             foreach (GameObject item in items)
                 item.DeleteEntity();
         }
