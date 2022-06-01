@@ -1,5 +1,4 @@
 using DIKUArcade.State;
-using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Input;
 using DIKUArcade.Math;
@@ -13,10 +12,8 @@ namespace Breakout.Game.States {
         private Text[] menuButtons;
         private int activeMenuButton;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>Get the one and only instance of the class</summary>
+        /// <returns>Returns a instance of MainMenu</returns>
         public static MainMenu GetInstance() {
             if (MainMenu.instance == null) {
                 MainMenu.instance = new MainMenu();
@@ -25,9 +22,7 @@ namespace Breakout.Game.States {
             return MainMenu.instance;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Initialize the game state by setting correct menu items</summary>
         public void InitializeGameState() {
             menuButtons = new Text[] {
                 new Text("New Game", new Vec2F(0.15f, 0), new Vec2F(0.8f, 0.8f)),
@@ -36,23 +31,13 @@ namespace Breakout.Game.States {
             activeMenuButton = 0;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ResetState() {
+        /// <summary>No code</summary>
+        public void ResetState() { }
 
-        }
+        /// <summary>No code</summary>
+        public void UpdateState() { }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void UpdateState() {
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Set correct color to menu buttons</summary>
         public void RenderState() {
             for (int i = 0; i < menuButtons.Length; i++) {
                 if (activeMenuButton == i)
@@ -63,11 +48,9 @@ namespace Breakout.Game.States {
             }   
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="key"></param>
+        /// <summary>Handle key event (KeyPress)</summary>
+        /// <param name="action">KeyboardAction</param>
+        /// <param name="key">KeyboardKey</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
@@ -76,9 +59,7 @@ namespace Breakout.Game.States {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Handle different KeyPressed action</summary>
         /// <param name="key"></param>
         private void KeyPressed(KeyboardKey key) {
             switch (key) {
