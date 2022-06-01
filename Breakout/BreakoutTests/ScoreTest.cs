@@ -16,7 +16,7 @@ namespace BreakoutTests {
             score = new Score(new Vec2F(0, 0), new Vec2F(0, 0));
         }
 
-        /// <summary>Test adding points to score.</summary>
+        /// <summary>Blacbox: Test adding points to score.</summary>
         [TestCase(-10)]
         [TestCase(-1)]
         [TestCase(0)]
@@ -40,7 +40,7 @@ namespace BreakoutTests {
             Assert.True(score.GetScore() == int.MaxValue);
         }
 
-        /// <summary>Test resetting score.</summary>
+        /// <summary>Blackbox: Test resetting score.</summary>
         [Test]
         public void TestResetScore() {
             score.AddPoints();
