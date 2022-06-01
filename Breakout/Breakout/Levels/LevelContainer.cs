@@ -17,7 +17,7 @@ namespace Breakout.Levels {
         private static LevelContainer instance = null;
         private GameEventBus eventBus;
         private List<Level> levelList;
-        private LevelLoader levelLoader;
+        private LevelParser levelLoader;
         public Level ActiveLevel {
             get; private set;
         }
@@ -45,7 +45,7 @@ namespace Breakout.Levels {
         /// Initializes levels. The levels are hardcoded in a list and active level is set to the first element
         /// </summary>
         private void InitializeLevels() {
-            levelLoader = new LevelLoader();
+            levelLoader = new LevelParser(new LevelLoader());
             // Initialize structure of levels
             levelList = new List<Level> {
                 //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
