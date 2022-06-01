@@ -1,62 +1,58 @@
-﻿namespace Breakout.Items.Powerups {
+﻿using DIKUArcade.Events;
+using Breakout.Game;
 
-    public class PowerupContainer {
+namespace Breakout.Items.Powerups {
 
-        private PowerupType[] powerupsToCollect;
-        private List<PowerupType> powerups = new List<PowerupType>();
-        private Queue<string> toProcess = new Queue<string>();
+    public class PowerupContainer : IGameEventProcessor {
+
+        private static PowerupContainer instance = null;
+
+        public static PowerupContainer GetPowerupContainer() {
+            return instance ?? (instance = new PowerupContainer());
+        }
+
+        private PowerupContainer() {
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, this);
+        }
+
+        private List<PowerupType> active = new List<PowerupType>();
+
 
         /// <summary>
         /// TODO
         /// </summary>
-        /// <param name="powerupsToCollect">TODO</param>
-        public PowerupContainer(PowerupType[] powerupsToCollect) {
-            this.powerupsToCollect = powerupsToCollect;
+        /// <param name="powerup">TODO</param>
+        private void activate(Powerup powerup) {
+            if (!active.Contains(powerup.Type))
+                powerup.Activate();
+            if (powerup.Duration > 0)
+                active.Add(powerup.Type);
+                       
         }
 
         /// <summary>
         /// TODO
         /// </summary>
         /// <param name="str">TODO</param>
-        public void Activate(string str) {
-            PowerupType type = PowerupTransformer.StringToState(str);
-            if (powerupsToCollect.Contains(type)) {
-                if (!powerups.Contains(type))
-                    toProcess.Enqueue($"{str}_ACTIVATE");
-                powerups.Add(type);
-            }           
-        }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="str">TODO</param>
-        public void Deactivate(string str) {
-            PowerupType type = PowerupTransformer.StringToState(str);
-            if (powerups.Contains(type)) {
-                powerups.Remove(type);
-                if (!powerups.Contains(type))
-                    toProcess.Enqueue($"{str}_DEACTIVATE");
+        private void deactivate(Powerup powerup) {
+            if (active.Contains(powerup.Type)) {
+                active.Remove(powerup.Type);
+                if (!active.Contains(powerup.Type)) {
+                    Console.WriteLine("DEACTIVATE");
+                    powerup.Deactivate();
+                }
             }  
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <returns>TODO</returns>
-        public string DequeEvent() {
-            if (!IsEmpty())
-                return toProcess.Dequeue();
-            return "";
+        public void ProcessEvent(GameEvent gameEvent) {
+            switch (gameEvent.Message) {
+                case Powerup.ACTIVATE_MSG:
+                    activate((Powerup) gameEvent.ObjectArg1);
+                    break;
+                case Powerup.DEACTIVATE_MSG:
+                    deactivate((Powerup) gameEvent.ObjectArg1);
+                    break;
+            }
         }
-
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <returns>TODO</returns>
-        public bool IsEmpty() {
-            return toProcess.Count() == 0;
-        }
-
     }
 }

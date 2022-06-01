@@ -13,8 +13,10 @@ using Breakout.Items.Powerups;
 namespace Breakout {
 
     public class Player : GameObject, IGameEventProcessor {
+        public const string SCALE_SPEED_MSG = "SCALE_SPEED";
+        public const string SCALE_WIDE_MSG = "WIDE_SPEED";
+        public const string ADD_LIFE_MSG = "ADD_LIFE";
 
-        private PowerupContainer powerups;
         private Text display;
         private int moveLeft = 0;
         private int moveRight = 0;
@@ -24,7 +26,6 @@ namespace Breakout {
         private const int START_LIVES = 3;
         private DynamicShape shape;
         private const float SIZE_SCALE = 1.3f;
-        private const float SPEED_SCALE = 1.5f;
         private const float START_SPEED = 0.015f;
 
         /// <summary> A player in the game </summary>
@@ -39,8 +40,6 @@ namespace Breakout {
             display = new Text(life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
             display.SetColor(new Vec3F(1f, 1f, 1f));
 
-            powerups = new PowerupContainer(
-                new PowerupType[] { PowerupType.PlayerSpeed, PowerupType.ExtraLife, PowerupType.Wide });
         }
 
         /// <summary> Render the player </summary>
@@ -53,10 +52,6 @@ namespace Breakout {
         public override void Update() {
             UpdateMovement();
             shape.Move();
-            Console.WriteLine("Found player speed: " + shape.Direction.X );
-
-            while (!powerups.IsEmpty())
-                handlePowerups(powerups.DequeEvent());
 
             if (shape.Position.X > 1 - shape.Extent.X) {
                 ResetDir();
@@ -168,37 +163,21 @@ namespace Breakout {
                 }
             } else if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
-                    case "POWERUP_ACTIVATE":
-                        powerups.Activate(gameEvent.StringArg1);
+                    case ADD_LIFE_MSG:
+                        addLife();
                         break;
-                    case "POWERUP_DEACTIVATE":
-                        powerups.Deactivate(gameEvent.StringArg1);
+                    case SCALE_WIDE_MSG:
+                        float scale = (float) gameEvent.ObjectArg1;
+                        Shape.Position.X += (Shape.Extent.X - Shape.Extent.X * scale) / 2;
+                        Shape.Extent.X *= scale;
+                        break;
+                    case SCALE_SPEED_MSG:
+                        maxSpeed *= (float) gameEvent.ObjectArg1;
                         break;
                 }
             }
         }
 
-        private void handlePowerups(string type) {
-            switch (type) {
-                case "EXTRA_LIFE_ACTIVATE":
-                    addLife();
-                    break;
-                case "WIDE_ACTIVATE":
-                    Shape.Position.X += (Shape.Extent.X - Shape.Extent.X * SIZE_SCALE) / 2;
-                    Shape.Extent.X *= SIZE_SCALE;
-                    break;
-                case "WIDE_DEACTIVATE":
-                    Shape.Extent.X /= SIZE_SCALE;
-                    break;
-                case "PLAYER_SPEED_ACTIVATE":
-                    Console.WriteLine("PLAYER SPEED");
-                    maxSpeed *= SPEED_SCALE;
-                    break;
-                case "PLAYER_SPEED_DEACTIVATE":
-                    maxSpeed /= SPEED_SCALE;
-                    break;
-            }
-        }
 
 
         /// <summary>

@@ -12,7 +12,9 @@ namespace Breakout.Items {
 
     public class Ball : GameObject, IGameEventProcessor {
 
-        private PowerupContainer powerups;
+        public const string SET_HARD_MSG = "SET_HARD";
+        public const string SCALE_SIZE_MSG = "SCALE_BALL_SIZE";
+        public const string SCALE_SPEED_MSG = "SCALE_BALL_SPEED";
 
         private const float SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
@@ -29,9 +31,6 @@ namespace Breakout.Items {
             Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
             dir *= SPEED;
             shape.Direction = dir;
-
-            powerups = new PowerupContainer(
-                new PowerupType[] { PowerupType.DoubleSize, PowerupType.DoubleSpeed, PowerupType.HardBall });
         }
 
         /// <summary>
@@ -120,9 +119,6 @@ namespace Breakout.Items {
         public override void Update() {
             Shape.AsDynamicShape().Move();
 
-            while (!powerups.IsEmpty())
-                handlePowerups(powerups.DequeEvent());
-
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
             }
@@ -149,36 +145,16 @@ namespace Breakout.Items {
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
-                    case "POWERUP_ACTIVATE":
-                        powerups.Activate(gameEvent.StringArg1);
+                    case SCALE_SPEED_MSG:
+                        Shape.AsDynamicShape().Direction *= (float) gameEvent.ObjectArg1;
                         break;
-                    case "POWERUP_DEACTIVATE":
-                        powerups.Deactivate(gameEvent.StringArg1);
+                    case SCALE_SIZE_MSG:
+                        Shape.Extent *= (float) gameEvent.ObjectArg1;
+                        break;
+                    case SET_HARD_MSG:
+                        isHard = (bool) gameEvent.ObjectArg1;
                         break;
                 }
-            }
-        }
-
-        private void handlePowerups(string type) {
-            switch (type) {
-                case "DOUBLE_SIZE_ACTIVATE":
-                    Shape.Extent *= 2;
-                    break;
-                case "DOUBLE_SIZE_DEACTIVATE":
-                    Shape.Extent /= 2;
-                    break;
-                case "DOUBLE_SPEED_ACTIVATE":
-                    Shape.AsDynamicShape().Direction *= 2;
-                    break;
-                case "DOUBLE_SPEED_DEACTIVATE":
-                    Shape.AsDynamicShape().Direction /= 2;
-                    break;
-                case "HARD_BALL_ACTIVATE":
-                    isHard = true;
-                    break;
-                case "HARD_BALL_DEACTIVATE":
-                    isHard = false;
-                    break;
             }
         }
 
