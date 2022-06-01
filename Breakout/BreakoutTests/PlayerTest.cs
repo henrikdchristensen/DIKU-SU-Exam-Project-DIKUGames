@@ -45,7 +45,8 @@ namespace BreakoutTests {
         }
 
         /// <summary>
-        /// Testing move right
+        /// Black box 
+        /// Testing move right via eventbus and player.Update method
         /// </summary>
         [Test]
         public void TestMoveRight() {
@@ -54,12 +55,13 @@ namespace BreakoutTests {
             for (int i = 0; i < 10; i++) {
                 player.Update();
             }
-            float expected = 0.635f;
+            float expected = 0.635f; // expected position on x-axis
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
         /// <summary>
-        /// 
+        /// Black box 
+        /// Testing move left via eventbus and player.Update() method
         /// </summary>
         [Test]
         public void TestMoveLeft() {
@@ -68,12 +70,13 @@ namespace BreakoutTests {
             for (int i = 0; i < 10; i++) {
                 player.Update();
             }
-            float expected = 0.365f;
+            float expected = 0.365f; //  // expected position on x-axis
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
         /// <summary>
-        /// 
+        /// Black box 
+        /// Testing move left and right via eventbus and player.Update() method
         /// </summary>
         [Test]
         public void TestMoveBoth() {
@@ -88,7 +91,8 @@ namespace BreakoutTests {
         }
 
         /// <summary>
-        /// Testing move right
+        /// Black box
+        /// Testing that player cannot exit the screen to the right
         /// </summary>
         [Test]
         public void TestMoveRightBoundary() {
@@ -102,11 +106,12 @@ namespace BreakoutTests {
             }
             float expected = 1.0f - player.Shape.Extent.X;
 
-            Assert.True(Math.Abs(player.GetPosition().X) == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
         }
 
         /// <summary>
-        /// Testing move right
+        /// Black box
+        /// Testing that player cannot exit the screen to the left
         /// </summary>
         [Test]
         public void TestMoveLeftBoundary() {
@@ -120,12 +125,13 @@ namespace BreakoutTests {
             }
             float expected = 0.0f;
             
-            Assert.True(Math.Abs(player.GetPosition().X) == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
         }
 
 
         /// <summary>
-        /// Testing move right
+        /// Black box
+        /// Testing that max speed is reached after acceleration
         /// </summary>
         public void TestMaxSpeed() {
 
@@ -137,16 +143,16 @@ namespace BreakoutTests {
                 player.Update();
             }
             
-            float expected = 0.015f;
-            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expected , "Failed got speed" + player.Shape.AsDynamicShape().Direction.X);
+            float expectedSpeed = 0.015f;
+            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , "Failed, got speed" + player.Shape.AsDynamicShape().Direction.X);
         }
 
 
 
         /// <summary>
-        /// Testing move right
+        /// Testing if the deaccelating and stopping correctly 
         /// </summary>
-        public void TestDeAccelerateAndStop() {
+        public void TestDeaccelerateAndStop() {
            
             float prevPos = player.GetPosition().X;
             int iterations = 4;
@@ -172,7 +178,7 @@ namespace BreakoutTests {
         /// <summary>
         /// Testing acceleration
         /// </summary>
-        public void TestAccelerate() {
+        public void TestAcceleration() {
 
             float prevPos = player.GetPosition().X;
             registerPlayerEvent("RightPressed");
