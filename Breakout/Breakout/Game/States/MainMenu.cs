@@ -72,7 +72,7 @@ namespace Breakout.Game.States {
                 case KeyboardKey.Enter:
                     if (activeMenuButton == 0) {
                         GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET",
-                            StateTransformer.TransformStateToString(GameStateType.GameRunning));
+                            StateTransformer.StateToString(GameStateType.GameRunning));
                     } else {
                         GameBus.TriggerEvent(GameEventType.WindowEvent, "CLOSE_WINDOW");
                     }

@@ -1,8 +1,6 @@
 namespace Breakout.Game {
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>Enum for different Game States</summary>
     public enum GameStateType {
         GameRunning,
         GamePaused,
@@ -14,13 +12,11 @@ namespace Breakout.Game {
     /// </summary>
     public class StateTransformer {
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Converts a String to GameStateType</summary>
         /// <param name="state"></param>
-        /// <returns></returns>
+        /// <returns>GameStateType</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static GameStateType TransformStringToState(string state) {
+        public static GameStateType StringToState(string state) {
             switch (state) {
                 case "GAME_RUNNING":
                     return GameStateType.GameRunning;
@@ -33,13 +29,11 @@ namespace Breakout.Game {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Converts a GameStateType to String</summary>
         /// <param name="state"></param>
-        /// <returns></returns>
+        /// <returns>String</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static string TransformStateToString(GameStateType state) {
+        public static string StateToString(GameStateType state) {
             switch (state) {
                 case GameStateType.GameRunning:
                     return "GAME_RUNNING";
