@@ -48,17 +48,17 @@ namespace Breakout {
 
         /// <summary> Move the player according to its direction </summary>
         public override void Update() {
-            UpdateMovement();
+            updateMovement();
             shape.Move();
             Console.WriteLine("Found player speed: " + shape.Direction.X );
 
             while (!powerups.IsEmpty())
                 handlePowerups(powerups.DequeEvent());
             if (shape.Position.X > 1 - shape.Extent.X) {
-                ResetDir();
+                resetDir();
                 shape.Position.X = 1 - shape.Extent.X;
             } else if (shape.Position.X < 0) {
-                ResetDir();
+                resetDir();
                 shape.Position.X = 0;
             }
         }
@@ -66,7 +66,7 @@ namespace Breakout {
         /// <summary>
         /// TODO
         /// </summary>
-        private void UpdateMovement() {
+        private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
             if (signDir == 0) { // if player has stopped moving
@@ -85,7 +85,7 @@ namespace Breakout {
         /// <summary>
         /// TODO
         /// </summary>
-        private void ResetDir() {
+        private void resetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
@@ -95,7 +95,7 @@ namespace Breakout {
         /// TODO
         /// </summary>
         /// <param name="val">TODO</param>
-        private void SetMoveLeft(bool val) {
+        private void setMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
@@ -103,7 +103,7 @@ namespace Breakout {
         /// TODO
         /// </summary>
         /// <param name="val">TODO</param>
-        private void SetMoveRight(bool val) {
+        private void setMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
 
@@ -116,7 +116,7 @@ namespace Breakout {
         /// <summary>
         /// TODO
         /// </summary>
-        private void LooseLife() {
+        private void looseLife() {
             life--;
             display.SetText(life.ToString());
         }
@@ -138,7 +138,7 @@ namespace Breakout {
         /// <summary>
         /// TODO
         /// </summary>
-        private void GameOver() {
+        private void gameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
 
@@ -149,21 +149,21 @@ namespace Breakout {
                 switch (gameEvent.Message) {
                     case "LostLife":
                         if (life > 1) 
-                            LooseLife();
+                            looseLife();
                         else 
-                            GameOver();
+                            gameOver();
                         break;
                     case "LeftPressed":
-                        SetMoveLeft(true);
+                        setMoveLeft(true);
                         break;
                     case "RightPressed":
-                        SetMoveRight(true);
+                        setMoveRight(true);
                         break;
                     case "LeftReleased":
-                        SetMoveLeft(false);
+                        setMoveLeft(false);
                         break;
                     case "RightReleased":
-                        SetMoveRight(false);
+                        setMoveRight(false);
                         break;
                 }
             } else if (gameEvent.EventType == GameEventType.ControlEvent) {

@@ -24,7 +24,7 @@ namespace Breakout.Collision {
         }
 
         /// <summary>Removed destroyed items from collidable list</summary>
-        private void RemoveDestroyed() {
+        private void removeDestroyed() {
             List<GameObject> newList = new List<GameObject>();
             foreach (GameObject c in collidableList)
                 if (!c.IsDeleted())
@@ -34,7 +34,7 @@ namespace Breakout.Collision {
 
         /// <summary>Update list of collision items</summary>
         public void Update() {
-            RemoveDestroyed();
+            removeDestroyed();
             foreach (GameObject col in collidableList) {
                 foreach (GameObject other in collidableList) {
                     if (col != other) {
@@ -47,5 +47,7 @@ namespace Breakout.Collision {
                 }
             }
         }
+
     }
+
 }

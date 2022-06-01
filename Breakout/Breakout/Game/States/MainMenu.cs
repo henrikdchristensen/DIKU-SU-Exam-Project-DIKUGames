@@ -54,14 +54,14 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    KeyPressed(key);
+                    keyPressed(key);
                     break;
             }
         }
 
         /// <summary>Handle different KeyPressed action</summary>
         /// <param name="key">A key which could be Key-Up, Key-Down or Enter</param>
-        private void KeyPressed(KeyboardKey key) {
+        private void keyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
                     activeMenuButton = Math.Max(0, activeMenuButton - 1);

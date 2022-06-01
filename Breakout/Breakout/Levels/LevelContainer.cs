@@ -26,13 +26,13 @@ namespace Breakout.Levels {
         public void Reset() {
             levelCounter = 0;
             ActiveLevel?.Destroy();
-            InitializeLevels();
+            initializeLevels();
         }
 
         /// <summary>
         /// Initializes levels. The levels are hardcoded in a list and active level is set to the first element
         /// </summary>
-        private void InitializeLevels() {
+        private void initializeLevels() {
             levelLoader = new LevelParser(new LevelLoader());
             // Initialize structure of levels
             levelList = new List<Level> {
@@ -44,7 +44,6 @@ namespace Breakout.Levels {
             // Set initial active level
             NextLevel();
         }
-
 
         /// <summary>
         /// Incrementing the level. If last level is passed then the game returns to main menu.
@@ -74,7 +73,7 @@ namespace Breakout.Levels {
         /// Reset the LevelContainer.
         /// </summary>
         public void ResetLevelContainer() {
-            InitializeLevels();
+            initializeLevels();
         }
 
     }

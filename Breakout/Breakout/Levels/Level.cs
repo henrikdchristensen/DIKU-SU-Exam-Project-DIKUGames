@@ -114,11 +114,11 @@ namespace Breakout.Levels {
         /// <summary>TODO</summary>
         public void Render() {
             items.RenderEntities();
-            RenderTime();
+            renderTime();
         }
 
         /// <summary>TODO</summary>
-        private void RenderTime() {
+        private void renderTime() {
             if (stopwatch.ElapsedMilliseconds / 1000 < timeToEnd) {
                 display.SetText((timeToEnd - stopwatch.ElapsedMilliseconds / 1000).ToString());
                 display.RenderText();

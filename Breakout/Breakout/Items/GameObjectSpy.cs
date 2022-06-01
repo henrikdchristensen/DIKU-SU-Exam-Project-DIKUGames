@@ -19,5 +19,7 @@ namespace Breakout.Items {
         public override void Accept(GameObject other, CollisionData data) {
             hasCollided = true;
         }
+
     }
+
 }

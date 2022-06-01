@@ -3,6 +3,7 @@ using DIKUArcade.Graphics;
 using Breakout.Levels;
 
 namespace Breakout.Items.Powerups {
+
     public class PowerupBlock : Block {
 
         /// <summary>Constructor of PowerupBlock: Containing no code</summary>

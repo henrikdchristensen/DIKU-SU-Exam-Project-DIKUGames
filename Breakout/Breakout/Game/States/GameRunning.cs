@@ -84,17 +84,17 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    KeyPress(key);
+                    keyPress(key);
                     break;
                 case KeyboardAction.KeyRelease:
-                    KeyRelease(key);
+                    keyRelease(key);
                     break;
             }
         }
 
         /// <summary>Handle the different KeyPress actions and trigger their events</summary>
         /// <param name="key">A key could be Escape, Key-Left or Key-Right</param>
-        private void KeyPress(KeyboardKey key) {
+        private void keyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
                     GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.GamePaused));
@@ -112,7 +112,7 @@ namespace Breakout.Game.States {
 
         /// <summary>Handle KeyRelease actions and trigger their events</summary>
         /// <param name="key">A key could be Key-Left, Key-Right or Space</param>
-        private void KeyRelease(KeyboardKey key) {
+        private void keyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftReleased");
