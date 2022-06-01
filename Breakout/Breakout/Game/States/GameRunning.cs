@@ -22,10 +22,8 @@ namespace Breakout.Game.States {
         private CollisionHandler collisionHandler;
         private GameRunning() { }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>Get the one and only instance of the class</summary>
+        /// <returns>Returns a instance of GameRunning</returns>
         public static GameRunning GetInstance() {
             if (GameRunning.instance == null) {
                 GameRunning.instance = new GameRunning();
@@ -35,7 +33,8 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>
-        /// 
+        /// Initialize the game state setting up levels, score,
+        /// player and collisionHandler
         /// </summary>
         public void InitializeGameState() {
             levels = LevelContainer.GetLevelContainer();
@@ -58,36 +57,28 @@ namespace Breakout.Game.States {
             eventBus.Subscribe(GameEventType.StatusEvent, this);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Call reset methods for levels, score and player</summary>
         public void ResetState() {
             levels.Reset();
             score.Reset();
             player.Reset();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Call update methods for collisionHandler, player and levels</summary>
         public void UpdateState() {
             collisionHandler.Update();
             player.Update();
             levels.ActiveLevel.Update();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Call render methods for levels, player and score</summary>
         public void RenderState() {
             levels.ActiveLevel.Render();
             player.Render();
             score.Render();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Handle KeyEventAction and call the corresponding method</summary>
         /// <param name="action"></param>
         /// <param name="key"></param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
@@ -101,9 +92,7 @@ namespace Breakout.Game.States {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Handle the different KeyPress actions and trigger their events</summary>
         /// <param name="key"></param>
         private void KeyPress(KeyboardKey key) {
             switch (key) {
@@ -121,9 +110,7 @@ namespace Breakout.Game.States {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Handle KeyRelease actions and trigger their events</summary>
         /// <param name="key"></param>
         private void KeyRelease(KeyboardKey key) {
             switch (key) {
@@ -139,9 +126,7 @@ namespace Breakout.Game.States {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Process events: Block destroyed</summary>
         /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
