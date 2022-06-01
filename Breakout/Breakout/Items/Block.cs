@@ -1,9 +1,8 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using Breakout.Collision;
 using DIKUArcade.Physics;
-using Breakout.Game;
 using DIKUArcade.Events;
+using Breakout.Game;
 using Breakout.Levels;
 
 namespace Breakout.Items {
@@ -14,47 +13,38 @@ namespace Breakout.Items {
         public int Health { get; protected set; }
         public int value { get; protected set; } = 1;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="shape"></param>
-        /// <param name="image"></param>
+        /// <summary>TODO</summary>
+        /// <param name="shape">TODO</param>
+        /// <param name="image">TODO</param>
         public Block(StationaryShape shape, IBaseImage image) : base(shape, image) {
             IsDestroyable = true;
             Health = StartHealt;
         }
 
-        /// <summary> Should be called when the block is hit, and decrements health </summary>
-        /// <returns> Returns true if it is dead, and false otherwise </returns>
+        /// <summary>Should be called when the block is hit, and decrements health</summary>
         public virtual void Hit() {
             Health--;
             if (Health <= 0)
                 DeleteEntity();  
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="level"></param>
+        /// <summary>TODO</summary>
+        /// <param name="level">TODO</param>
         public override void AtDeletion(Level level) {
             DeleteEntity();
             GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", "", value);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="other">TODO</param>
+        /// <param name="data">TODO</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.BlockCollision(this, data);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ball"></param>
-        /// <param name="data"></param>
+        /// <summary>TODO</summary>
+        /// <param name="ball">TODO</param>
+        /// <param name="data">TODO</param>
         public override void BallCollision(Ball ball, CollisionData data) {
             Hit();
         }

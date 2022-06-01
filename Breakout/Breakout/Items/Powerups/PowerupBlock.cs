@@ -1,9 +1,9 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using Breakout.Items;
 using Breakout.Levels;
 
 namespace Breakout.Items.Powerups {
+
     public class PowerupBlock : Block {
 
         /// <summary>Constructor of PowerupBlock: Containing no code</summary>

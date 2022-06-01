@@ -1,8 +1,6 @@
 ﻿namespace Breakout.Items {
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>TODO</summary>
     public enum MetaType {
         BlockHardened,
         BlockUnbreakable,
@@ -12,11 +10,9 @@
 
     public class MetaTransformer {
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="state">TODO</param>
+        /// <returns>TODO</returns>
         /// <exception cref="ArgumentException"></exception>
         public static string TransformStateToString(MetaType state) {
             switch (state) {
@@ -32,6 +28,7 @@
                     throw new ArgumentException();
             }
         }
+
     }
 
 }

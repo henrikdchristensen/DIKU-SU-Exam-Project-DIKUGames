@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using DIKUArcade.GUI;
 using DIKUArcade.Math;
 using Breakout;
 

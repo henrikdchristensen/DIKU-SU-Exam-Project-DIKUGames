@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
-using DIKUArcade.Timers;
 using DIKUArcade.Events;
 using Breakout.Game;
 
@@ -15,12 +8,9 @@ namespace Breakout.Levels {
 
         // Singleton pattern
         private static LevelContainer instance = null;
-        private GameEventBus eventBus;
         private List<Level> levelList;
         private LevelParser levelLoader;
-        public Level ActiveLevel {
-            get; private set;
-        }
+        public Level ActiveLevel { get; private set; }
         private int levelCounter { get; set; } = 0;
         private LevelContainer() { }
 
@@ -32,19 +22,17 @@ namespace Breakout.Levels {
             return LevelContainer.instance ?? (LevelContainer.instance = new LevelContainer());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Reset() {
             levelCounter = 0;
             ActiveLevel?.Destroy();
-            InitializeLevels();
+            initializeLevels();
         }
 
         /// <summary>
         /// Initializes levels. The levels are hardcoded in a list and active level is set to the first element
         /// </summary>
-        private void InitializeLevels() {
+        private void initializeLevels() {
             levelLoader = new LevelParser(new LevelLoader());
             // Initialize structure of levels
             levelList = new List<Level> {
@@ -56,7 +44,6 @@ namespace Breakout.Levels {
             // Set initial active level
             NextLevel();
         }
-
 
         /// <summary>
         /// Incrementing the level. If last level is passed then the game returns to main menu.
@@ -86,9 +73,8 @@ namespace Breakout.Levels {
         /// Reset the LevelContainer.
         /// </summary>
         public void ResetLevelContainer() {
-            InitializeLevels();
+            initializeLevels();
         }
-
 
     }
 }

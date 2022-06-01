@@ -1,27 +1,22 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Items;
-using DIKUArcade.Physics;
 
 public class HardenedBlock : Block {
 
     private IBaseImage blockStridesAlt;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="shape"></param>
-    /// <param name="image"></param>
-    /// <param name="blockStridesAlt"></param>
+    /// <summary>TODO</summary>
+    /// <param name="shape">TODO</param>
+    /// <param name="image">TODO</param>
+    /// <param name="blockStridesAlt">TODO</param>
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
         value *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>TODO</summary>
     override public void Hit() {
         Console.WriteLine("Hardened hit");
         Health--;
