@@ -71,7 +71,6 @@ namespace BreakoutTests {
                 player.Update();
             }
             float expected = 0.365f; //  // expected position on x-axis
-            
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
@@ -101,7 +100,7 @@ namespace BreakoutTests {
             
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
-            
+
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
@@ -175,7 +174,7 @@ namespace BreakoutTests {
                 Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
 
             }
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3)*2;
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 )*2;// 0,0301
 
             Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
@@ -195,7 +194,7 @@ namespace BreakoutTests {
                 player.Update();
                 Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
             }
-            float expectedPos = prevPos + (float)(0.005+0.010+0.015 ); // 0,0301
+            float expectedPos = prevPos + (float)(0.005+0.010+0.015 + (0.005)*3 ); 
 
             Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         
