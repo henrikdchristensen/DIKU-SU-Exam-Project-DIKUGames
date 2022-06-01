@@ -14,18 +14,10 @@ namespace BreakoutTests {
         private CollisionHandler collision = CollisionHandler.GetInstance();
 
         /// <summary>
-        /// 
-        /// </summary>
-        [SetUp]
-        public void InitiateTest() {
-            
-        }
-
-        /// <summary>
         /// Integration test: Test that collision between ball and block can happen.
         /// </summary>
         [Test]
-        public void TestCollisionBallAndBlock() {
+        public void CollisionBallAndBlockTest() {
             DynamicShape shape = new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f);
             Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.1)
             Block block = new Block(new StationaryShape(0.4f, 0.4f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.5)
@@ -53,7 +45,7 @@ namespace BreakoutTests {
         /// Integration test: Test that collision between ball and player can happen.
         /// </summary>
         [Test]
-        public void TestCollisionBallAndPlayer() {
+        public void CollisionBallAndPlayerTest() {
             DynamicShape shape = new DynamicShape(0.4f, 0.4f, 0.1f, 0.1f);
             Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.4)
             Player player = new Player(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.1)
@@ -81,7 +73,7 @@ namespace BreakoutTests {
         [TestCase(0.0f, false)] // Only B1 executed
         [TestCase(1.0f, true)] // Both B1 & B1 executed (100% statement coverage)
         // Both test cases ensures 100% branch coverage
-        public void TestUpdate(float dir, bool expected) {
+        public void UpdateTest(float dir, bool expected) {
             DynamicShape shape = new DynamicShape(0.0f, 0.0f, 0.1f, 0.1f);
             GameObjectSpy obj1 = new GameObjectSpy(shape, new NoImage());
             GameObjectSpy obj2 = new GameObjectSpy(new StationaryShape(0.0f, 1.0f, 0.1f, 0.1f), new NoImage());
