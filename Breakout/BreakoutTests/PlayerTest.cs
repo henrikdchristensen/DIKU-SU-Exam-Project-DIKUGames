@@ -106,7 +106,7 @@ namespace BreakoutTests {
             }
             float expected = 1.0f - player.Shape.Extent.X;
 
-            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace BreakoutTests {
             }
             float expected = 0.0f;
             
-            Assert.True(player.GetPosition().X == expected, "Failed got pos:" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expected, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X) );
         }
 
 
@@ -145,7 +145,7 @@ namespace BreakoutTests {
             }
             
             float expectedSpeed = 0.015f;
-            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , "Failed, got speed" + player.Shape.AsDynamicShape().Direction.X);
+            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , TestLogger.OnFailedTestMessage<float>(Math.Abs(player.Shape.AsDynamicShape().Direction.X), expectedSpeed) );
         }
 
 
@@ -172,7 +172,7 @@ namespace BreakoutTests {
             }
             float expectedPos = prevPos + (float)(0.005+0.010+0.015)*2;
 
-            Assert.True(player.GetPosition().X == expectedPos, "Failed pos got" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
 
 
@@ -192,7 +192,7 @@ namespace BreakoutTests {
             registerPlayerEvent("RightReleased");
             float expectedPos = prevPos + (float)(0.005+0.010+0.015);
 
-            Assert.True(player.GetPosition().X == expectedPos, "Failed pos got" + player.GetPosition().X);
+            Assert.True(player.GetPosition().X == expectedPos, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         
         }
 
