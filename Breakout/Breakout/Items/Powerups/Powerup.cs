@@ -14,9 +14,11 @@ namespace Breakout.Items.Powerups {
         private const float SPEED = 0.01f;
         private double duration;
         private const float SIZE = 0.06f;
-
         private PowerupType type;
 
+        /// <summary>Creates an random powerup</summary>
+        /// <param name="shape"></param>
+        /// <returns></returns>
         public static Powerup CreateRandom(DynamicShape shape) {
             Random random = new Random();
             Type type = typeof(PowerupType);

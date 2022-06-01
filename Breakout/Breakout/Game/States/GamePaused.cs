@@ -63,7 +63,7 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Handle different KeyPressed action</summary>
-        /// <param name="key"></param>
+        /// <param name="key">A key could be Key-Up, Key-Down or Enter</param>
         private void KeyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:

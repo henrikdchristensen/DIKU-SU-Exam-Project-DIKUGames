@@ -22,7 +22,7 @@ namespace Breakout.Game {
         }
 
         /// <summary>Switch to a new active state</summary>
-        /// <param name="stateType"></param>
+        /// <param name="stateType">The state which should be shifted to</param>
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.MainMenu:
@@ -38,7 +38,7 @@ namespace Breakout.Game {
         }
 
         /// <summary>Process events: Change state and Reset state</summary>
-        /// <param name="gameEvent"></param>
+        /// <param name="gameEvent">The GameEvent which should be proccesed</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.GameStateEvent) {
                 GameStateType state = StateTransformer.StringToState(gameEvent.StringArg1);

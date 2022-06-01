@@ -18,7 +18,7 @@ namespace Breakout.Collision {
         }
 
         /// <summary>Add an object to the list of collidables</summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">An GameObject for be added to list</param>
         public void Subsribe(GameObject obj) {
             collidableList.Add(obj);
         }

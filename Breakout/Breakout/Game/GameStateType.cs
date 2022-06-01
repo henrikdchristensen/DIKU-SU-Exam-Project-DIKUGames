@@ -13,7 +13,7 @@ namespace Breakout.Game {
     public class StateTransformer {
 
         /// <summary>Converts a String to GameStateType</summary>
-        /// <param name="state"></param>
+        /// <param name="state">A string containing the GameStateType</param>
         /// <returns>GameStateType</returns>
         /// <exception cref="ArgumentException"></exception>
         public static GameStateType StringToState(string state) {
@@ -30,7 +30,7 @@ namespace Breakout.Game {
         }
 
         /// <summary>Converts a GameStateType to String</summary>
-        /// <param name="state"></param>
+        /// <param name="state">A GameStateType which should be converted to string</param>
         /// <returns>String</returns>
         /// <exception cref="ArgumentException"></exception>
         public static string StateToString(GameStateType state) {
