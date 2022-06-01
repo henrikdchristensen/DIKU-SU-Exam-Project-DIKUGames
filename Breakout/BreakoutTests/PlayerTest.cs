@@ -133,6 +133,7 @@ namespace BreakoutTests {
         /// Black box
         /// Testing that max speed is reached after acceleration
         /// </summary>
+        [Test]
         public void TestMaxSpeed() {
 
             registerPlayerEvent("RightPressed");
@@ -152,6 +153,7 @@ namespace BreakoutTests {
         /// <summary>
         /// Testing if the deaccelating and stopping correctly 
         /// </summary>
+        [Test]
         public void TestDeaccelerateAndStop() {
            
             float prevPos = player.GetPosition().X;
@@ -178,6 +180,7 @@ namespace BreakoutTests {
         /// <summary>
         /// Testing acceleration
         /// </summary>
+        [Test]
         public void TestAcceleration() {
 
             float prevPos = player.GetPosition().X;
