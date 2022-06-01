@@ -188,6 +188,7 @@ namespace BreakoutTests {
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < 4; i++) {
                 player.Update();
+                Console.WriteLine($"Got curr pos in iteration {i} acceleration: " + player.GetPosition().X);
             }
             registerPlayerEvent("RightReleased");
             float expectedPos = prevPos + (float)(0.005+0.010+0.015);
