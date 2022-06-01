@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
 using System.IO;
-using Breakout.Input;
+using DIKUArcade.Utilities;
 using System;
 
 namespace BreakoutTests {
@@ -11,7 +11,7 @@ namespace BreakoutTests {
     [TestFixture]
     public class LevelTest {
 
-        private ILoader loader = new LevelLoader();
+        private LevelParser parser = new LevelParser(new LevelLoader());
         private string levelFolder;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace BreakoutTests {
         public void TestLevel1() {
             Console.WriteLine(levelFolder);
             Window.CreateOpenGLContext();
-            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level1.txt"));
+            Level level = parser.CreateLevel(Path.Combine(levelFolder, "level1.txt"));
             char[,] map = {{
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -78,7 +78,7 @@ namespace BreakoutTests {
         [Test]
         public void TestLevel2() {
             Window.CreateOpenGLContext();
-            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level2.txt"));
+            Level level = parser.CreateLevel(Path.Combine(levelFolder, "level2.txt"));
             char[,] map = {{
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -126,7 +126,7 @@ namespace BreakoutTests {
         [Test]
         public void TestLevel3() {
             Window.CreateOpenGLContext();
-            Level level = loader.CreateLevel(Path.Combine(levelFolder, "level3.txt"));
+            Level level = parser.CreateLevel(Path.Combine(levelFolder, "level3.txt"));
             char[,] map = {{
                     'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'}, {
                     '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
@@ -177,12 +177,12 @@ namespace BreakoutTests {
         public void TestInvalidPath() {
             Window.CreateOpenGLContext();
             try {
-                Level level = loader.CreateLevel("INVALID_PATH");
+                Level level = parser.CreateLevel("INVALID_PATH");
             } catch (ArgumentException e) {
                 //Correct exception is thrown
-                var path = FilePath.GetAbsolutePath("INVALID_PATH");
+                var path = Path.Combine(FileIO.GetProjectPath(), "INVALID_PATH");
                 Console.WriteLine(e.Message);
-                if (e.Message == "File could not be found. Invalid path: " + path)
+                if (e.Message == "File could not be found. Invalid path: " /*+ path*/)
                     Assert.Pass();
             }
             Assert.Fail();
@@ -195,12 +195,22 @@ namespace BreakoutTests {
         public void TestNoContent() {
             Window.CreateOpenGLContext();
             try {
-                Level level = loader.CreateLevel(Path.Combine(levelFolder, "noContent.txt"));
+                Level level = parser.CreateLevel(Path.Combine(levelFolder, "noContent.txt"));
             } catch (ArgumentException e) {
                 //Correct exception is thrown
-                if (e.Message == "file does not have correct format")
-                    Assert.Pass();
+                Assert.Pass();
             }
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void TestValidator() {
+            var file = Path.Combine(levelFolder, "level3-modified.txt");
+            file = Path.Combine(FileIO.GetProjectPath(), file);
+
+            string[] text = File.ReadAllText(file).Split(Environment.NewLine);
+
+            LevelValidator.ValidateLevel(text);
             Assert.Fail();
         }
 

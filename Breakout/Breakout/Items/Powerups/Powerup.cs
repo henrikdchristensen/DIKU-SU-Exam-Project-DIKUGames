@@ -72,11 +72,7 @@ namespace Breakout.Items.Powerups {
         /// <param name="player"></param>
         /// <param name="data"></param>
         public override void PlayerCollision(Player player, CollisionData data) {
-            GameBus.GetBus().RegisterEvent(new GameEvent {
-                Message = "POWERUP_ACTIVATE",
-                EventType = GameEventType.ControlEvent,
-                StringArg1 = PowerupTransformer.TransformStateToString(type)
-            });
+            GameBus.TriggerEvent(GameEventType.ControlEvent, "POWERUP_ACTIVATE", PowerupTransformer.TransformStateToString(type));
             if (duration > 0) {
                 GameBus.GetBus().RegisterTimedEvent(new GameEvent {
                     Message = "POWERUP_DEACTIVATE",

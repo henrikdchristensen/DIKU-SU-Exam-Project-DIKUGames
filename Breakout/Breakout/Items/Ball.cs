@@ -135,10 +135,7 @@ namespace Breakout.Items {
         /// <param name="level"></param>
         public override void AtDeletion(Level level) {
             level.OnBallDeletion();
-            GameBus.GetBus().RegisterEvent(new GameEvent {
-                Message = "LostLife",
-                EventType = GameEventType.PlayerEvent
-            });
+            GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
 
         /// <summary>

@@ -69,7 +69,7 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    keyPressed(key);
+                    KeyPressed(key);
                     break;
             }
         }
@@ -78,7 +78,7 @@ namespace Breakout.Game.States {
         /// 
         /// </summary>
         /// <param name="key"></param>
-        private void keyPressed(KeyboardKey key) {
+        private void KeyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
                     activeMenuButton = Math.Max(0, activeMenuButton - 1);
@@ -88,17 +88,11 @@ namespace Breakout.Game.States {
                     break;
                 case KeyboardKey.Enter:
                     if (activeMenuButton == 0) {
-                        GameBus.GetBus().RegisterEvent(new GameEvent {
-                            EventType = GameEventType.GameStateEvent,
-                            Message = "CHANGE_STATE",
-                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.GameRunning)
-                        });
+                        GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
+                            StateTransformer.TransformStateToString(GameStateType.GameRunning));
                     } else {
-                        GameBus.GetBus().RegisterEvent(new GameEvent {
-                            EventType = GameEventType.GameStateEvent,
-                            Message = "CHANGE_STATE",
-                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
-                        });
+                        GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
+                            StateTransformer.TransformStateToString(GameStateType.MainMenu));
                     }
                     break;
             }

@@ -15,6 +15,8 @@ namespace Breakout.Game.States {
         private static GameRunning instance = null;
         private GameEventBus eventBus;
         private Score score;
+        private Level currentLevel;
+        private LevelLoader loader;
         private LevelContainer levels;
         private Player player;
         private CollisionHandler collisionHandler;
@@ -106,17 +108,13 @@ namespace Breakout.Game.States {
         private void KeyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
-                    eventBus.RegisterEvent(new GameEvent {
-                        EventType = GameEventType.GameStateEvent,
-                        Message = "CHANGE_STATE_RESET",
-                        StringArg1 = StateTransformer.TransformStateToString(GameStateType.GamePaused)
-                    });
+                    GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.TransformStateToString(GameStateType.GamePaused));
                     break;
                 case KeyboardKey.Left:
-                    registerPlayerEvent("LeftPressed");
+                    GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftPressed");
                     break;
                 case KeyboardKey.Right:
-                    registerPlayerEvent("RightPressed");
+                    GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightPressed");
                     break;
                 case KeyboardKey.Space:
                     break;
@@ -130,27 +128,15 @@ namespace Breakout.Game.States {
         private void KeyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
-                    registerPlayerEvent("LeftReleased");
+                    GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftReleased");
                     break;
                 case KeyboardKey.Right:
-                    registerPlayerEvent("RightReleased");
+                    GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightReleased");
                     break;
                 case KeyboardKey.Space:
                     levels.ActiveLevel.DeleteBlock();
                     break;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        private void registerPlayerEvent(string message) {
-            var e = new GameEvent {
-                Message = message,
-                EventType = GameEventType.PlayerEvent
-            };
-            eventBus.RegisterEvent(e);
         }
 
         /// <summary>

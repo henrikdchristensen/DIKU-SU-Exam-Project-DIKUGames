@@ -139,11 +139,7 @@ namespace Breakout {
         /// 
         /// </summary>
         private void GameOver() {
-            GameBus.GetBus().RegisterEvent(new GameEvent {
-                EventType = GameEventType.GameStateEvent,
-                Message = "CHANGE_STATE_RESET",
-                StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
-            });
+            GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.TransformStateToString(GameStateType.MainMenu));
         }
 
         /// <summary> To receive events from the event bus. </summary>
