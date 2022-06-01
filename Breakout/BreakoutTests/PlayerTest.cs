@@ -71,6 +71,7 @@ namespace BreakoutTests {
                 player.Update();
             }
             float expected = 0.365f; //  // expected position on x-axis
+            
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, "" + player.GetPosition().X);
         }
 
@@ -100,7 +101,7 @@ namespace BreakoutTests {
             
             registerPlayerEvent("RightPressed");
             eventBus.ProcessEventsSequentially();
-
+            
             for (int i = 0; i < iterations; i++) {
                 player.Update();
             }
