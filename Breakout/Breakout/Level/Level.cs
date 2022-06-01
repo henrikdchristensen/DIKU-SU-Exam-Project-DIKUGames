@@ -3,7 +3,6 @@ using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using Breakout.Items;
 using Breakout;
-using Breakout.Input;
 using Breakout.Collision;
 using System.Diagnostics;
 using Breakout.Items.Powerups;

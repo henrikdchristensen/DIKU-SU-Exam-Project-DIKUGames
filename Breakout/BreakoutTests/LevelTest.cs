@@ -3,7 +3,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
 using System.IO;
-using Breakout.Input;
 using System;
 
 namespace BreakoutTests {
@@ -180,9 +179,9 @@ namespace BreakoutTests {
                 Level level = loader.CreateLevel("INVALID_PATH");
             } catch (ArgumentException e) {
                 //Correct exception is thrown
-                var path = FilePath.GetAbsolutePath("INVALID_PATH");
+                //var path = FilePath.GetAbsolutePath("INVALID_PATH");
                 Console.WriteLine(e.Message);
-                if (e.Message == "File could not be found. Invalid path: " + path)
+                if (e.Message == "File could not be found. Invalid path: " /*+ path*/)
                     Assert.Pass();
             }
             Assert.Fail();

@@ -1,4 +1,4 @@
-using Breakout.Input;
+using DIKUArcade.Utilities;
 
 namespace Breakout.Levels {
     public class LevelLoader : ILoader {
@@ -18,7 +18,7 @@ namespace Breakout.Levels {
         /// <param name="file"></param>
         /// <returns>The corresponding level</returns>
         public Level CreateLevel(string file) {
-            file = FilePath.GetAbsolutePath(file);
+            file = FileIO.GetProjectPath() + "/" + file;
 
             if (!File.Exists(file))
                 throw new ArgumentException("File could not be found. Invalid path: " + file); 
