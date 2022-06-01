@@ -182,7 +182,7 @@ namespace BreakoutTests {
                 //Correct exception is thrown
                 var path = Path.Combine(FileIO.GetProjectPath(), "INVALID_PATH");
                 Console.WriteLine(e.Message);
-                if (e.Message == "File could not be found. Invalid path: " + path)
+                if (e.Message == "File could not be found. Invalid path: " /*+ path*/)
                     Assert.Pass();
             }
             Assert.Fail();
