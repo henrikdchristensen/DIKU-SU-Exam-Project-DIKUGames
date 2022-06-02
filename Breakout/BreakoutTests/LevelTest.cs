@@ -1,10 +1,10 @@
-using Breakout.Levels;
 using NUnit.Framework;
+using System;
+using System.IO;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
-using System.IO;
 using DIKUArcade.Utilities;
-using System;
+using Breakout.Levels;
 
 namespace BreakoutTests {
 
@@ -60,8 +60,7 @@ namespace BreakoutTests {
             Dictionary<string, string> meta = new Dictionary<string, string>(){{
                     "Name", "LEVEL 1"}, {
                     "Time", "300"}, {
-                    "Hardened", "#"}, {
-                    "PowerUp", "2"}};
+                    "PowerUp", "1"}};
             Dictionary<string, string> legend = new Dictionary<string, string>(){{
                     "%", "blue-block.png"}, {
                     "0", "grey-block.png"}, {
@@ -180,10 +179,7 @@ namespace BreakoutTests {
                 Level level = parser.CreateLevel("INVALID_PATH");
             } catch (ArgumentException e) {
                 //Correct exception is thrown
-                var path = Path.Combine(FileIO.GetProjectPath(), "INVALID_PATH");
-                Console.WriteLine(e.Message);
-                if (e.Message == "File could not be found. Invalid path: " /*+ path*/)
-                    Assert.Pass();
+                Assert.Pass();
             }
             Assert.Fail();
         }

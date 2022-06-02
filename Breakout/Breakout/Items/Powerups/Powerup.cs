@@ -1,20 +1,22 @@
-﻿using Breakout.Collision;
-using DIKUArcade.Physics;
+﻿using DIKUArcade.Physics;
 using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
-using Breakout.Game;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
+using Breakout.Game;
 
 namespace Breakout.Items.Powerups {
 
-    public class Powerup : GameObject {
+    public abstract class Powerup : GameObject {
+
+        public const string ACTIVATE_MSG = "POWERUP_ACTIVATE";
+        public const string DEACTIVATE_MSG = "POWERUP_DEACTIVATE";
 
         private const float SPEED = 0.01f;
-        private double duration;
+        public float Duration { get; } = -1;
         private const float SIZE = 0.06f;
-        private PowerupType type;
+        public abstract PowerupType Type { get; }
 
         /// <summary>Creates an random powerup</summary>
         /// <param name="shape">The shape of the generated power-up</param>
@@ -26,7 +28,7 @@ namespace Breakout.Items.Powerups {
             int index = random.Next(values.Length);
             PowerupType value = (PowerupType) values.GetValue(index);
 
-            switch (value) {
+            /*switch (value) {
                 case PowerupType.ExtraLife:
                     return new Powerup(value, -1, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "LifePickUp.png")));
                 case PowerupType.Wide:
@@ -39,16 +41,15 @@ namespace Breakout.Items.Powerups {
                     return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "BigPowerUp.png")));
                 case PowerupType.HardBall:
                     return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
-            }
-            return null;
+            }TODO*/
+            return new Split(shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
         }
 
         /// <summary>Construtor for Powerup: Sets up e.g. the direction and duration of the powerup</summary>
         /// <param name="shape">The shape of the powerup</param>
         /// <param name="image">Image which should be used for the powerup</param>
-        public Powerup (PowerupType type, float duration, DynamicShape shape, IBaseImage image) : base(shape, image) {
-            this.type = type;
-            this.duration = duration;
+        public Powerup (DynamicShape shape, IBaseImage image, float duration = -1) : base(shape, image) {
+            this.Duration = duration;
             shape.ChangeDirection(new Vec2F(0, -SPEED));
             shape.Extent.X = shape.Extent.Y = SIZE;
         }
@@ -68,20 +69,21 @@ namespace Breakout.Items.Powerups {
             other.PowerUpCollision(this, data);
         }
 
+
         /// <summary>Activate/Deactivate powerups after collided (recieved) by the player</summary>
         /// <param name="player">A Player instance</param>
         /// <param name="data">Collision data passed along with the Player</param>
         public override void PlayerCollision(Player player, CollisionData data) {
-            GameBus.TriggerEvent(GameEventType.ControlEvent, "POWERUP_ACTIVATE", PowerupTransformer.StateToString(type));
-            if (duration > 0) {
-                GameBus.GetBus().RegisterTimedEvent(new GameEvent {
-                    Message = "POWERUP_DEACTIVATE",
-                    EventType = GameEventType.ControlEvent,
-                    StringArg1 = PowerupTransformer.StateToString(type)
-                }, TimePeriod.NewSeconds(duration));
-            }
+            GameBus.TriggerEvent(GameEventType.ControlEvent, ACTIVATE_MSG, objArg: this);
+            if (Duration > 0) 
+                GameBus.TriggerTimedEvent(GameEventType.ControlEvent, Duration, DEACTIVATE_MSG, objArg: this);
+
             DeleteEntity(); 
         }
+
+        public abstract void Activate();
+
+        public abstract void Deactivate();
 
     }
 

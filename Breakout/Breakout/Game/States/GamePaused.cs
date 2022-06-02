@@ -5,6 +5,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 
 namespace Breakout.Game.States {
+
     public class GamePaused : IGameState {
 
         private static GamePaused instance = null;
@@ -14,11 +15,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of GamePaused</returns>
         public static GamePaused GetInstance() {
-            if (GamePaused.instance == null) {
-                GamePaused.instance = new GamePaused();
-                GamePaused.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new GamePaused();
+                instance.InitializeGameState();
             }
-            return GamePaused.instance;
+            return instance;
         }
 
         /// <summary>Initialize the game state by setting correct menu items</summary>
@@ -35,10 +36,8 @@ namespace Breakout.Game.States {
             activeMenuButton = 0;
         }
 
-        /// <summary>No code</summary>
-        public void UpdateState() {
-
-        }
+        /// <summary>No code (needs to be implemented - interface)</summary>
+        public void UpdateState() { }
 
         /// <summary>Set correct color to menu buttons</summary>
         public void RenderState() {
@@ -57,14 +56,14 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    KeyPressed(key);
+                    keyPressed(key);
                     break;
             }
         }
 
         /// <summary>Handle different KeyPressed action</summary>
         /// <param name="key">A key could be Key-Up, Key-Down or Enter</param>
-        private void KeyPressed(KeyboardKey key) {
+        private void keyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
                     activeMenuButton = Math.Max(0, activeMenuButton - 1);
@@ -85,4 +84,5 @@ namespace Breakout.Game.States {
         }
 
     }
+
 }

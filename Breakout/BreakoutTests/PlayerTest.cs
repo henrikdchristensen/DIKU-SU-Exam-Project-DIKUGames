@@ -140,11 +140,7 @@ namespace BreakoutTests {
         [TestCase(4, "RightPressed", 0.5f+0.045f)] // testing acceleration
 
         public void TestMove(int iterations, string action, float expected) {
-            switch (branch)
-            {
-                
-                default:
-            }
+
             registerPlayerEvent(action);
             eventBus.ProcessEventsSequentially();
             for (int i = 0; i < iterations; i++) {

@@ -5,9 +5,7 @@ namespace Breakout.Game {
 
     public class StateMachine : IGameEventProcessor {
 
-        public IGameState ActiveState {
-            get; private set;
-        }
+        public IGameState ActiveState { get; private set; }
 
         /// <summary>
         /// Constructor for StateMachine: Instantiate the state instances and subscribes for GameStateEvents
@@ -23,7 +21,7 @@ namespace Breakout.Game {
 
         /// <summary>Switch to a new active state</summary>
         /// <param name="stateType">The state which should be shifted to</param>
-        private void SwitchState(GameStateType stateType) {
+        private void switchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.MainMenu:
                     ActiveState = States.MainMenu.GetInstance();
@@ -44,10 +42,10 @@ namespace Breakout.Game {
                 GameStateType state = StateTransformer.StringToState(gameEvent.StringArg1);
                 switch (gameEvent.Message) {
                     case "CHANGE_STATE":
-                        SwitchState(state);
+                        switchState(state);
                         break;
                     case "CHANGE_STATE_RESET":
-                        SwitchState(state);
+                        switchState(state);
                         ActiveState.ResetState();
                         break;
                 }

@@ -15,11 +15,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of MainMenu</returns>
         public static MainMenu GetInstance() {
-            if (MainMenu.instance == null) {
-                MainMenu.instance = new MainMenu();
-                MainMenu.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new MainMenu();
+                instance.InitializeGameState();
             }
-            return MainMenu.instance;
+            return instance;
         }
 
         /// <summary>Initialize the game state by setting correct menu items</summary>
@@ -54,14 +54,14 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    KeyPressed(key);
+                    keyPressed(key);
                     break;
             }
         }
 
         /// <summary>Handle different KeyPressed action</summary>
         /// <param name="key">A key which could be Key-Up, Key-Down or Enter</param>
-        private void KeyPressed(KeyboardKey key) {
+        private void keyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
                     activeMenuButton = Math.Max(0, activeMenuButton - 1);

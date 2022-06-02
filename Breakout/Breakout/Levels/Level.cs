@@ -1,39 +1,33 @@
+using System.Diagnostics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
+using DIKUArcade.Events;
+using Breakout.Game;
 using Breakout.Items;
 using Breakout.Collision;
-using System.Diagnostics;
 using Breakout.Items.Powerups;
-using Breakout.Game;
-using DIKUArcade.Events;
 
 namespace Breakout.Levels {
 
-    public class Level {
+    public class Level : IGameEventProcessor {
+
+        public const string ADD_GAMEOBJECT_MSG = "ADD_GAMOBJECT_MSG";
 
         private Text display;
         private Stopwatch stopwatch = new Stopwatch();
         private int timeToEnd;
-        public char[,] Map {
-            get;
-        }
-        public Dictionary<string, string> Meta {
-            get;
-        }
-        public Dictionary<string, string> Legend {
-            get;
-        }
+        public char[,] Map { get; }
+        public Dictionary<string, string> Meta { get; }
+        public Dictionary<string, string> Legend { get; }
         private EntityContainer<GameObject> items = new EntityContainer<GameObject>();
-        private int balls = 0;
+        private BallContainer ballContainer;
         private Vec2F blockSize;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="map"></param>
-        /// <param name="meta"></param>
-        /// <param name="legend"></param>
+        /// <summary>TODO</summary>
+        /// <param name="map">TODO</param>
+        /// <param name="meta">TODO</param>
+        /// <param name="legend">TODO</param>
         public Level(char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
             Meta = meta;
@@ -41,81 +35,56 @@ namespace Breakout.Levels {
             
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
 
-            string time = MetaTransformer.TransformStateToString(MetaType.Time);
-            if (Meta.ContainsKey(time)) {
-                try {
-                    timeToEnd = Int32.Parse(Meta[time]);
-                    stopwatch.Start();
-                    Console.WriteLine("TIME ADDED: {0}", timeToEnd);
-                    if (timeToEnd > 0) {
-                        display = new Text((timeToEnd-stopwatch.ElapsedMilliseconds/1000).ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
-                        display.SetColor(new Vec3F(1f, 1f, 1f));
-                    }
-                } catch (FormatException) {
-                    Console.WriteLine($"Unable to parse meta time '{Meta[time]}'");
-                }
-            }
-
             generateBlocks();
         }
 
+        /// <summary>TODO</summary>
+        /// <param name="obj">TODO</param>
         public void AddGameObject(GameObject obj) {
             items.AddEntity(obj);
             CollisionHandler.GetInstance().Subsribe(obj);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void spawnBall() {
-            balls++;
-            Ball ball = new Ball(
-                new DynamicShape(0.5f, 0.1f, 0.03f, 0.03f),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
 
-            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ball);
-            AddGameObject(ball);
-        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void OnBallDeletion() {
-            balls--;
-            if (balls <= 0)
-                spawnBall();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Activate() {
             items.Iterate(CollisionHandler.GetInstance().Subsribe);
-            spawnBall();
+            ballContainer = new BallContainer();
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ballContainer);
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, this);
+
+            //Start timer if field is set in metadata
+            string time = MetaTransformer.TransformStateToString(MetaType.Time);
+            if (Meta.ContainsKey(time)) {
+                timeToEnd = int.Parse(Meta[time]);
+                stopwatch.Start();
+                if (timeToEnd > 0) {
+                    display = new Text($"{timeToEnd}", new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
+                    display.SetColor(new Vec3F(1f, 1f, 1f));
+                }
+            
+            }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Update() {
             //Delete entities that have been marked for deletion
             items = DeleteMarkedEntity(items);
-
             if (hasWon()) {
-                Destroy();
+                Deactivate();
                 LevelContainer.GetLevelContainer().NextLevel();
                 return;
             }
-
             foreach (GameObject item in items)
                 item.Update();
+
+            ballContainer.Update();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="entities">TODO</param>
+        /// <returns>TODO</returns>
         private EntityContainer<GameObject> DeleteMarkedEntity(EntityContainer<GameObject> entities)  {
             var newList = new EntityContainer<GameObject>();
             foreach (GameObject obj in entities) {
@@ -123,34 +92,29 @@ namespace Breakout.Levels {
                     newList.AddEntity(obj);
                 }
                 else {
-                    obj.AtDeletion(this);
+                    obj.AtDeletion();
                 }
             }
             return newList;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         public void Render() {
             items.RenderEntities();
-            RenderTime();
+            ballContainer.Render();
+            renderTime();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void RenderTime() {
+        /// <summary>TODO</summary>
+        private void renderTime() {
             if (stopwatch.ElapsedMilliseconds / 1000 < timeToEnd) {
                 display.SetText((timeToEnd - stopwatch.ElapsedMilliseconds / 1000).ToString());
                 display.RenderText();
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <returns>TODO</returns>
         private bool hasWon() {
             foreach (GameObject item in items) {
                 if (item.IsDestroyable && !item.IsDeleted()) {
@@ -160,34 +124,28 @@ namespace Breakout.Levels {
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO</summary>
         private void generateBlocks() {
             for (int i = 0; i < Map.GetLength(0); i++) {
                 for (int j = 0; j < Map.GetLength(1); j++) {
                     string c = Map[i, j] + "";
                     if (Legend.ContainsKey(c)) {
-
                         Block block = chooseBlock(c, new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y));
                         items.AddEntity(block);
                     }
-
                 }
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Destroy() {
+        /// <summary>TODO</summary>
+        public void Deactivate() {
+            GameBus.GetBus().Unsubscribe(GameEventType.ControlEvent, this);
+            ballContainer.Destroy();
             foreach (GameObject item in items)
                 item.DeleteEntity();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>TODO: SHOULD BE DELETED</summary>
         public void DeleteBlock() {
             foreach (GameObject item in items) {
                 if (item is Block) {
@@ -197,12 +155,10 @@ namespace Breakout.Levels {
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="symbol"></param>
-        /// <param name="shape"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="symbol">TODO</param>
+        /// <param name="shape">TODO</param>
+        /// <returns>TODO</returns>
         private Block chooseBlock(string symbol, StationaryShape shape) {
             var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
@@ -214,41 +170,32 @@ namespace Breakout.Levels {
             if (Meta.ContainsKey(powerup) && Meta[powerup] == symbol) {
                 return new PowerupBlock(shape, img);
             }
-
             string unbreakable = MetaTransformer.TransformStateToString(MetaType.BlockUnbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
                 return new Unbreakable(shape, img);
 
             return new Block(shape, img);
-
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <param name="obj">TODO</param>
+        /// <returns>TODO</returns>
         public override bool Equals(object obj) {
             Level? other = obj as Level;
-
             if (other == null ||
                     other.Map.Length != Map.Length ||
                     other.Meta.Count != Meta.Count || other.Meta.Except(Meta).Any() ||
                     other.Legend.Count != Legend.Count || other.Legend.Except(Legend).Any())
                 return false;
-
             for (int i = 0; i < Map.GetLength(0); i++)
                 for (int j = 0; j < Map.GetLength(1); j++)
                     if (Map[i, j] != other.Map[i, j])
                         return false;
-
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <summary>TODO</summary>
+        /// <returns>TODO</returns>
         public override string ToString() {
             string map = "map = {{";
             for (int i = 0; i < Map.GetLength(0); i++) {
@@ -280,6 +227,15 @@ namespace Breakout.Levels {
             return map + meta + legend;
         }
 
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.ControlEvent) {
+                switch (gameEvent.Message) {
+                    case ADD_GAMEOBJECT_MSG:
+                        AddGameObject((GameObject) gameEvent.ObjectArg1);
+                        break;
+                }
+            }
+        }
     }
 
 }

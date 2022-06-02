@@ -7,6 +7,7 @@ using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
 using Breakout.Items;
+using Breakout.Items.Powerups;
 
 namespace Breakout.Game.States {
 
@@ -15,8 +16,8 @@ namespace Breakout.Game.States {
         private static GameRunning instance = null;
         private GameEventBus eventBus;
         private Score score;
-        private Level currentLevel;
-        private LevelLoader loader;
+        private Level currentLevel; //TODO: Should it be removed?
+        private LevelLoader loader; //TODO: Should it be removed?
         private LevelContainer levels;
         private Player player;
         private CollisionHandler collisionHandler;
@@ -25,11 +26,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of GameRunning</returns>
         public static GameRunning GetInstance() {
-            if (GameRunning.instance == null) {
-                GameRunning.instance = new GameRunning();
-                GameRunning.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new GameRunning();
+                instance.InitializeGameState();
             }
-            return GameRunning.instance;
+            return instance;
         }
 
         /// <summary>
@@ -37,6 +38,7 @@ namespace Breakout.Game.States {
         /// player and collisionHandler
         /// </summary>
         public void InitializeGameState() {
+            PowerupContainer.GetPowerupContainer(); //is initialized
             levels = LevelContainer.GetLevelContainer();
             
             score = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));
@@ -84,17 +86,17 @@ namespace Breakout.Game.States {
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:
-                    KeyPress(key);
+                    keyPress(key);
                     break;
                 case KeyboardAction.KeyRelease:
-                    KeyRelease(key);
+                    keyRelease(key);
                     break;
             }
         }
 
         /// <summary>Handle the different KeyPress actions and trigger their events</summary>
         /// <param name="key">A key could be Escape, Key-Left or Key-Right</param>
-        private void KeyPress(KeyboardKey key) {
+        private void keyPress(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Escape:
                     GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.GamePaused));
@@ -112,7 +114,7 @@ namespace Breakout.Game.States {
 
         /// <summary>Handle KeyRelease actions and trigger their events</summary>
         /// <param name="key">A key could be Key-Left, Key-Right or Space</param>
-        private void KeyRelease(KeyboardKey key) {
+        private void keyRelease(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Left:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "LeftReleased");

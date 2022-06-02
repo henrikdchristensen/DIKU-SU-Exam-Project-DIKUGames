@@ -17,7 +17,7 @@ namespace Breakout.Game {
             eventBus = GameBus.GetBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.PlayerEvent, GameEventType.GameStateEvent, GameEventType.WindowEvent, GameEventType.StatusEvent, GameEventType.ControlEvent });
             eventBus.Subscribe(GameEventType.WindowEvent, this);
-            window.SetKeyEventHandler(KeyHandler);
+            window.SetKeyEventHandler(keyHandler);
             stateMachine = new StateMachine();
         }
 
@@ -35,7 +35,7 @@ namespace Breakout.Game {
         /// <summary>Call HandleKeyEvent for the active state</summary>
         /// <param name="action">An KeyBoardAction for sending over to activeState</param>
         /// <param name="key">A KeyBoardKey for sending over to activeState</param>
-        private void KeyHandler(KeyboardAction action, KeyboardKey key) {
+        private void keyHandler(KeyboardAction action, KeyboardKey key) {
             stateMachine.ActiveState.HandleKeyEvent(action, key);
         }
 
