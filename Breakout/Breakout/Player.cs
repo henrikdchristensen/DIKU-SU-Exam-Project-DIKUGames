@@ -63,9 +63,7 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Update the movement of the player based on direction and acceleration</summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
@@ -82,62 +80,50 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Reset direction of the player</summary>
         private void resetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to left direction</summary>
+        /// <param name="val">True: Continous movement to left, False: No movement</param>
         private void setMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to right direction</summary>
+        /// <param name="val">True: Continous movement to right, False: No movement</param>
         private void setMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
 
-        /// <summary> Get the current position of the player. </summary>
-        /// <returns> The current position </returns>
+        /// <summary>Get the current position of the player</summary>
+        /// <returns>The current position</returns>
         public Vec2F GetPosition() {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Loose a life</summary>
         private void looseLife() {
             life--;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Adds a life</summary>
         private void addLife() {
             life++;
             display.SetText(life.ToString());
         }
 
-        /// <summary> Reset life </summary>
+        /// <summary>Reset life</summary>
         public void Reset() {
             life = START_LIVES;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Going to Main Menu if GameOver</summary>
         private void gameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
@@ -178,10 +164,8 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="type">TODO</param>
+        /// <summary>Handle dequed power up events</summary>
+        /// <param name="type">Type of powerup</param>
         private void handlePowerups(string type) {
             switch (type) {
                 case "EXTRA_LIFE_ACTIVATE":
@@ -204,11 +188,11 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="other">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Accepts another GameObject and put the player's instance itself into
+        /// the other GameObject toghether with collision data
+        /// (Visitor Pattern)</summary>
+        /// <param name="other">Another GameObject</param>
+        /// <param name="data">Collision data of the other GameObject</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.PlayerCollision(this, data);
         }
