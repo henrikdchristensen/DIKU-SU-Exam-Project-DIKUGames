@@ -1,6 +1,6 @@
 ﻿namespace Breakout.Items {
 
-    /// <summary>TODO</summary>
+    /// <summary>Enum containing the different Meta types</summary>
     public enum MetaType {
         BlockHardened,
         BlockUnbreakable,
@@ -10,12 +10,12 @@
 
     public class MetaTransformer {
 
-        /// <summary>TODO</summary>
-        /// <param name="state">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Convert a MetaType to a String</summary>
+        /// <param name="type">MetaType</param>
+        /// <returns>The converted MetaType as String</returns>
         /// <exception cref="ArgumentException"></exception>
-        public static string TransformStateToString(MetaType state) {
-            switch (state) {
+        public static string StateToString(MetaType type) {
+            switch (type) {
                 case MetaType.BlockHardened:
                     return "Hardened";
                 case MetaType.BlockUnbreakable:

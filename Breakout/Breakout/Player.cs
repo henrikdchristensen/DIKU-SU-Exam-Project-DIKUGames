@@ -24,10 +24,9 @@ namespace Breakout {
         private DynamicShape shape;
         private const float START_SPEED = 0.015f;
 
-        /// <summary> A player in the game </summary>
-        /// <param name = "shape"> the shape of the player </param>
-        /// <param name = "image"> the image of the player </param>
-        /// <returns> A player instance </returns>
+        /// <summary>Constructor of Player: Setup start life, speed and life</summary>
+        /// <param name="shape">The shape of the player</param>
+        /// <param name="image">The image of the player</param>
         public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
             this.shape = shape;
             life = START_LIVES;
@@ -38,13 +37,13 @@ namespace Breakout {
 
         }
 
-        /// <summary> Render the player </summary>
+        /// <summary>Render the player</summary>
         public void Render() {
             RenderEntity();
             display.RenderText();
         }
 
-        /// <summary> Move the player according to its direction </summary>
+        /// <summary>Move the player according to its direction</summary>
         public override void Update() {
             updateMovement();
             shape.Move();
@@ -58,9 +57,7 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>TODO</summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
