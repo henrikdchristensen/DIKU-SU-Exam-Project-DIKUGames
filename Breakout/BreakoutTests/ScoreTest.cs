@@ -44,7 +44,11 @@ namespace BreakoutTests {
             Assert.True(score.GetScore() == int.MaxValue, TestLogger.OnFailedTestMessage<int>(int.MaxValue, score.GetScore()));
         }
 
-        /// <summary>Blackbox: Test resetting score</summary>
+        /// <summary>
+        /// Blackbox: Test resetting score.
+        /// Case:   Expected output:    Comment:
+        /// add=1   0                   After adding 1 point and reset, then score should be 0 again.
+        /// </summary>
         [Test]
         public void TestResetScore() {
             score.AddPoints();
