@@ -19,7 +19,7 @@ namespace BreakoutTests {
         [Test]
         public void CollisionBallAndBlockTest() {
             DynamicShape shape = new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f);
-            Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.1)
+            //Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.1)
             Block block = new Block(new StationaryShape(0.4f, 0.4f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.5)
 
             // Store old direction and health for comparing
@@ -27,7 +27,7 @@ namespace BreakoutTests {
             int oldHealth = block.Health;
 
             // Put ball and block in collision table
-            collision.Subsribe(ball);
+            //collision.Subsribe(ball);
             collision.Subsribe(block);
 
             // Move ball towards block for colliding
@@ -47,14 +47,14 @@ namespace BreakoutTests {
         [Test]
         public void CollisionBallAndPlayerTest() {
             DynamicShape shape = new DynamicShape(0.4f, 0.4f, 0.1f, 0.1f);
-            Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.4)
+            //Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.4)
             Player player = new Player(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.1)
 
             // Store old direction
             Vec2F oldDir = shape.Direction.Copy();
 
             // Put ball and block in collision table
-            collision.Subsribe(ball);
+            //collision.Subsribe(ball);
             collision.Subsribe(player);
 
             shape.ChangeDirection(new Vec2F(0.0f, -1.0f)); // move ball towards player for colliding

@@ -32,7 +32,7 @@ namespace Breakout.Items {
         /// <param name="level">TODO</param>
         public override void AtDeletion() {
             DeleteEntity();
-            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: value);
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: PointReward);
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace Galaga.GalagaStates {
         }
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.GameStateEvent) {
-                GameStateType state = StateTransformer.TransformStringToState(gameEvent.StringArg1);
+                GameStateType state = StateTransformer.StringToState(gameEvent.StringArg1);
                 switch (gameEvent.Message) {
                     case "CHANGE_STATE":
                         SwitchState(state);

@@ -199,7 +199,7 @@ namespace Galaga.GalagaStates {
                     eventBus.RegisterEvent(new GameEvent {
                         EventType = GameEventType.GameStateEvent,
                         Message = "CHANGE_STATE_RESET",
-                        StringArg1 = StateTransformer.TransformStateToString(GameStateType.GamePaused)
+                        StringArg1 = StateTransformer.StateToString(GameStateType.GamePaused)
                     });
                     break;
                 case KeyboardKey.Left:
