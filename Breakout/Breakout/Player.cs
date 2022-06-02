@@ -77,62 +77,50 @@ namespace Breakout {
             }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Reset direction of the player</summary>
         private void resetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to left</summary>
+        /// <param name="val">If true then continous movement to left. If false, then no movement</param>
         private void setMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to right</summary>
+        /// <param name="val">If true then continous movement to right. If false, then no movement</param>
         private void setMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
 
-        /// <summary> Get the current position of the player. </summary>
-        /// <returns> The current position </returns>
+        /// <summary>Get the current position of the player</summary>
+        /// <returns>The current position</returns>
         public Vec2F GetPosition() {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Loose on life and reduce it also on the screen</summary>
         private void looseLife() {
             life--;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Adds a life to player and sets the new one to the screen</summary>
         private void addLife() {
             life++;
             display.SetText(life.ToString());
         }
 
-        /// <summary> Reset life </summary>
+        /// <summary>Reset amount of life</summary>
         public void Reset() {
             life = START_LIVES;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
         private void gameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
@@ -178,12 +166,12 @@ namespace Breakout {
             }
         }
 
-
         /// <summary>
-        /// TODO
+        /// Accepts another GameObject if an collision with another GameObject has occured
+        /// (Visitor Pattern)
         /// </summary>
-        /// <param name="other">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <param name="other">The other GameObject</param>
+        /// <param name="data">Collision data</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.PlayerCollision(this, data);
         }
