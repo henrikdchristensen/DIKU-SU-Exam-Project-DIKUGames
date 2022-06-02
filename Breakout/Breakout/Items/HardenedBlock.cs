@@ -12,7 +12,7 @@ public class HardenedBlock : Block {
     /// <param name="blockStridesAlt">TODO</param>
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
-        Value *= 2;
+        PointReward *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 
