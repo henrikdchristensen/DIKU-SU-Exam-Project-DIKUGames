@@ -15,32 +15,37 @@ namespace Breakout.Items {
         public const string SCALE_SIZE_MSG = "SCALE_BALL_SIZE";
         public const string SCALE_SPEED_MSG = "SCALE_BALL_SPEED";
 
-        private const float START_SPEED = 0.01f;
-        private const double MAX_START_ANGLE = Math.PI / 2;
-        public bool isHard { get; private set; }
-        private readonly Vec2F startPos;
+        private const double RAND_ANGLE_INTERVAL = Math.PI / 2;
+        private readonly Vec2F defaultDir = new Vec2F(0, 0.01f);
+        private readonly Vec2F originalPos;
+
+        private bool isHard = false;
+        
 
         /// <summary>Constructor for Ball: Setup the</summary>
         /// <param name="shape">The shape of the ball</param>
         /// <param name="image">An image which should be used for Ball</param>
-        public Ball (Vec2F position, Vec2F extent, IBaseImage image, float speed = START_SPEED, int dir = 1, bool isHard = false, Vec2F startPos = null) : base(new DynamicShape(position, extent), image) {
-            this.startPos = startPos ?? position.Copy();
-            SetRandomDirection(speed, dir);
-            this.isHard = isHard;  
+        private Ball (Vec2F position, Vec2F extent, Vec2F dir, Vec2F originalPos, IBaseImage image) : base(new DynamicShape(position, extent), image) {
+            this.originalPos = originalPos;
+            SetRandomDirection(dir);
         }
 
-        private void SetRandomDirection(float speed, int direction = 1) {
+        public Ball(Vec2F position, Vec2F extent, IBaseImage image) : base(new DynamicShape(position, extent), image) {
+            originalPos = position.Copy();
+            SetRandomDirection(defaultDir);
+        }
+
+        private void SetRandomDirection(Vec2F dir) {
             Random rand = new Random();
-            float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
-            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle) * Math.Sign(direction));
-            dir *= speed;
-            DynamicShape shape = Shape.AsDynamicShape();
-            shape.Direction = dir;
+            float angle = (float) (rand.NextDouble() * RAND_ANGLE_INTERVAL + Math.PI / 4) * Math.Sign(dir.Y);
+            Vec2F newDir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
+            newDir *= (float) dir.Length();
+            Shape.AsDynamicShape().Direction = newDir;
         }
 
         public void ResetPosition() {
-            Shape.Position = startPos.Copy();
-            SetRandomDirection(START_SPEED);
+            Shape.Position = originalPos.Copy();
+            SetRandomDirection(defaultDir);
         }
 
         /// <summary>TODO</summary>
@@ -108,9 +113,11 @@ namespace Breakout.Items {
 
             //calculate: dir - 2 (dir dot-produkt normal) * normal
             Vec2F dir = Shape.AsDynamicShape().Direction;
+            float speed = (float) dir.Length();
             float dotProduct = Vec2F.Dot(normal, dir); //TODO
             Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir += other.Direction * 0.25f;
+            newDir *= speed / (float) newDir.Length();
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }
 
@@ -125,14 +132,14 @@ namespace Breakout.Items {
 
         /// <summary>TODO</summary>
         /// <param name="level">TODO</param>
-        public override void AtDeletion(Level level) {
+        public override void AtDeletion() {
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
 
         public Ball Clone() {
             var shape = Shape.AsDynamicShape();
-            float speed = (float) shape.Direction.Length();
-            return new Ball(shape.Position.Copy(), shape.Extent.Copy(), Image, speed, Math.Sign(shape.Direction.Y), isHard, startPos);
+            return new Ball(shape.Position.Copy(), shape.Extent.Copy(),
+                            shape.Direction.Copy(), originalPos.Copy(), Image);
         }
 
         /// <summary>TODO</summary>

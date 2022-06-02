@@ -30,9 +30,9 @@ namespace Breakout.Items {
 
         /// <summary>TODO</summary>
         /// <param name="level">TODO</param>
-        public override void AtDeletion(Level level) {
+        public override void AtDeletion() {
             DeleteEntity();
-            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", "", value);
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: value);
         }
 
         /// <summary>TODO</summary>

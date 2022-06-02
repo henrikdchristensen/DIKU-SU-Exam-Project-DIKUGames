@@ -10,7 +10,9 @@ using Breakout.Items.Powerups;
 
 namespace Breakout.Levels {
 
-    public class Level {
+    public class Level : IGameEventProcessor {
+
+        public const string ADD_GAMEOBJECT_MSG = "ADD_GAMOBJECT_MSG";
 
         private Text display;
         private Stopwatch stopwatch = new Stopwatch();
@@ -19,7 +21,7 @@ namespace Breakout.Levels {
         public Dictionary<string, string> Meta { get; }
         public Dictionary<string, string> Legend { get; }
         private EntityContainer<GameObject> items = new EntityContainer<GameObject>();
-        private BallContainer ballContainer = new BallContainer();
+        private BallContainer ballContainer;
         private Vec2F blockSize;
 
         /// <summary>TODO</summary>
@@ -30,24 +32,8 @@ namespace Breakout.Levels {
             Map = map;
             Meta = meta;
             Legend = legend;
-            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ballContainer);
             
             blockSize = new Vec2F(1f / Map.GetLength(1), 1f / Map.GetLength(0));
-
-            string time = MetaTransformer.TransformStateToString(MetaType.Time);
-            if (Meta.ContainsKey(time)) {
-                try {
-                    timeToEnd = Int32.Parse(Meta[time]);
-                    stopwatch.Start();
-                    Console.WriteLine("TIME ADDED: {0}", timeToEnd);
-                    if (timeToEnd > 0) {
-                        display = new Text((timeToEnd-stopwatch.ElapsedMilliseconds/1000).ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
-                        display.SetColor(new Vec3F(1f, 1f, 1f));
-                    }
-                } catch (FormatException) {
-                    Console.WriteLine($"Unable to parse meta time '{Meta[time]}'");
-                }
-            }
 
             generateBlocks();
         }
@@ -64,7 +50,21 @@ namespace Breakout.Levels {
         /// <summary>TODO</summary>
         public void Activate() {
             items.Iterate(CollisionHandler.GetInstance().Subsribe);
-            ballContainer.AddBall();
+            ballContainer = new BallContainer();
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ballContainer);
+            GameBus.GetBus().Subscribe(GameEventType.ControlEvent, this);
+
+            //Start timer if field is set in metadata
+            string time = MetaTransformer.TransformStateToString(MetaType.Time);
+            if (Meta.ContainsKey(time)) {
+                timeToEnd = int.Parse(Meta[time]);
+                stopwatch.Start();
+                if (timeToEnd > 0) {
+                    display = new Text($"{timeToEnd}", new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
+                    display.SetColor(new Vec3F(1f, 1f, 1f));
+                }
+            
+            }
         }
 
         /// <summary>TODO</summary>
@@ -72,7 +72,7 @@ namespace Breakout.Levels {
             //Delete entities that have been marked for deletion
             items = DeleteMarkedEntity(items);
             if (hasWon()) {
-                Destroy();
+                Deactivate();
                 LevelContainer.GetLevelContainer().NextLevel();
                 return;
             }
@@ -92,7 +92,7 @@ namespace Breakout.Levels {
                     newList.AddEntity(obj);
                 }
                 else {
-                    obj.AtDeletion(this);
+                    obj.AtDeletion();
                 }
             }
             return newList;
@@ -138,13 +138,14 @@ namespace Breakout.Levels {
         }
 
         /// <summary>TODO</summary>
-        public void Destroy() {
+        public void Deactivate() {
+            GameBus.GetBus().Unsubscribe(GameEventType.ControlEvent, this);
             ballContainer.Destroy();
             foreach (GameObject item in items)
                 item.DeleteEntity();
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>TODO: SHOULD BE DELETED</summary>
         public void DeleteBlock() {
             foreach (GameObject item in items) {
                 if (item is Block) {
@@ -226,6 +227,15 @@ namespace Breakout.Levels {
             return map + meta + legend;
         }
 
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.ControlEvent) {
+                switch (gameEvent.Message) {
+                    case ADD_GAMEOBJECT_MSG:
+                        AddGameObject((GameObject) gameEvent.ObjectArg1);
+                        break;
+                }
+            }
+        }
     }
 
 }

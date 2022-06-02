@@ -25,7 +25,7 @@ namespace Breakout.Levels {
         /// <summary>TODO</summary>
         public void Reset() {
             levelCounter = 0;
-            ActiveLevel?.Destroy();
+            ActiveLevel?.Deactivate();
             initializeLevels();
         }
 
