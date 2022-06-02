@@ -18,6 +18,7 @@ namespace Breakout.Items {
 
         public BallContainer() {}
 
+        /// <summary>Adds a new (cloned) ball to the game</summary>
         public void AddBall() {
             Ball ball;
             if (balls.Count == 0) {
@@ -32,17 +33,23 @@ namespace Breakout.Items {
             
         }
 
+        /// <summary>Adds the new ball to the list of balls and triggers an event</summary>
+        /// <param name="ball">A ball object</param>
         private void addBall(Ball ball) {
             balls.Add(ball);
             GameBus.GetBus().Subscribe(GameEventType.ControlEvent, ball);
             CollisionHandler.GetInstance().Subsribe(ball);
         }
 
+        /// <summary>Render each ball in the list of balls</summary>
         public void Render() {
             foreach (Ball ball in balls)
                 ball.Render();
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         public void Update() {
             if (splitBallsNext) {
                 splitBalls();
@@ -56,6 +63,8 @@ namespace Breakout.Items {
                     balls[i].Update();
         }
 
+        /// <summary>Remove the ball from the list of balls</summary>
+        /// <param name="ball">A ball object</param>
         private void RemoveBall(Ball ball) {
             if (balls.Count == 1) {
                 AddBall();
@@ -64,11 +73,15 @@ namespace Breakout.Items {
             balls.Remove(ball);
         }
 
+        /// <summary>Deletes every ball</summary>
         public void Destroy() {
             foreach (Ball ball in balls)
                 ball.DeleteEntity();
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void splitBalls() {
             int len = balls.Count;
             for (int i = 0; i < numOfTimes; i++) {
@@ -77,6 +90,10 @@ namespace Breakout.Items {
             }
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="gameEvent">TODO</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
