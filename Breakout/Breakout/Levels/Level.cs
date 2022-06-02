@@ -55,7 +55,7 @@ namespace Breakout.Levels {
             GameBus.GetBus().Subscribe(GameEventType.ControlEvent, this);
 
             //Start timer if field is set in metadata
-            string time = MetaTransformer.TransformStateToString(MetaType.Time);
+            string time = MetaTransformer.StateToString(MetaType.Time);
             if (Meta.ContainsKey(time)) {
                 timeToEnd = int.Parse(Meta[time]);
                 stopwatch.Start();
@@ -163,14 +163,14 @@ namespace Breakout.Levels {
             var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
 
-            string hardened = MetaTransformer.TransformStateToString(MetaType.BlockHardened);
+            string hardened = MetaTransformer.StateToString(MetaType.BlockHardened);
             if (Meta.ContainsKey(hardened) && Meta[hardened] == symbol) 
                 return new HardenedBlock(shape, img, dmg);
-            string powerup = MetaTransformer.TransformStateToString(MetaType.PowerUp);
+            string powerup = MetaTransformer.StateToString(MetaType.PowerUp);
             if (Meta.ContainsKey(powerup) && Meta[powerup] == symbol) {
                 return new PowerupBlock(shape, img);
             }
-            string unbreakable = MetaTransformer.TransformStateToString(MetaType.BlockUnbreakable);
+            string unbreakable = MetaTransformer.StateToString(MetaType.BlockUnbreakable);
             if (Meta.ContainsKey(unbreakable) && Meta[unbreakable] == symbol)
                 return new Unbreakable(shape, img);
 

@@ -16,8 +16,8 @@ public class Unbreakable : Block {
     /// <summary>Accepts another GameObject if collision has occured with another object.</summary>
     /// <param name="other">The other GameObject</param>
     /// <param name="data">Collision data</param>
-    public override void Accept(GameObject other, CollisionData data) {
-        other.UnbreakableCollision(this, data);
+    public override void Accept(GameObject other, CollisionHandlerData data) {
+        other.UnbreakableCollision(data);
     }
 
 }
