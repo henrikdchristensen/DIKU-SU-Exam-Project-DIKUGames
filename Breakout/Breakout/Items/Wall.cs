@@ -1,6 +1,7 @@
 ﻿using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
@@ -21,8 +22,8 @@ namespace Breakout.Items {
         /// <summary>TODO</summary>
         /// <param name="other">TODO</param>
         /// <param name="data">TODO</param>
-        public override void Accept(GameObject other, CollisionData data) {
-            other.WallCollision(this, data);
+        public override void Accept(GameObject other, CollisionHandlerData data) {
+            other.WallCollision(data);
         }
 
     }

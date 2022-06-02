@@ -6,6 +6,7 @@ using DIKUArcade.Events;
 using Breakout.Levels;
 using Breakout.Game;
 using Breakout.Items.Powerups;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
@@ -73,44 +74,43 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other">Another GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionData data) {
-            other.BallCollision(this, data);
+        public override void Accept(GameObject other, CollisionHandlerData data) {
+            other.BallCollision(data);
         }
 
         /// <summary>Change direction if collision has occured with a block</summary>
         /// <param name="block">A Block object</param>
         /// <param name="data">Collision data</param>
-        public override void BlockCollision(Block block, CollisionData data) {
+        public override void BlockCollision(CollisionHandlerData data) {
             if (!isHard)
-                changeDirection(block, data);
+                changeDirection(data);
         }
 
         /// <summary>Change direction if collision has occured with a player</summary>
         /// <param name="player">A player object</param>
         /// <param name="data">Collision data</param>
-        public override void PlayerCollision(Player player, CollisionData data) {
-            changeDirection(player, data);
+        public override void PlayerCollision(CollisionHandlerData data) {
+            changeDirection(data);
         }
 
         /// <summary>Change direction if collision has occured with a wall</summary>
         /// <param name="wall">A wall object</param>
         /// <param name="data">Collision data</param>
-        public override void WallCollision(Wall wall, CollisionData data) {
-            changeDirection(wall, data);
+        public override void WallCollision(CollisionHandlerData data) {
+            changeDirection(data);
         }
 
         /// <summary>Change direction if collision has occured with a wall</summary>
         /// <param name="block">A block object</param>
         /// <param name="data">Collision data</param>
-        public override void UnbreakableCollision(Unbreakable block, CollisionData data) {
-            changeDirection(block, data);
+        public override void UnbreakableCollision(CollisionHandlerData data) {
+            changeDirection(data);
         }
 
         /// <summary>Change direction based on collision data</summary>
         /// <param name="otherCol">Other GameObject</param>
         /// <param name="data">Collision data</param>
-        private void changeDirection(GameObject otherCol, CollisionData data) {
-            DynamicShape other = otherCol.Shape.AsDynamicShape();
+        private void changeDirection(CollisionHandlerData data) {
             float rot = getDirFromCollisionVec(data.CollisionDir);
             //normal vector of the other game object are calculated
             Vec2F normal = new Vec2F((float) Math.Cos(rot), (float) Math.Sin(rot));
@@ -120,7 +120,7 @@ namespace Breakout.Items {
             float speed = (float) dir.Length();
             float dotProduct = Vec2F.Dot(normal, dir); //TODO
             Vec2F newDir = dir - 2 * dotProduct * normal;
-            newDir += other.Direction * 0.25f;
+            newDir += data.Direction * 0.25f;
             newDir *= speed / (float) newDir.Length();
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }

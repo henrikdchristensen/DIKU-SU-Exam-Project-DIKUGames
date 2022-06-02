@@ -5,6 +5,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using Breakout.Game;
+using Breakout.Collision;
 
 namespace Breakout.Items.Powerups {
 
@@ -65,15 +66,15 @@ namespace Breakout.Items.Powerups {
         /// </summary>
         /// <param name="other">The incomming GameObject</param>
         /// <param name="data">Collision data passed along with the GameObject</param>
-        public override void Accept(GameObject other, CollisionData data) {
-            other.PowerUpCollision(this, data);
+        public override void Accept(GameObject other, CollisionHandlerData data) {
+            other.PowerUpCollision(data);
         }
 
 
         /// <summary>Activate/Deactivate powerups after collided (recieved) by the player</summary>
         /// <param name="player">A Player instance</param>
         /// <param name="data">Collision data passed along with the Player</param>
-        public override void PlayerCollision(Player player, CollisionData data) {
+        public override void PlayerCollision(CollisionHandlerData data) {
             GameBus.TriggerEvent(GameEventType.ControlEvent, ACTIVATE_MSG, objArg: this);
             if (Duration > 0) 
                 GameBus.TriggerTimedEvent(GameEventType.ControlEvent, Duration, DEACTIVATE_MSG, objArg: this);
