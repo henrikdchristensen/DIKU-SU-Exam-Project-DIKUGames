@@ -16,8 +16,8 @@ namespace Breakout.Game.States {
         private static GameRunning instance = null;
         private GameEventBus eventBus;
         private Score score;
-        private Level currentLevel;
-        private LevelLoader loader;
+        private Level currentLevel; //TODO: Should it be removed?
+        private LevelLoader loader; //TODO: Should it be removed?
         private LevelContainer levels;
         private Player player;
         private CollisionHandler collisionHandler;
@@ -26,11 +26,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of GameRunning</returns>
         public static GameRunning GetInstance() {
-            if (GameRunning.instance == null) {
-                GameRunning.instance = new GameRunning();
-                GameRunning.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new GameRunning();
+                instance.InitializeGameState();
             }
-            return GameRunning.instance;
+            return instance;
         }
 
         /// <summary>
