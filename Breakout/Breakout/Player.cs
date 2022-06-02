@@ -24,10 +24,9 @@ namespace Breakout {
         private DynamicShape shape;
         private const float START_SPEED = 0.015f;
 
-        /// <summary> A player in the game </summary>
-        /// <param name = "shape"> the shape of the player </param>
-        /// <param name = "image"> the image of the player </param>
-        /// <returns> A player instance </returns>
+        /// <summary>Constructor of Player: Setup start life, speed and life</summary>
+        /// <param name="shape">The shape of the player</param>
+        /// <param name="image">The image of the player</param>
         public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
             this.shape = shape;
             life = START_LIVES;
@@ -38,29 +37,20 @@ namespace Breakout {
 
         }
 
-        /// <summary> Render the player </summary>
+        /// <summary>Render the player</summary>
         public void Render() {
             RenderEntity();
             display.RenderText();
         }
 
-        /// <summary> Move the player according to its direction </summary>
+        /// <summary>Move the player according to its direction</summary>
         public override void Update() {
             updateMovement();
             shape.Move();
 
-            if (shape.Position.X > 1 - shape.Extent.X) {
-                resetDir();
-                shape.Position.X = 1 - shape.Extent.X;
-            } else if (shape.Position.X < 0) {
-                resetDir();
-                shape.Position.X = 0;
-            }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>TODO</summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
@@ -75,64 +65,60 @@ namespace Breakout {
                 else
                     shape.Direction.X = signDir * maxSpeed; // if reached max speed keep going at max
             }
+
+            if (shape.Position.X > 1 - shape.Extent.X) {
+                resetDir();
+                shape.Position.X = 1 - shape.Extent.X;
+            } else if (shape.Position.X < 0) {
+                resetDir();
+                shape.Position.X = 0;
+            }
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Reset direction of the player</summary>
         private void resetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to left</summary>
+        /// <param name="val">If true then continous movement to left. If false, then no movement</param>
         private void setMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="val">TODO</param>
+        /// <summary>Set movement to right</summary>
+        /// <param name="val">If true then continous movement to right. If false, then no movement</param>
         private void setMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
 
-        /// <summary> Get the current position of the player. </summary>
-        /// <returns> The current position </returns>
+        /// <summary>Get the current position of the player</summary>
+        /// <returns>The current position</returns>
         public Vec2F GetPosition() {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Loose on life and reduce it also on the screen</summary>
         private void looseLife() {
             life--;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Adds a life to player and sets the new one to the screen</summary>
         private void addLife() {
             life++;
             display.SetText(life.ToString());
         }
 
-        /// <summary> Reset life </summary>
+        /// <summary>Reset amount of life</summary>
         public void Reset() {
             life = START_LIVES;
             display.SetText(life.ToString());
         }
 
-        /// <summary>
-        /// TODO
-        /// </summary>
+        /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
         private void gameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
@@ -143,9 +129,9 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 1) 
+                        if (life > 1)
                             looseLife();
-                        else 
+                        else
                             gameOver();
                         break;
                     case "LeftPressed":
@@ -178,14 +164,14 @@ namespace Breakout {
             }
         }
 
-
         /// <summary>
-        /// TODO
+        /// Accepts another GameObject if an collision with another GameObject has occured
+        /// (Visitor Pattern)
         /// </summary>
-        /// <param name="other">TODO</param>
-        /// <param name="data">TODO</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
-            other.PlayerCollision(data);
+        /// <param name="other">The other GameObject</param>
+        /// <param name="data">Collision data</param>
+        public override void Accept(GameObject other, CollisionData data) {
+            other.PlayerCollision(this, data);
         }
 
     }

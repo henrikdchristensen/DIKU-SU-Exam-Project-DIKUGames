@@ -15,11 +15,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of MainMenu</returns>
         public static MainMenu GetInstance() {
-            if (MainMenu.instance == null) {
-                MainMenu.instance = new MainMenu();
-                MainMenu.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new MainMenu();
+                instance.InitializeGameState();
             }
-            return MainMenu.instance;
+            return instance;
         }
 
         /// <summary>Initialize the game state by setting correct menu items</summary>

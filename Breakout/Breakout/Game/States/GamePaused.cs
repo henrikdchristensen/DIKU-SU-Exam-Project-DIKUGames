@@ -15,11 +15,11 @@ namespace Breakout.Game.States {
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of GamePaused</returns>
         public static GamePaused GetInstance() {
-            if (GamePaused.instance == null) {
-                GamePaused.instance = new GamePaused();
-                GamePaused.instance.InitializeGameState();
+            if (instance == null) {
+                instance = new GamePaused();
+                instance.InitializeGameState();
             }
-            return GamePaused.instance;
+            return instance;
         }
 
         /// <summary>Initialize the game state by setting correct menu items</summary>
@@ -36,7 +36,7 @@ namespace Breakout.Game.States {
             activeMenuButton = 0;
         }
 
-        /// <summary>No code</summary>
+        /// <summary>No code (needs to be implemented - interface)</summary>
         public void UpdateState() { }
 
         /// <summary>Set correct color to menu buttons</summary>

@@ -6,17 +6,23 @@ public class HardenedBlock : Block {
 
     private IBaseImage blockStridesAlt;
 
-    /// <summary>Constructor for HardenedBlock: StartHealth is 2 times higher than normal block,</summary>
-    /// <param name="shape">TODO</param>
-    /// <param name="image">TODO</param>
-    /// <param name="blockStridesAlt">TODO</param>
+    /// <summary>
+    /// Constructor for HardenedBlock: StartHealth is 2 times higher than normal block,
+    /// also point reward is 2 times higher than normal
+    /// </summary>
+    /// <param name="shape">StationaryShape of the HardenedBlock</param>
+    /// <param name="image">Image of the HardenedBlock</param>
+    /// <param name="blockStridesAlt">Image of the HardenedBlock after hits</param>
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
         PointReward *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 
-    /// <summary>TODO</summary>
+    /// <summary>
+    /// Reduce health of block and change image if #hits has occured.
+    /// If under zero then delete block.
+    /// </summary>
     override public void Hit() {
         Console.WriteLine("Hardened hit");
         Health--;
