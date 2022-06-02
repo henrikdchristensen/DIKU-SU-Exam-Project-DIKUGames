@@ -6,13 +6,13 @@ public class HardenedBlock : Block {
 
     private IBaseImage blockStridesAlt;
 
-    /// <summary>TODO</summary>
+    /// <summary>Constructor for HardenedBlock: StartHealth is 2 times higher than normal block,</summary>
     /// <param name="shape">TODO</param>
     /// <param name="image">TODO</param>
     /// <param name="blockStridesAlt">TODO</param>
     public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
         StartHealt *= 2;
-        value *= 2;
+        PointReward *= 2;
         this.blockStridesAlt = blockStridesAlt;
     }
 

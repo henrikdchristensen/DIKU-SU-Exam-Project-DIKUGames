@@ -48,9 +48,9 @@ namespace Breakout.Items {
             SetRandomDirection(defaultDir);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="dir">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Calculates the new direction of the ball based on the collision data</summary>
+        /// <param name="dir">Collision data</param>
+        /// <returns>The new direction of the ball</returns>
         private float getDirFromCollisionVec(CollisionDirection dir) {
             switch (dir) {
                 case CollisionDirection.CollisionDirDown:
@@ -66,45 +66,49 @@ namespace Breakout.Items {
             }
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="other">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>
+        /// Accepts another GameObject in case of collision,
+        /// and put the ball's instance itself into the other GameObject.
+        /// (Visitor Pattern)
+        /// </summary>
+        /// <param name="other">Another GameObject</param>
+        /// <param name="data">Collision data</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.BallCollision(this, data);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Change direction if collision has occured with a block</summary>
+        /// <param name="block">A Block object</param>
+        /// <param name="data">Collision data</param>
         public override void BlockCollision(Block block, CollisionData data) {
             if (!isHard)
                 changeDirection(block, data);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="player">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Change direction if collision has occured with a player</summary>
+        /// <param name="player">A player object</param>
+        /// <param name="data">Collision data</param>
         public override void PlayerCollision(Player player, CollisionData data) {
             changeDirection(player, data);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="wall">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Change direction if collision has occured with a wall</summary>
+        /// <param name="wall">A wall object</param>
+        /// <param name="data">Collision data</param>
         public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Change direction if collision has occured with a wall</summary>
+        /// <param name="block">A block object</param>
+        /// <param name="data">Collision data</param>
         public override void UnbreakableCollision(Unbreakable block, CollisionData data) {
             changeDirection(block, data);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="otherCol">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Change direction based on collision data</summary>
+        /// <param name="otherCol">Other GameObject</param>
+        /// <param name="data">Collision data</param>
         private void changeDirection(GameObject otherCol, CollisionData data) {
             DynamicShape other = otherCol.Shape.AsDynamicShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
@@ -121,7 +125,10 @@ namespace Breakout.Items {
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>
+        /// Update movement of ball; handle powerups;
+        /// and delete the ball if outside game window
+        /// </summary>
         public override void Update() {
             Shape.AsDynamicShape().Move();
 
@@ -142,13 +149,13 @@ namespace Breakout.Items {
                             shape.Direction.Copy(), originalPos.Copy(), Image);
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Render the ball on the screen</summary>
         public void Render() {
             RenderEntity();
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="gameEvent">TODO</param>
+        /// <summary>Process ball events: Powerup activate/deactivate</summary>
+        /// <param name="gameEvent">A GameEvent</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
