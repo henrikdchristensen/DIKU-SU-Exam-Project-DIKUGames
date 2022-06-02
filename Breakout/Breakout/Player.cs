@@ -48,13 +48,6 @@ namespace Breakout {
             updateMovement();
             shape.Move();
 
-            if (shape.Position.X > 1 - shape.Extent.X) {
-                resetDir();
-                shape.Position.X = 1 - shape.Extent.X;
-            } else if (shape.Position.X < 0) {
-                resetDir();
-                shape.Position.X = 0;
-            }
         }
 
         /// <summary>TODO</summary>
@@ -71,6 +64,14 @@ namespace Breakout {
                     shape.Direction.X += signDir * MOVEMENT_ACC;
                 else
                     shape.Direction.X = signDir * maxSpeed; // if reached max speed keep going at max
+            }
+
+            if (shape.Position.X > 1 - shape.Extent.X) {
+                resetDir();
+                shape.Position.X = 1 - shape.Extent.X;
+            } else if (shape.Position.X < 0) {
+                resetDir();
+                shape.Position.X = 0;
             }
         }
 
@@ -128,9 +129,9 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 1) 
+                        if (life > 1)
                             looseLife();
-                        else 
+                        else
                             gameOver();
                         break;
                     case "LeftPressed":
