@@ -13,22 +13,27 @@ namespace Breakout.Items {
 
         private List<Ball> balls = new List<Ball>();
 
+        //This bool is created, since splitBalls-method
+        //cannot be called directly from processevent due to eventbus-error
         private bool splitBallsNext = false;
-        private int numOfTimes;
+        private const int SPLIT_NUM = 3;
 
-        public BallContainer() {}
+        public BallContainer() {
+            AddBall();
+        }
 
         /// <summary>Adds a new (cloned) ball to the game</summary>
         public void AddBall() {
-            Ball ball;
-            if (balls.Count == 0) {
-                ball = new Ball(
+            Ball ball = new Ball(
                     new Vec2F(0.5f, 0.1f), new Vec2F(0.03f, 0.03f),
                     new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ball.png")));
-            } else {
+
+            //If balls exist, then a ball is copied to keep state affected by powerup
+            if (balls.Count != 0) {
                 ball = balls[0].Clone();
                 ball.ResetPosition();
             }
+
             addBall(ball);
             
         }
@@ -68,7 +73,7 @@ namespace Breakout.Items {
         private void RemoveBall(Ball ball) {
             if (balls.Count == 1) {
                 AddBall();
-                ball.AtDeletion(null);
+                ball.AtDeletion();
             } 
             balls.Remove(ball);
         }
@@ -84,10 +89,13 @@ namespace Breakout.Items {
         /// </summary>
         private void splitBalls() {
             int len = balls.Count;
-            for (int i = 0; i < numOfTimes; i++) {
-                for (int j = len - 1; j >= 0; j--)
+            for (int j = len - 1; j >= 0; j--) {
+                for (int i = 0; i < SPLIT_NUM; i++) {
                     addBall(balls[j].Clone());
+                }
+                balls.RemoveAt(j);
             }
+            
         }
 
         /// <summary>
@@ -99,7 +107,6 @@ namespace Breakout.Items {
                 switch (gameEvent.Message) {
                     case SPLIT_BALLS_MSG:
                         splitBallsNext = true;
-                        numOfTimes = gameEvent.IntArg1;
                         break;
                 }
             }

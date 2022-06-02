@@ -28,14 +28,11 @@ namespace Breakout.Items {
                 DeleteEntity();  
         }
 
-        /// <summary>
-        /// If the block has been marked as delete,
-        /// then delete it and trigger a block destroyed event
-        /// </summary>
-        /// <param name="level">A level object</param>
-        public override void AtDeletion(Level level) {
+        /// <summary>TODO</summary>
+        /// <param name="level">TODO</param>
+        public override void AtDeletion() {
             DeleteEntity();
-            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", "", PointReward);
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: value);
         }
 
         /// <summary>

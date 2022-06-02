@@ -1,5 +1,7 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Events;
+using Breakout.Game;
 using Breakout.Levels;
 
 namespace Breakout.Items.Powerups {
@@ -14,8 +16,9 @@ namespace Breakout.Items.Powerups {
 
         /// <summary>TODO</summary>
         /// <param name="level"></param>
-        public override void AtDeletion(Level level) {
-            level.AddGameObject(Powerup.CreateRandom(Shape.AsDynamicShape()));
+        public override void AtDeletion() {
+            GameBus.TriggerEvent(GameEventType.ControlEvent, Level.ADD_GAMEOBJECT_MSG,
+                                objArg: Powerup.CreateRandom(Shape.AsDynamicShape()));
         }
 
     }
