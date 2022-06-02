@@ -10,8 +10,10 @@ using Breakout.Items.Powerups;
 namespace Breakout {
 
     public class Player : GameObject, IGameEventProcessor {
+        public const string SCALE_SPEED_MSG = "SCALE_SPEED";
+        public const string SCALE_WIDE_MSG = "WIDE_SPEED";
+        public const string ADD_LIFE_MSG = "ADD_LIFE";
 
-        private PowerupContainer powerups;
         private Text display;
         private int moveLeft = 0;
         private int moveRight = 0;
@@ -20,8 +22,6 @@ namespace Breakout {
         private float maxSpeed;
         private const int START_LIVES = 3;
         private DynamicShape shape;
-        private const float SIZE_SCALE = 1.3f;
-        private const float SPEED_SCALE = 1.5f;
         private const float START_SPEED = 0.015f;
 
         /// <summary> A player in the game </summary>
@@ -36,8 +36,6 @@ namespace Breakout {
             display = new Text(life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
             display.SetColor(new Vec3F(1f, 1f, 1f));
 
-            powerups = new PowerupContainer(
-                new PowerupType[] { PowerupType.PlayerSpeed, PowerupType.ExtraLife, PowerupType.Wide });
         }
 
         /// <summary> Render the player </summary>
@@ -50,10 +48,7 @@ namespace Breakout {
         public override void Update() {
             updateMovement();
             shape.Move();
-            Console.WriteLine("Found player speed: " + shape.Direction.X );
 
-            while (!powerups.IsEmpty())
-                handlePowerups(powerups.DequeEvent());
             if (shape.Position.X > 1 - shape.Extent.X) {
                 resetDir();
                 shape.Position.X = 1 - shape.Extent.X;
@@ -63,7 +58,9 @@ namespace Breakout {
             }
         }
 
-        /// <summary>Update the movement of the player based on direction and acceleration</summary>
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
@@ -80,50 +77,62 @@ namespace Breakout {
             }
         }
 
-        /// <summary>Reset direction of the player</summary>
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void resetDir() {
             moveLeft = 0;
             moveRight = 0;
             shape.Direction.X = 0;
         }
 
-        /// <summary>Set movement to left direction</summary>
-        /// <param name="val">True: Continous movement to left, False: No movement</param>
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="val">TODO</param>
         private void setMoveLeft(bool val) {
             moveLeft = val ? -1 : 0;
         }
 
-        /// <summary>Set movement to right direction</summary>
-        /// <param name="val">True: Continous movement to right, False: No movement</param>
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="val">TODO</param>
         private void setMoveRight(bool val) {
             moveRight = val ? 1 : 0;
         }
 
-        /// <summary>Get the current position of the player</summary>
-        /// <returns>The current position</returns>
+        /// <summary> Get the current position of the player. </summary>
+        /// <returns> The current position </returns>
         public Vec2F GetPosition() {
             return new Vec2F(shape.Position.X + shape.Extent.X / 2, shape.Position.Y);
         }
 
-        /// <summary>Loose a life</summary>
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void looseLife() {
             life--;
             display.SetText(life.ToString());
         }
 
-        /// <summary>Adds a life</summary>
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void addLife() {
             life++;
             display.SetText(life.ToString());
         }
 
-        /// <summary>Reset life</summary>
+        /// <summary> Reset life </summary>
         public void Reset() {
             life = START_LIVES;
             display.SetText(life.ToString());
         }
 
-        /// <summary>Going to Main Menu if GameOver</summary>
+        /// <summary>
+        /// TODO
+        /// </summary>
         private void gameOver() {
             GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
         }
@@ -154,45 +163,27 @@ namespace Breakout {
                 }
             } else if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
-                    case "POWERUP_ACTIVATE":
-                        powerups.Activate(gameEvent.StringArg1);
+                    case ADD_LIFE_MSG:
+                        addLife();
                         break;
-                    case "POWERUP_DEACTIVATE":
-                        powerups.Deactivate(gameEvent.StringArg1);
+                    case SCALE_WIDE_MSG:
+                        float scale = (float) gameEvent.ObjectArg1;
+                        Shape.Position.X += (Shape.Extent.X - Shape.Extent.X * scale) / 2;
+                        Shape.Extent.X *= scale;
+                        break;
+                    case SCALE_SPEED_MSG:
+                        maxSpeed *= (float) gameEvent.ObjectArg1;
                         break;
                 }
             }
         }
 
-        /// <summary>Handle dequed power up events</summary>
-        /// <param name="type">Type of powerup</param>
-        private void handlePowerups(string type) {
-            switch (type) {
-                case "EXTRA_LIFE_ACTIVATE":
-                    addLife();
-                    break;
-                case "WIDE_ACTIVATE":
-                    Shape.Position.X += (Shape.Extent.X - Shape.Extent.X * SIZE_SCALE) / 2;
-                    Shape.Extent.X *= SIZE_SCALE;
-                    break;
-                case "WIDE_DEACTIVATE":
-                    Shape.Extent.X /= SIZE_SCALE;
-                    break;
-                case "PLAYER_SPEED_ACTIVATE":
-                    Console.WriteLine("PLAYER SPEED");
-                    maxSpeed *= SPEED_SCALE;
-                    break;
-                case "PLAYER_SPEED_DEACTIVATE":
-                    maxSpeed /= SPEED_SCALE;
-                    break;
-            }
-        }
 
-        /// <summary>Accepts another GameObject and put the player's instance itself into
-        /// the other GameObject toghether with collision data
-        /// (Visitor Pattern)</summary>
-        /// <param name="other">Another GameObject</param>
-        /// <param name="data">Collision data of the other GameObject</param>
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="other">TODO</param>
+        /// <param name="data">TODO</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.PlayerCollision(this, data);
         }

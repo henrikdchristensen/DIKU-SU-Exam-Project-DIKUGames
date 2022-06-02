@@ -7,6 +7,7 @@ using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
 using Breakout.Items;
+using Breakout.Items.Powerups;
 
 namespace Breakout.Game.States {
 
@@ -37,6 +38,7 @@ namespace Breakout.Game.States {
         /// player and collisionHandler
         /// </summary>
         public void InitializeGameState() {
+            PowerupContainer.GetPowerupContainer(); //is initialized
             levels = LevelContainer.GetLevelContainer();
             
             score = new Score(new Vec2F(0.1f, 0.5f), new Vec2F(0.5f, 0.5f));

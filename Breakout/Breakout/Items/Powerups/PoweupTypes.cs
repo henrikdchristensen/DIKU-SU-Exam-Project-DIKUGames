@@ -13,7 +13,7 @@
         //Infinite,
         //Rocket,
         //GravityBall,
-        //Split,
+        Split,
         HardBall
     }
 

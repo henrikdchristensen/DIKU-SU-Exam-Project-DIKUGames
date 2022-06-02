@@ -11,27 +11,41 @@ namespace Breakout.Items {
 
     public class Ball : GameObject, IGameEventProcessor {
 
-        private PowerupContainer powerups;
-        private const float SPEED = 0.01f;
+        public const string SET_HARD_MSG = "SET_HARD";
+        public const string SCALE_SIZE_MSG = "SCALE_BALL_SIZE";
+        public const string SCALE_SPEED_MSG = "SCALE_BALL_SPEED";
+
+        private const float START_SPEED = 0.01f;
         private const double MAX_START_ANGLE = Math.PI / 2;
-        private bool isHard = false;
+        public bool isHard { get; private set; }
+        private readonly Vec2F startPos;
 
         /// <summary>Constructor for Ball: Setup the</summary>
         /// <param name="shape">The shape of the ball</param>
         /// <param name="image">An image which should be used for Ball</param>
-        public Ball (DynamicShape shape, IBaseImage image) : base(shape, image) {
-            Random rand = new Random();
-            float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
-            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle));
-            dir *= SPEED;
-            shape.Direction = dir;
-            powerups = new PowerupContainer(
-                new PowerupType[] { PowerupType.DoubleSize, PowerupType.DoubleSpeed, PowerupType.HardBall });
+        public Ball (Vec2F position, Vec2F extent, IBaseImage image, float speed = START_SPEED, int dir = 1, bool isHard = false, Vec2F startPos = null) : base(new DynamicShape(position, extent), image) {
+            this.startPos = startPos ?? position.Copy();
+            SetRandomDirection(speed, dir);
+            this.isHard = isHard;  
         }
 
-        /// <summary>Calculates the new direction of the ball based on the collision data</summary>
-        /// <param name="dir">Collision data</param>
-        /// <returns>The new direction of the ball</returns>
+        private void SetRandomDirection(float speed, int direction = 1) {
+            Random rand = new Random();
+            float angle = (float) (rand.NextDouble() * MAX_START_ANGLE + Math.PI / 4);
+            Vec2F dir = new Vec2F((float) Math.Cos(angle), (float) Math.Sin(angle) * Math.Sign(direction));
+            dir *= speed;
+            DynamicShape shape = Shape.AsDynamicShape();
+            shape.Direction = dir;
+        }
+
+        public void ResetPosition() {
+            Shape.Position = startPos.Copy();
+            SetRandomDirection(START_SPEED);
+        }
+
+        /// <summary>TODO</summary>
+        /// <param name="dir">TODO</param>
+        /// <returns>TODO</returns>
         private float getDirFromCollisionVec(CollisionDirection dir) {
             switch (dir) {
                 case CollisionDirection.CollisionDirDown:
@@ -47,49 +61,45 @@ namespace Breakout.Items {
             }
         }
 
-        /// <summary>
-        /// Accepts another GameObject in case of collision,
-        /// and put the ball's instance itself into the other GameObject.
-        /// (Visitor Pattern)
-        /// </summary>
-        /// <param name="other">Another GameObject</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="other">TODO</param>
+        /// <param name="data">TODO</param>
         public override void Accept(GameObject other, CollisionData data) {
             other.BallCollision(this, data);
         }
 
-        /// <summary>Change direction if collision has occured with a block</summary>
-        /// <param name="block">A Block object</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="block">TODO</param>
+        /// <param name="data">TODO</param>
         public override void BlockCollision(Block block, CollisionData data) {
             if (!isHard)
                 changeDirection(block, data);
         }
 
-        /// <summary>Change direction if collision has occured with a player</summary>
-        /// <param name="player">A player object</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="player">TODO</param>
+        /// <param name="data">TODO</param>
         public override void PlayerCollision(Player player, CollisionData data) {
             changeDirection(player, data);
         }
 
-        /// <summary>Change direction if collision has occured with a wall</summary>
-        /// <param name="wall">A wall object</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="wall">TODO</param>
+        /// <param name="data">TODO</param>
         public override void WallCollision(Wall wall, CollisionData data) {
             changeDirection(wall, data);
         }
 
-        /// <summary>Change direction if collision has occured with a wall</summary>
-        /// <param name="block">A block object</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="block">TODO</param>
+        /// <param name="data">TODO</param>
         public override void UnbreakableCollision(Unbreakable block, CollisionData data) {
             changeDirection(block, data);
         }
 
-        /// <summary>Change direction based on collision data</summary>
-        /// <param name="otherCol">Other GameObject</param>
-        /// <param name="data">Collision data</param>
+        /// <summary>TODO</summary>
+        /// <param name="otherCol">TODO</param>
+        /// <param name="data">TODO</param>
         private void changeDirection(GameObject otherCol, CollisionData data) {
             DynamicShape other = otherCol.Shape.AsDynamicShape();
             float rot = getDirFromCollisionVec(data.CollisionDir);
@@ -104,71 +114,47 @@ namespace Breakout.Items {
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }
 
-        /// <summary>
-        /// Update movement of ball; handle powerups;
-        /// and delete the ball if outside game window
-        /// </summary>
+        /// <summary>TODO</summary>
         public override void Update() {
             Shape.AsDynamicShape().Move();
-            while (!powerups.IsEmpty())
-                handlePowerups(powerups.DequeEvent());
+
             if (Shape.Position.Y + Shape.Extent.Y < 0) {
                 DeleteEntity();
             }
         }
 
-        /// <summary>
-        /// If ball has been marked to be deleted then trigger an event
-        /// for loosing a life and remove 1 ball from the level
-        /// </summary>
-        /// <param name="level">A level object</param>
+        /// <summary>TODO</summary>
+        /// <param name="level">TODO</param>
         public override void AtDeletion(Level level) {
-            level.OnBallDeletion();
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
 
-        /// <summary>Render the ball on the screen</summary>
+        public Ball Clone() {
+            var shape = Shape.AsDynamicShape();
+            float speed = (float) shape.Direction.Length();
+            return new Ball(shape.Position.Copy(), shape.Extent.Copy(), Image, speed, Math.Sign(shape.Direction.Y), isHard, startPos);
+        }
+
+        /// <summary>TODO</summary>
         public void Render() {
             RenderEntity();
         }
 
-        /// <summary>Process ball events: Powerup activate/deactivate</summary>
-        /// <param name="gameEvent">A GameEvent</param>
+        /// <summary>TODO</summary>
+        /// <param name="gameEvent">TODO</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
-                    case "POWERUP_ACTIVATE":
-                        powerups.Activate(gameEvent.StringArg1);
+                    case SCALE_SPEED_MSG:
+                        Shape.AsDynamicShape().Direction *= (float) gameEvent.ObjectArg1;
                         break;
-                    case "POWERUP_DEACTIVATE":
-                        powerups.Deactivate(gameEvent.StringArg1);
+                    case SCALE_SIZE_MSG:
+                        Shape.Extent *= (float) gameEvent.ObjectArg1;
+                        break;
+                    case SET_HARD_MSG:
+                        isHard = (bool) gameEvent.ObjectArg1;
                         break;
                 }
-            }
-        }
-
-        /// <summary>Handle powerup events</summary>
-        /// <param name="type">String defining powerup type</param>
-        private void handlePowerups(string type) {
-            switch (type) {
-                case "DOUBLE_SIZE_ACTIVATE":
-                    Shape.Extent *= 2;
-                    break;
-                case "DOUBLE_SIZE_DEACTIVATE":
-                    Shape.Extent /= 2;
-                    break;
-                case "DOUBLE_SPEED_ACTIVATE":
-                    Shape.AsDynamicShape().Direction *= 2;
-                    break;
-                case "DOUBLE_SPEED_DEACTIVATE":
-                    Shape.AsDynamicShape().Direction /= 2;
-                    break;
-                case "HARD_BALL_ACTIVATE":
-                    isHard = true;
-                    break;
-                case "HARD_BALL_DEACTIVATE":
-                    isHard = false;
-                    break;
             }
         }
 
