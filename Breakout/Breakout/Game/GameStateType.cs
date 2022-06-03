@@ -4,6 +4,7 @@ namespace Breakout.Game {
     public enum GameStateType {
         GameRunning,
         GamePaused,
+        GameOver,
         MainMenu
     }
 
@@ -22,6 +23,8 @@ namespace Breakout.Game {
                     return GameStateType.GameRunning;
                 case "GAME_PAUSED":
                     return GameStateType.GamePaused;
+                case "GAME_OVER":
+                    return GameStateType.GameOver;
                 case "MAIN_MENU":
                     return GameStateType.MainMenu;
                 default:
@@ -39,6 +42,8 @@ namespace Breakout.Game {
                     return "GAME_RUNNING";
                 case GameStateType.GamePaused:
                     return "GAME_PAUSED";
+                case GameStateType.GameOver:
+                    return "GAME_OVER";
                 case GameStateType.MainMenu:
                     return "MAIN_MENU";
                 default:

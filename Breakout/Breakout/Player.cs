@@ -130,7 +130,7 @@ namespace Breakout {
 
         /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
         private void gameOver() {
-            GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.MainMenu));
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "PLAYER_DEAD");
         }
 
         /// <summary>To receive events from the event bus</summary>

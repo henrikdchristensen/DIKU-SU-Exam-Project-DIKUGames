@@ -136,6 +136,10 @@ namespace Breakout.Game.States {
                     case "BLOCK_DESTROYED":
                         score.AddPoints(gameEvent.IntArg1);
                         break;
+                    case "PLAYER_DEAD":
+                        GameBus.TriggerEvent(GameEventType.StatusEvent, "SCORE", score.GetScore().ToString());
+                        GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE_RESET", StateTransformer.StateToString(GameStateType.GameOver));
+                        break;
                 }
             }
         }
