@@ -46,8 +46,8 @@ namespace BreakoutTests {
 
         /// <summary>
         /// Blackbox: Test resetting score.
-        /// Case:   Expected output:    Comment:
-        /// add=1   0                   After adding 1 point and reset, then score should be 0 again.
+        /// Case:           Expected output:    Comment:
+        /// add=1 -> Reset  0                   After adding 1 point and reset, then score should be 0 again.
         /// </summary>
         [Test]
         public void TestResetScore() {
