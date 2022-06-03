@@ -29,7 +29,7 @@ namespace Breakout.Levels {
         /// <returns>TODO</returns>
         public static bool ValidateLevel(string[] level) {
             // Validate that all group names exist (no duplicates)
-            if (!validateGroups(level))
+            if (!validateGroups(level)) //Branch 1
                 return false;
 
             // All groups exist, and each group can be split into a array
@@ -38,7 +38,7 @@ namespace Breakout.Levels {
             string[] map = SubarrayExtractor.Extract(level, $"{MAP + START}", $"{MAP + END}");
             string[] meta = SubarrayExtractor.Extract(level, $"{META + START}", $"{META + END}");
 
-            return validateLegend(legend) &&
+            return validateLegend(legend) && //Branch 2
                    validateMap(map) &&
                    validateMeta(meta);
         }
@@ -81,8 +81,8 @@ namespace Breakout.Levels {
         /// <returns>TODO</returns>
         private static bool validateLegendPair(string[] pair) {
             return pair.Length == 2 &&
-                   pair[0].Length == 1 || //first entry should be a char
-                   !blockChars.Contains(pair[0][0]) || //the block-char should not have been visited before
+                   pair[0].Length == 1 && //first entry should be a char
+                   !blockChars.Contains(pair[0][0]) && //the block-char should not have been visited before
                    File.Exists(Path.Combine(FILE_PATH, pair[1])); //does the image exist
         }
 
