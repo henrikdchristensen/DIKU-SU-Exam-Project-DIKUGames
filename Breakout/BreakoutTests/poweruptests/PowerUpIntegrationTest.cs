@@ -8,16 +8,25 @@ using System.Collections.Generic;
 using Breakout.Game;
 using DIKUArcade.Events;
 using DIKUArcade.GUI;
+using System;
 
 namespace BreakoutTests.poweruptests {
 
     [TestFixture]
     public class PowerUpIntegrationTest {
 
+        [OneTimeSetUp]
+        public void Setup() {
+            try {
+                GameBus.GetBus().InitializeEventBus(new List<GameEventType> { GameEventType.ControlEvent });
+            } catch (Exception e) {
+
+            }
+        }
+
         [Test]
         public void PowerUpSpawnTest() {
             Window.CreateOpenGLContext();
-            GameBus.GetBus().InitializeEventBus(new List<GameEventType> { GameEventType.ControlEvent });
             Level level = new Level(new char[,] { }, new Dictionary<string, string>(), new Dictionary<string, string>());
             PowerupBlock block = new PowerupBlock(new StationaryShape(0, 0, 0, 0), new NoImage());
             int initItems = level.CountItems();
