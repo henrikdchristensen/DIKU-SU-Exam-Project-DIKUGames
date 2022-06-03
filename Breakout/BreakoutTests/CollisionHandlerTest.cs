@@ -5,6 +5,8 @@ using DIKUArcade.Math;
 using Breakout;
 using Breakout.Collision;
 using Breakout.Items;
+using DIKUArcade.Math;
+using DIKUArcade.GUI;
 
 namespace BreakoutTests {
 
@@ -18,8 +20,10 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void CollisionBallAndBlockTest() {
-            DynamicShape shape = new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f);
-            //Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.1)
+            Ball ball = new Ball(new Vec2F(0.4f, 0.1f), new Vec2F(0.1f, 0.1f), new NoImage()); // pos(0.4,0.1)
+            var shape = ball.Shape.AsDynamicShape();
+            shape.ChangeDirection(new Vec2F(0.0f, 1.0f));
+
             Block block = new Block(new StationaryShape(0.4f, 0.4f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.5)
 
             // Store old direction and health for comparing
@@ -27,11 +31,8 @@ namespace BreakoutTests {
             int oldHealth = block.Health;
 
             // Put ball and block in collision table
-            //collision.Subsribe(ball);
+            collision.Subsribe(ball);
             collision.Subsribe(block);
-
-            // Move ball towards block for colliding
-            shape.ChangeDirection(new Vec2F(0.0f, 1.0f));
 
             // Update collisions for block loosing health, which can be checked for Assert()
             collision.Update();
@@ -46,18 +47,19 @@ namespace BreakoutTests {
         /// </summary>
         [Test]
         public void CollisionBallAndPlayerTest() {
-            DynamicShape shape = new DynamicShape(0.4f, 0.4f, 0.1f, 0.1f);
-            //Ball ball = new Ball(shape, new NoImage()); // pos(0.4,0.4)
-            Player player = new Player(new DynamicShape(0.4f, 0.1f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.1)
+            Window.CreateOpenGLContext();
+            Ball ball = new Ball(new Vec2F(0.4f, 0.1f), new Vec2F(0.1f, 0.1f), new NoImage()); // pos(0.4,0.4)
+            var shape = ball.Shape.AsDynamicShape();
+            shape.ChangeDirection(new Vec2F(0.0f, 1.0f));
+
+            Player player = new Player(new DynamicShape(0.4f, 0.4f, 0.1f, 0.1f), new NoImage()); // pos(0.4,0.1)
 
             // Store old direction
             Vec2F oldDir = shape.Direction.Copy();
 
             // Put ball and block in collision table
-            //collision.Subsribe(ball);
+            collision.Subsribe(ball);
             collision.Subsribe(player);
-
-            shape.ChangeDirection(new Vec2F(0.0f, -1.0f)); // move ball towards player for colliding
 
             // Update collisions for block loosing health, which can be checked for Assert()
             collision.Update();

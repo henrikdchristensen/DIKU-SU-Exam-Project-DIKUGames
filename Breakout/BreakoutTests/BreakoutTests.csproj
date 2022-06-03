@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Breakout\Breakout.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+    <Folder Include="TestResults\" />
+  </ItemGroup>
+
 </Project>

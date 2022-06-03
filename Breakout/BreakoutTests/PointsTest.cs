@@ -5,7 +5,7 @@ using Breakout;
 namespace BreakoutTests {
 
     [TestFixture]
-    public class ScoreTest {
+    public class PointsTest {
 
         private Score score;
 

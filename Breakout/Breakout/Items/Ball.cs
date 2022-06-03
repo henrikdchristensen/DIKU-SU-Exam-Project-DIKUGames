@@ -20,7 +20,7 @@ namespace Breakout.Items {
         private readonly Vec2F defaultDir = new Vec2F(0, 0.01f);
         private readonly Vec2F originalPos;
 
-        private bool isHard = false;
+        public bool IsHard { get; private set; } = false;
         
 
         /// <summary>Constructor for Ball: Setup the</summary>
@@ -82,7 +82,7 @@ namespace Breakout.Items {
         /// <param name="block">A Block object</param>
         /// <param name="data">Collision data</param>
         public override void BlockCollision(CollisionHandlerData data) {
-            if (!isHard)
+            if (!IsHard)
                 changeDirection(data);
         }
 
@@ -121,7 +121,8 @@ namespace Breakout.Items {
             float dotProduct = Vec2F.Dot(normal, dir); //TODO
             Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir += data.Direction * 0.25f;
-            newDir *= speed / (float) newDir.Length();
+            if (newDir.Length() != 0)
+                newDir *= speed / (float) newDir.Length();
             Shape.AsDynamicShape().ChangeDirection(newDir);
         }
 
@@ -166,7 +167,7 @@ namespace Breakout.Items {
                         Shape.Extent *= (float) gameEvent.ObjectArg1;
                         break;
                     case SET_HARD_MSG:
-                        isHard = (bool) gameEvent.ObjectArg1;
+                        IsHard = (bool) gameEvent.ObjectArg1;
                         break;
                 }
             }
