@@ -17,6 +17,7 @@ namespace Breakout.Game {
             ActiveState = States.MainMenu.GetInstance();
             States.GameRunning.GetInstance();
             States.GamePaused.GetInstance();
+            States.GameOver.GetInstance();
         }
 
         /// <summary>Switch to a new active state</summary>
@@ -31,6 +32,9 @@ namespace Breakout.Game {
                     break;
                 case GameStateType.GamePaused:
                     ActiveState = States.GamePaused.GetInstance();
+                    break;
+                case GameStateType.GameOver:
+                    ActiveState = States.GameOver.GetInstance();
                     break;
             }
         }
