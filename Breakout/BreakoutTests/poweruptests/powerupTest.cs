@@ -66,7 +66,7 @@ namespace BreakoutTests {
         public void TestDoubleSpeedPlayer() {
             double speed = player.MaxSpeed;
             var doubleSpeed = new DoubleSpeed(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
-            doubleSpeed.PlayerCollision(player, null);
+            doubleSpeed.PlayerCollision(null);
             eventBus.ProcessEventsSequentially();
 
             double expected = speed * 2;
@@ -82,7 +82,7 @@ namespace BreakoutTests {
         public void TestWideSize() {
             float size = player.Shape.Extent.X;
             var wide = new Wide(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
-            wide.PlayerCollision(player, null);
+            wide.PlayerCollision(null);
             eventBus.ProcessEventsSequentially();
             float expected = size * 2;
             Assert.AreEqual(expected, player.Shape.Extent.X);
@@ -97,7 +97,7 @@ namespace BreakoutTests {
         public void TestExtraLife() {
             int life = player.Life;
             var extraLife = new ExtraLife(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
-            extraLife.PlayerCollision(player, null);
+            extraLife.PlayerCollision(null);
             eventBus.ProcessEventsSequentially();
             float expected = life+1;
             Assert.AreEqual(expected, player.Life);
@@ -114,7 +114,7 @@ namespace BreakoutTests {
         public void TestDoubleSpeedBall() {
             float speed = ball.Shape.AsDynamicShape().Direction.X;
             var doubleSpeed = new DoubleSpeed(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
-            doubleSpeed.BallCollision(ball, null);
+            doubleSpeed.BallCollision(null);
             eventBus.ProcessEventsSequentially();
 
             float expected = 2*speed;
@@ -130,11 +130,11 @@ namespace BreakoutTests {
         public void TestDoubleSize() {
             var size = ball.Shape.Extent.X;
             var doubleSpeed = new DoubleSpeed(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
-            doubleSpeed.BallCollision(ball, null);
+            doubleSpeed.BallCollision(null);
             eventBus.ProcessEventsSequentially();
 
             float expected = 2 * size;
-            Assert.AreEqual(expected, ball.Shape.Extent.X);
+            Assert.AreEqual(expected, player.MaxSpeed);
         }
 
     }
