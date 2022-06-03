@@ -63,16 +63,14 @@ namespace BreakoutTests {
         /// <param name="expectedX"></param>
         /// <param name="expectedY"></param>
         [Test]
-        [TestCase(0, 0, 10, 10, CollisionDirection.CollisionDirDown, 2.5f, 2.5f)]
-        [TestCase(1, 1, 1, 1, CollisionDirection.CollisionDirDown, 1.25f, -0.75f)]
+        [TestCase(1, 1, 10, 10, CollisionDirection.CollisionDirDown, 1.2998674f, 0.557086f)]
+        [TestCase(1, 1, 1, 1, CollisionDirection.CollisionDirDown, 1.2126782f, -0.7276069f)]
         public void TestBounceDynamic(float dirX, float dirY, float dynX, float dynY, CollisionDirection colDir, float expectedX, float expectedY) {
             Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
             var shape = ball.Shape.AsDynamicShape();
             shape.ChangeDirection(new Vec2F(dirX, dirY));
-            var dynShape = new DynamicShape(0, 0, 0, 0, dynX, dynY);
-            var player = new Player(dynShape, new NoImage());
 
-            ball.PlayerCollision(new CollisionHandlerData(colDir, dynShape.Direction));
+            ball.PlayerCollision(new CollisionHandlerData(colDir, new Vec2F(dynX, dynY)));
             var newDir = shape.Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expectedX}");

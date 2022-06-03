@@ -111,5 +111,10 @@ namespace Breakout.Items {
                 }
             }
         }
+
+        public int CountBalls() {
+            return balls.Count;
+        }
+
     }
 }

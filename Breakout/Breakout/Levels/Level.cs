@@ -177,6 +177,14 @@ namespace Breakout.Levels {
             return new Block(shape, img);
         }
 
+        /// <summary>
+        /// For testing purposes
+        /// </summary>
+        /// <returns></returns>
+        public int CountItems() {
+            return items.CountEntities();
+        }
+
         /// <summary>TODO</summary>
         /// <param name="obj">TODO</param>
         /// <returns>TODO</returns>
