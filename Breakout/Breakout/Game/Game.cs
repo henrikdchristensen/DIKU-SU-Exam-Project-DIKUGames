@@ -15,7 +15,6 @@ namespace Breakout.Game {
         /// <returns>A player instance</returns>
         public Game(WindowArgs windowArgs) : base(windowArgs) {
             eventBus = GameBus.GetBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.PlayerEvent, GameEventType.GameStateEvent, GameEventType.WindowEvent, GameEventType.StatusEvent, GameEventType.ControlEvent });
             eventBus.Subscribe(GameEventType.WindowEvent, this);
             window.SetKeyEventHandler(keyHandler);
             stateMachine = new StateMachine();

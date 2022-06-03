@@ -13,6 +13,7 @@ namespace Breakout {
         public const string SCALE_SPEED_MSG = "SCALE_SPEED";
         public const string SCALE_WIDE_MSG = "WIDE_SPEED";
         public const string ADD_LIFE_MSG = "ADD_LIFE";
+        public const string LOOSE_LIFE_MSG = "LostLife";
 
         private Text display;
         private int moveLeft = 0;
@@ -138,7 +139,7 @@ namespace Breakout {
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
-                    case "LostLife":
+                    case LOOSE_LIFE_MSG:
                         if (Life > 1)
                             looseLife();
                         else

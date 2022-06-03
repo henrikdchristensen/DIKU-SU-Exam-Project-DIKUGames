@@ -10,7 +10,11 @@ namespace Breakout.Game {
         /// <summary>Returns a new instance of GameEventBus</summary>
         /// <returns>A new instance of GameEventBus</returns>
         public static GameEventBus GetBus() {
-            return gameBus ?? (gameBus = new GameEventBus());
+            if (gameBus == null) {
+                gameBus = new GameEventBus();
+                gameBus.InitializeEventBus(new List<GameEventType> { GameEventType.PlayerEvent, GameEventType.GameStateEvent, GameEventType.WindowEvent, GameEventType.StatusEvent, GameEventType.ControlEvent });
+            }
+            return gameBus;
         }
 
         /// <summary>Trigger event to game bus</summary>

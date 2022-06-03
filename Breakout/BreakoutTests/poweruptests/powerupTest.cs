@@ -40,7 +40,6 @@ namespace BreakoutTests {
         [OneTimeSetUp]
         public void Setup() {
             eventBus = GameBus.GetBus();
-            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.PlayerEvent, GameEventType.GameStateEvent, GameEventType.WindowEvent, GameEventType.StatusEvent, GameEventType.ControlEvent });
             PowerupContainer.GetPowerupContainer();
         }
 

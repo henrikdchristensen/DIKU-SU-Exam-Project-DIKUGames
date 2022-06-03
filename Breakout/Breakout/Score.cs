@@ -21,7 +21,7 @@ namespace Breakout {
         /// <param name="add">The points to be added to the overall score</param>
         public void AddPoints(int add = 1) {
             if (add > 0 && points < int.MaxValue) {
-                if (points <= int.MaxValue - add) {
+                if (points < int.MaxValue - add) {
                     points += add;
                 } else {
                     points = int.MaxValue;

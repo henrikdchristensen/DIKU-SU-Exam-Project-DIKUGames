@@ -16,13 +16,7 @@ namespace BreakoutTests.poweruptests {
     public class PowerUpIntegrationTest {
 
         [OneTimeSetUp]
-        public void Setup() {
-            try {
-                GameBus.GetBus().InitializeEventBus(new List<GameEventType> { GameEventType.ControlEvent });
-            } catch (Exception e) {
-
-            }
-        }
+        public void Setup() {}
 
         [Test]
         public void PowerUpSpawnTest() {

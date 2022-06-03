@@ -8,6 +8,10 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
+using Breakout.Items;
+using DIKUArcade.Graphics;
+using Breakout.Game;
+using Breakout.Game.States;
 
 namespace BreakoutTests {
 
@@ -59,11 +63,11 @@ namespace BreakoutTests {
                 player.Update();
             }
             float expectedSpeed = 0.015f;
-            Assert.True( Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed , TestLogger.OnFailedTestMessage<float>(Math.Abs(player.Shape.AsDynamicShape().Direction.X), expectedSpeed) );
+            Assert.True(Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed, TestLogger.OnFailedTestMessage<float>(Math.Abs(player.Shape.AsDynamicShape().Direction.X), expectedSpeed));
         }
 
 
-// *********** White box tests of the UpdateMovement() method 100% C0 and C1 (Branch) **************
+        // *********** White box tests of the UpdateMovement() method 100% C0 and C1 (Branch) **************
 
         /// <summary>
         /// White box
@@ -71,10 +75,10 @@ namespace BreakoutTests {
         /// </summary>
         [TestCase(10, "RightPressed", 0.635f)] // right move. Branch: 1.b 3.a, 3b,
         [TestCase(10, "LeftPressed", 0.365f)] // left move. Branch: 1.b 3.a, 3b,
-        
+
         [TestCase(50, "RightPressed", 1.0f - 0.05f)] // right boundary test. Branch: 1.a 1.b 3.a, 3.b, 4.a
-        [TestCase(50, "LeftPressed", 0.0f+0.05f)] // left boundary test. Branch: 1.a 1.b 3.a, 3.b, 4.b
-        [TestCase(4, "RightPressed", 0.5f+0.045f)] // 1.b acceleration. 3.a
+        [TestCase(50, "LeftPressed", 0.0f + 0.05f)] // left boundary test. Branch: 1.a 1.b 3.a, 3.b, 4.b
+        [TestCase(4, "RightPressed", 0.5f + 0.045f)] // 1.b acceleration. 3.a
 
         public void TestMove(int iterations, string action, float expected) {
 
@@ -106,7 +110,7 @@ namespace BreakoutTests {
         }
 
 
-       /// <summary>
+        /// <summary>
         /// Part of the whitebox test
         /// Testing acceleration to max speed and stop covers 2.a and 2.b which is not covered by the other tests
         /// Branches: 1, 2 3. and specifically 2.a and 2.b
@@ -126,7 +130,7 @@ namespace BreakoutTests {
             registerPlayerEvent("RightReleased");
             eventBus.ProcessEventsSequentially();
 
-            for (int i = 0; i < iterations+5; i++) {
+            for (int i = 0; i < iterations + 5; i++) {
                 player.Update();
                 Console.WriteLine($"Got curr pos in iteration {i} pos: " + player.GetPosition().X);
 
@@ -135,7 +139,30 @@ namespace BreakoutTests {
             Assert.True(expectedPos - player.GetPosition().X < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expectedPos, player.GetPosition().X));
         }
 
+        /// <summary>
+        /// Integration test of gameover
+        /// </summary>
+        [Test]
+        public void TestGameOver() {
+            StateMachine stateMachine = new StateMachine();
+            GameBus.GetBus().Subscribe(GameEventType.GameStateEvent, stateMachine);
 
+            GameBus.TriggerEvent(
+                GameEventType.GameStateEvent, "CHANGE_STATE",
+                StateTransformer.StateToString(GameStateType.GameRunning));
+            GameBus.GetBus().ProcessEventsSequentially();
+
+            var initState = stateMachine.ActiveState;
+            Assert.True(initState is GameRunning);
+
+            for (int i = 0; i < 3; i++) {
+                GameBus.TriggerEvent(
+                    GameEventType.PlayerEvent, Player.LOOSE_LIFE_MSG);
+            }
+
+            GameBus.GetBus().ProcessEventsSequentially();
+
+            Assert.True(stateMachine.ActiveState is not GameRunning);
+        }
     }
-
 }

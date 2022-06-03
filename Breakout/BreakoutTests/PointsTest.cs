@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using DIKUArcade.Math;
 using Breakout;
+using DIKUArcade.GUI;
 
 namespace BreakoutTests {
 
@@ -12,6 +13,7 @@ namespace BreakoutTests {
         /// <summary>Instantiate an Score instance.</summary>
         [SetUp]
         public void InitializeTest() {
+            Window.CreateOpenGLContext();
             score = new Score(new Vec2F(0, 0), new Vec2F(0, 0));
         }
 
@@ -27,6 +29,7 @@ namespace BreakoutTests {
         [TestCase(0, 0)]
         [TestCase(1, 1)]
         [TestCase(10, 10)]
+        [TestCase(int.MaxValue, int.MaxValue)]
         public void TestAddPoints(int add, int expected) {
             score.AddPoints(add);
             Assert.True(score.GetScore() == expected, TestLogger.OnFailedTestMessage<int>(expected, score.GetScore()));
