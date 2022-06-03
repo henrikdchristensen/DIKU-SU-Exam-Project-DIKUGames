@@ -55,8 +55,8 @@ namespace BreakoutTests.Items {
         public void TestDieHardened() { // Does hit return true when dead (6 times hit)
             int startHealth = hardenedBlock.StartHealt;
             for (int i = 0; i < startHealth; i++)
-                block.Hit();
-            Assert.True(block.IsDeleted());
+                hardenedBlock.Hit();
+            Assert.True(hardenedBlock.IsDeleted());
         }
 
     }

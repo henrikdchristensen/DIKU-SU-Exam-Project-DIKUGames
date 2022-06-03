@@ -13,11 +13,6 @@ namespace Breakout.Items {
 
         }
 
-        /// <summary>Gets the shape of the wall</summary>
-        /// <returns>Shape of the Wall</returns>
-        public DynamicShape GetShape() {
-            return Shape.AsDynamicShape();
-        }
 
         /// <summary>
         /// Accepts another GameObject if a collision has occured with another GameObject,

@@ -161,6 +161,7 @@ namespace BreakoutTests {
             }
 
             GameBus.GetBus().ProcessEventsSequentially();
+            GameBus.GetBus().ProcessEventsSequentially();
 
             Assert.True(stateMachine.ActiveState is not GameRunning);
         }

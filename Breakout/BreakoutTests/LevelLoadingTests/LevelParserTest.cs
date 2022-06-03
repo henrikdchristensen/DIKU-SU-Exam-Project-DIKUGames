@@ -92,6 +92,7 @@ namespace BreakoutTests {
 
             Level expected = new Level(map, meta, legend);
 
+            Console.WriteLine(expected);
             Assert.AreEqual(expected, actual);
         }
 

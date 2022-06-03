@@ -22,6 +22,8 @@ namespace Breakout.Items {
             other.UnbreakableCollision(data);
         }
 
-    }
+        public override void BallCollision(CollisionHandlerData data) {}
+
+    }   
 
 }

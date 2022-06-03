@@ -57,7 +57,7 @@ namespace Breakout {
         public override void Update() {
             updateMovement();
             shape.Move();
-
+            BoundaryCheck();
         }
 
         /// <summary>TODO</summary>
@@ -75,7 +75,9 @@ namespace Breakout {
                 else // 3.b
                     shape.Direction.X = signDir * MaxSpeed; // if reached max speed keep going at max
             }
+        }
 
+        private void BoundaryCheck() {
             // Prevent from escaping the screen
             if (shape.Position.X > 1 - shape.Extent.X) { // 4.a
                 resetDir();

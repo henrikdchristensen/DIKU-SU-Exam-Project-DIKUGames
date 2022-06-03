@@ -68,6 +68,29 @@ namespace BreakoutTests {
             Assert.True(oldDir.X != shape.Direction.X || oldDir.Y != shape.Direction.Y);
         }
 
+        [Test]
+        public void CollisionWallAndPlayerTest() {
+            Window.CreateOpenGLContext();
+            Ball ball = new Ball(new Vec2F(0.4f, 0.1f), new Vec2F(0.1f, 0.1f), new NoImage()); // pos(0.4,0.4)
+            var shape = ball.Shape.AsDynamicShape();
+            shape.ChangeDirection(new Vec2F(0.0f, 1.0f));
+
+            Wall wall = new Wall(new StationaryShape(0.4f, 0.4f, 0.1f, 0.1f)); // pos(0.4,0.1)
+
+            // Store old direction
+            Vec2F oldDir = shape.Direction.Copy();
+
+            // Put ball and block in collision table
+            collision.Subsribe(ball);
+            collision.Subsribe(wall);
+
+            // Update collisions for block loosing health, which can be checked for Assert()
+            collision.Update();
+
+            // Check that ball has changed direction after colliding
+            Assert.True(oldDir.X != shape.Direction.X || oldDir.Y != shape.Direction.Y);
+        }
+
         /// <summary>
         /// Whitebox test: 100% Statement and Branch coverage:
         /// Test both that collision can happen and not depending on given direction.

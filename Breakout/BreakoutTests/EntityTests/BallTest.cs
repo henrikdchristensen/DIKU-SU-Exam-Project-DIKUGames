@@ -77,6 +77,38 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(expectedY - newDir.Y) < DIFF, $"dir.Y = {newDir.Y} {expectedY}");
         }
 
+        [Test]
+        public void TestUnbreakableCollision() {
+            Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
+            Unbreakable block = new Unbreakable(new StationaryShape(0, 0, 0, 0), new NoImage());
+            var shape = ball.Shape.AsDynamicShape();
+            shape.ChangeDirection(new Vec2F(1, 1));
+            CollisionHandlerData dummy = new CollisionHandlerData(CollisionDirection.CollisionDirDown, new Vec2F(0, 0));
+            var expected = new Vec2F(1, -1);
+
+            block.Accept(ball, dummy);
+            var newDir = shape.Direction;
+
+            Assert.True(Math.Abs(expected.X - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expected.X}");
+            Assert.True(Math.Abs(expected.Y - newDir.Y) < DIFF, $"dir.Y = {newDir.Y} {expected.Y}");
+        }
+
+        [Test]
+        public void TestWallCollision() {
+            Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
+            Wall wall = new Wall(new StationaryShape(0, 0, 0, 0));
+            var shape = ball.Shape.AsDynamicShape();
+            shape.ChangeDirection(new Vec2F(1, 1));
+            CollisionHandlerData dummy = new CollisionHandlerData(CollisionDirection.CollisionDirDown, new Vec2F(0, 0));
+            var expected = new Vec2F(1, -1);
+
+            wall.Accept(ball, dummy);
+            var newDir = shape.Direction;
+
+            Assert.True(Math.Abs(expected.X - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expected.X}");
+            Assert.True(Math.Abs(expected.Y - newDir.Y) < DIFF, $"dir.Y = {newDir.Y} {expected.Y}");
+        }
+
     }
 
 }
