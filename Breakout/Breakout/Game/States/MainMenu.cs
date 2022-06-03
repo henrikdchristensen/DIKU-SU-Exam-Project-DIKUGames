@@ -10,7 +10,7 @@ namespace Breakout.Game.States {
 
         private static MainMenu instance = null;
         private Text[] menuButtons;
-        private int activeMenuButton;
+        public int activeMenuButton { get; private set; } // public get for testing purpose
 
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of MainMenu</returns>
