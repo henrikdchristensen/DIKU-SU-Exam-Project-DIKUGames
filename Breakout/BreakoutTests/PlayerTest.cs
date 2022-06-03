@@ -38,7 +38,7 @@ namespace BreakoutTests {
             Window.CreateOpenGLContext();
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "Player.png")));
+                new NoImage());
             eventBus = new GameEventBus();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.InputEvent, GameEventType.PlayerEvent });
             eventBus.Subscribe(GameEventType.PlayerEvent, player);

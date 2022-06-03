@@ -3,6 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
 using Breakout.Levels;
 using Breakout.Items.Powerups;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
@@ -20,37 +21,37 @@ namespace Breakout.Items {
         /// <summary>TODO</summary>
         /// <param name="other">TODO</param>
         /// <param name="data">TODO</param>
-        public abstract void Accept(GameObject other, CollisionData data);
+        public abstract void Accept(GameObject other, CollisionHandlerData data);
 
         /// <summary>TODO</summary>
         /// <param name="block">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void BlockCollision(Block block, CollisionData data) { }
+        public virtual void BlockCollision(CollisionHandlerData data) { }
 
         /// <summary>TODO</summary>
         /// <param name="block">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void BallCollision(Ball block, CollisionData data) { }
+        public virtual void BallCollision(CollisionHandlerData data) { }
 
         /// <summary>TODO</summary>
         /// <param name="wall">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void WallCollision(Wall wall, CollisionData data) { }
+        public virtual void WallCollision(CollisionHandlerData data) { }
 
         /// <summary>TODO</summary>
         /// <param name="player">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void PlayerCollision(Player player, CollisionData data) { }
+        public virtual void PlayerCollision(CollisionHandlerData data) { }
 
         /// <summary>TODO</summary>
         /// <param name="powerup">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void PowerUpCollision(Powerup powerup, CollisionData data) { }
+        public virtual void PowerUpCollision(CollisionHandlerData data) { }
 
         /// <summary>TODO</summary>
         /// <param name="block">TODO</param>
         /// <param name="data">TODO</param>
-        public virtual void UnbreakableCollision(Unbreakable block, CollisionData data) { }
+        public virtual void UnbreakableCollision(CollisionHandlerData data) { }
 
     }
 }

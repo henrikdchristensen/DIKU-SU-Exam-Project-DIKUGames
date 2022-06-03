@@ -76,7 +76,7 @@ namespace Galaga.GalagaStates {
                         GalagaBus.GetBus().RegisterEvent(new GameEvent {
                             EventType = GameEventType.GameStateEvent,
                             Message = "CHANGE_STATE_RESET",
-                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.GameRunning)
+                            StringArg1 = StateTransformer.StateToString(GameStateType.GameRunning)
                         });
                     } else {
                         GalagaBus.GetBus().RegisterEvent(new GameEvent {

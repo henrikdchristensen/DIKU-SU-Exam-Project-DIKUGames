@@ -4,6 +4,7 @@ using DIKUArcade.Physics;
 using DIKUArcade.Events;
 using Breakout.Game;
 using Breakout.Levels;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
@@ -32,7 +33,7 @@ namespace Breakout.Items {
         /// <param name="level">TODO</param>
         public override void AtDeletion() {
             DeleteEntity();
-            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: value);
+            GameBus.TriggerEvent(GameEventType.StatusEvent, "BLOCK_DESTROYED", intArg: PointReward);
         }
 
         /// <summary>
@@ -42,14 +43,14 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other">The another GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionData data) {
-            other.BlockCollision(this, data);
+        public override void Accept(GameObject other, CollisionHandlerData data) {
+            other.BlockCollision(data);
         }
 
         /// <summary>If collision with a ball has occured,then call Hit() and loose 1 life</summary>
         /// <param name="ball">Ball object</param>
         /// <param name="data">Collision data</param>
-        public override void BallCollision(Ball ball, CollisionData data) {
+        public override void BallCollision(CollisionHandlerData data) {
             Hit();
         }
 

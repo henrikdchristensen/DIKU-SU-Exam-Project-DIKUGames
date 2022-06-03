@@ -13,9 +13,7 @@ namespace BreakoutTests {
         private StateMachine stateMachine;
         private GameEventBus eventBus;
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Initialize statemachine and eventbus instances</summary>
         [SetUp]
         public void InitiateStateMachine() {
             Window.CreateOpenGLContext();
@@ -25,61 +23,42 @@ namespace BreakoutTests {
             eventBus.Subscribe(GameEventType.GameStateEvent, stateMachine);
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Integration test: Test that starting state is Main Menu</summary>
         [Test]
         public void TestInitialState() {
-            Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
+            Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>(), TestLogger.OnFailedTestMessage(Is.InstanceOf<MainMenu>().ToString(), stateMachine.ActiveState.ToString()));
         }
 
         /// <summary>
-        /// 
+        /// Black- and Whitebox (C0, C1): Test that switching between possible game states
+        /// Case:           Expected output:            Comment:
+        /// MAIN_MENU       ActiveState=MainMenu        Change state to MainMenu
+        /// GAME_RUNNING    ActiveState=GameRunning     Change state to GameRunning
+        /// GAME_PAUSED     ActiveState=GamePaused      Change state to GamePaused
         /// </summary>
-        [Test]
-        public void TestEventGamePaused() {
+        [TestCase("MAIN_MENU", GameStateType.MainMenu)]
+        [TestCase("GAME_RUNNING", GameStateType.GameRunning)]
+        [TestCase("GAME_PAUSED", GameStateType.GamePaused)]
+        public void SwitchStateTest(string stringArg1, GameStateType expectedType) {
             eventBus.RegisterEvent(
                 new GameEvent {
                     EventType = GameEventType.GameStateEvent,
                     Message = "CHANGE_STATE",
-                    StringArg1 = "GAME_PAUSED"
+                    StringArg1 = stringArg1
                 }
             );
             eventBus.ProcessEventsSequentially();
-            Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test]
-        public void TestEventGameRunning() {
-            eventBus.RegisterEvent(
-                new GameEvent {
-                    EventType = GameEventType.GameStateEvent,
-                    Message = "CHANGE_STATE",
-                    StringArg1 = "GAME_RUNNING"
-                }
-            );
-            eventBus.ProcessEventsSequentially();
-            Assert.That(stateMachine.ActiveState, Is.InstanceOf<GameRunning>());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test]
-        public void TestEventMainMenu() {
-            eventBus.RegisterEvent(
-                new GameEvent {
-                    EventType = GameEventType.GameStateEvent,
-                    Message = "CHANGE_STATE",
-                    StringArg1 = "MAIN_MENU"
-                }
-            );
-            eventBus.ProcessEventsSequentially();
-            Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>());
+            switch (expectedType) {
+                case GameStateType.MainMenu:
+                    Assert.That(stateMachine.ActiveState, Is.InstanceOf<MainMenu>(), TestLogger.OnFailedTestMessage(Is.InstanceOf<MainMenu>().ToString(), stateMachine.ActiveState.ToString()));
+                    break;
+                case GameStateType.GameRunning:
+                    Assert.That(stateMachine.ActiveState, Is.InstanceOf<GameRunning>(), TestLogger.OnFailedTestMessage(Is.InstanceOf<GameRunning>().ToString(), stateMachine.ActiveState.ToString()));
+                    break;
+                case GameStateType.GamePaused:
+                    Assert.That(stateMachine.ActiveState, Is.InstanceOf<GamePaused>(), TestLogger.OnFailedTestMessage(Is.InstanceOf<GamePaused>().ToString(), stateMachine.ActiveState.ToString()));
+                    break;
+            }
         }
 
     }

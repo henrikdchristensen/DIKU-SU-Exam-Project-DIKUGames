@@ -38,10 +38,14 @@ namespace Breakout.Collision {
             foreach (GameObject col in collidableList) {
                 foreach (GameObject other in collidableList) {
                     if (col != other) {
-                        CollisionData data = CollisionDetection.Aabb(col.Shape.AsDynamicShape(), other.Shape);
+                        var colShape = col.Shape.AsDynamicShape();
+                        var otherShape = other.Shape.AsDynamicShape();
+                        CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
                         if (data.Collision) {
-                            col.Accept(other, data);
-                            other.Accept(col, data);
+                            col.Accept(other,
+                                new CollisionHandlerData(data.CollisionDir, colShape.Direction));
+                            other.Accept(col,
+                                new CollisionHandlerData(data.CollisionDir, otherShape.Direction));
                         }
                     }
                 }

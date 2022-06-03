@@ -5,7 +5,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Physics;
 using Breakout.Game;
 using Breakout.Items;
-using Breakout.Items.Powerups;
+using Breakout.Collision;
 
 namespace Breakout {
 
@@ -180,8 +180,8 @@ namespace Breakout {
         /// </summary>
         /// <param name="other">The other GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionData data) {
-            other.PlayerCollision(this, data);
+        public override void Accept(GameObject other, CollisionHandlerData data) {
+            other.PlayerCollision(data);
         }
 
     }

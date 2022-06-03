@@ -1,6 +1,7 @@
 ﻿using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
+using Breakout.Collision;
 
 namespace Breakout.Items {
 
@@ -16,7 +17,7 @@ namespace Breakout.Items {
         /// <summary>Accept method used for testing CollisionHandler's Update method</summary>
         /// <param name="other">Dummy GameObject</param>
         /// <param name="data">Dummy Collision data</param>
-        public override void Accept(GameObject other, CollisionData data) {
+        public override void Accept(GameObject other, CollisionHandlerData data) {
             hasCollided = true;
         }
 

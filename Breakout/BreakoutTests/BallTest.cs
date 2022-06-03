@@ -7,6 +7,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout;
 using Breakout.Items;
+using Breakout.Collision;
 
 namespace BreakoutTests {
 
@@ -43,9 +44,8 @@ namespace BreakoutTests {
             Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
             var shape = ball.Shape.AsDynamicShape();
             shape.ChangeDirection(new Vec2F(dirX, dirY));
-            var dummy = new Block(new StationaryShape(0,0,0,0), new NoImage());
 
-            ball.BlockCollision(dummy, new CollisionData() {CollisionDir = colDir});
+            ball.BlockCollision(new CollisionHandlerData(colDir, new Vec2F(0,0)));
             var newDir = shape.Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expectedX}");
@@ -72,7 +72,7 @@ namespace BreakoutTests {
             var dynShape = new DynamicShape(0, 0, 0, 0, dynX, dynY);
             var player = new Player(dynShape, new NoImage());
 
-            ball.PlayerCollision(player, new CollisionData() { CollisionDir = colDir });
+            ball.PlayerCollision(new CollisionHandlerData(colDir, dynShape.Direction));
             var newDir = shape.Direction;
 
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expectedX}");

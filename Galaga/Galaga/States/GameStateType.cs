@@ -8,7 +8,7 @@ namespace Galaga {
     }
     public class StateTransformer {
 
-        public static GameStateType TransformStringToState(string state) {
+        public static GameStateType StringToState(string state) {
             switch (state) {
                 case "GAME_RUNNING":
                     return GameStateType.GameRunning;
@@ -21,7 +21,7 @@ namespace Galaga {
             }
         }
 
-        public static string TransformStateToString(GameStateType state) {
+        public static string StateToString(GameStateType state) {
             switch (state) {
                 case GameStateType.GameRunning:
                     return "GAME_RUNNING";

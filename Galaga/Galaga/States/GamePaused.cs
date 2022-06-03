@@ -76,13 +76,13 @@ namespace Galaga.GalagaStates {
                         GalagaBus.GetBus().RegisterEvent(new GameEvent {
                             EventType = GameEventType.GameStateEvent,
                             Message = "CHANGE_STATE",
-                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.GameRunning)
+                            StringArg1 = StateTransformer.StateToString(GameStateType.GameRunning)
                         });
                     } else {
                         GalagaBus.GetBus().RegisterEvent(new GameEvent {
                             EventType = GameEventType.GameStateEvent,
                             Message = "CHANGE_STATE",
-                            StringArg1 = StateTransformer.TransformStateToString(GameStateType.MainMenu)
+                            StringArg1 = StateTransformer.StateToString(GameStateType.MainMenu)
                         });
                     }
                     break;

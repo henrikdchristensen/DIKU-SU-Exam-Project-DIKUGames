@@ -9,7 +9,7 @@ using Breakout.Levels;
 namespace BreakoutTests {
 
     [TestFixture]
-    public class LevelTest {
+    public class LevelParserTest {
 
         private LevelParser parser = new LevelParser(new LevelLoader());
         private string levelFolder;
@@ -22,8 +22,115 @@ namespace BreakoutTests {
             levelFolder = Path.Combine("..","Breakout", "Assets", "Levels");
         }
 
+
+
         /// <summary>
-        /// 
+        /// Integration test with levelLoaderStub
+        /// </summary>
+        private class LevelLoaderStubA : ILevelLoader {
+            public string[] Load(string path) {
+                return new string[] {
+                    "Map:",
+                    "-----111----", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "-----111----", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "------------", "------------", "------------",
+                    "------------",
+                    "Map/",
+                    "Meta:",
+                    "Time: 100",
+                    "Name: LEVEL 1",
+                    "Meta/",
+                    "Legend:",
+                    "1) orange-block.png",
+                    "Legend/"
+                };
+            }
+        }
+        [Test]
+        public void TestCreateLevelValid() {
+            Window.CreateOpenGLContext();
+            LevelParser parser = new LevelParser(new LevelLoaderStubA());
+            Level actual = parser.CreateLevel("");
+
+            char[,] map = {{
+                    '-', '-', '-', '-', '-', '1', '1', '1', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '1', '1', '1', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}, {
+                    '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}};
+            Dictionary<string, string> meta = new Dictionary<string, string>(){{
+                    "Time", "100"}, {
+                    "Name", "LEVEL 1"}};
+            Dictionary<string, string> legend = new Dictionary<string, string>(){{
+
+                    "1", "orange-block.png"}};
+
+            Level expected = new Level(map, meta, legend);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        private class LevelLoaderStubB : ILevelLoader {
+            public string[] Load(string path) {
+                return new string[] { };
+            }
+        }
+        [Test]
+        public void TestCreateLevelInValid() {
+            Window.CreateOpenGLContext();
+            LevelParser parser = new LevelParser(new LevelLoaderStubB());
+            try {
+                parser.CreateLevel("");
+                Assert.Fail();
+            } catch (ArgumentException e) {
+                Assert.Pass();
+            }            
+        }
+
+        private class LevelLoaderStubC : ILevelLoader {
+            public string[] Load(string path) {
+                throw new ArgumentException();
+            }
+        }
+        [Test]
+        public void TestCreateLevelInValidPath() {
+            Window.CreateOpenGLContext();
+            LevelParser parser = new LevelParser(new LevelLoaderStubC());
+            try {
+                parser.CreateLevel("");
+                Assert.Fail();
+            } catch (ArgumentException e) {
+                Assert.Pass();
+            }
+        }
+
+        /// <summary>
+        /// Following tests are integration tests of all level loading functionallity
         /// </summary>
         [Test]
         public void TestLevel1() {
@@ -199,16 +306,7 @@ namespace BreakoutTests {
             Assert.Fail();
         }
         
-        [Test]
-        public void TestValidator() {
-            var file = Path.Combine(levelFolder, "level3-modified.txt");
-            file = Path.Combine(FileIO.GetProjectPath(), file);
-
-            string[] text = File.ReadAllText(file).Split(Environment.NewLine);
-
-            LevelValidator.ValidateLevel(text);
-            Assert.Fail();
-        }
+        
 
     }
 
