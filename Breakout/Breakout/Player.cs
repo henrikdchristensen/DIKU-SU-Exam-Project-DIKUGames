@@ -17,9 +17,18 @@ namespace Breakout {
         private Text display;
         private int moveLeft = 0;
         private int moveRight = 0;
-        private int life;
+
+
+        /// <summary> 
+        /// Life of the player, is public due to testing purposes
+        /// </summary>
+        public int Life { get; private set; }
         private const float MOVEMENT_ACC = 0.005f;
-        private float maxSpeed;
+
+        /// <summary> 
+        /// Max speed of the player, is public due to testing purposes
+        /// </summary>
+        public float MaxSpeed { get; private set; }
         private const int START_LIVES = 3;
         private DynamicShape shape;
         private const float START_SPEED = 0.015f;
@@ -29,10 +38,10 @@ namespace Breakout {
         /// <param name="image">The image of the player</param>
         public Player(DynamicShape shape, IBaseImage image) : base(shape, image) {
             this.shape = shape;
-            life = START_LIVES;
-            maxSpeed = START_SPEED;
+            Life = START_LIVES;
+            MaxSpeed = START_SPEED;
 
-            display = new Text(life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
+            display = new Text(Life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
             display.SetColor(new Vec3F(1f, 1f, 1f));
 
         }
@@ -54,22 +63,23 @@ namespace Breakout {
         private void updateMovement() {
             float dirX = shape.Direction.X;
             int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
-            if (signDir == 0) { // if player has stopped moving
-                if (Math.Abs(dirX) <= MOVEMENT_ACC) // checking if slowing so much down that it will go in opposite direction stop player
+            if (signDir == 0) { //1. 1a: if player has stopped moving
+                if (Math.Abs(dirX) <= MOVEMENT_ACC) // 2.a checking if slowing so much down that it will go in opposite direction then stop player
                     shape.Direction.X = 0;
-                else
+                else // 2,b
                     shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC; // else reduce player speed with the acceleration
-            } else { // if moving
-                if (Math.Abs(dirX) + MOVEMENT_ACC <= maxSpeed) // if under max speed keep accelerating by adding acceleration to current speed
+            } else { // 1b: if moving
+                if (Math.Abs(dirX) + MOVEMENT_ACC <= MaxSpeed) // 3.a if under max speed keep accelerating by adding acceleration to current speed
                     shape.Direction.X += signDir * MOVEMENT_ACC;
-                else
-                    shape.Direction.X = signDir * maxSpeed; // if reached max speed keep going at max
+                else // 3.b
+                    shape.Direction.X = signDir * MaxSpeed; // if reached max speed keep going at max
             }
 
-            if (shape.Position.X > 1 - shape.Extent.X) {
+            // Prevent from escaping the screen
+            if (shape.Position.X > 1 - shape.Extent.X) { // 4.a
                 resetDir();
                 shape.Position.X = 1 - shape.Extent.X;
-            } else if (shape.Position.X < 0) {
+            } else if (shape.Position.X < 0) { // 4.b
                 resetDir();
                 shape.Position.X = 0;
             }
@@ -102,20 +112,20 @@ namespace Breakout {
 
         /// <summary>Loose on life and reduce it also on the screen</summary>
         private void looseLife() {
-            life--;
-            display.SetText(life.ToString());
+            Life--;
+            display.SetText(Life.ToString());
         }
 
         /// <summary>Adds a life to player and sets the new one to the screen</summary>
         private void addLife() {
-            life++;
-            display.SetText(life.ToString());
+            Life++;
+            display.SetText(Life.ToString());
         }
 
         /// <summary>Reset amount of life</summary>
         public void Reset() {
-            life = START_LIVES;
-            display.SetText(life.ToString());
+            Life = START_LIVES;
+            display.SetText(Life.ToString());
         }
 
         /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
@@ -129,7 +139,7 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case "LostLife":
-                        if (life > 1)
+                        if (Life > 1)
                             looseLife();
                         else
                             gameOver();
@@ -158,7 +168,7 @@ namespace Breakout {
                         Shape.Extent.X *= scale;
                         break;
                     case SCALE_SPEED_MSG:
-                        maxSpeed *= (float) gameEvent.ObjectArg1;
+                        MaxSpeed *= (float) gameEvent.ObjectArg1;
                         break;
                 }
             }

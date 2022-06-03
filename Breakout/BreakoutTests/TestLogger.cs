@@ -1,12 +1,13 @@
-namespace BreakoutTests;
+namespace BreakoutTests {
 
-class TestLogger {
+    class TestLogger {
 
-    /// <summary>
-    /// Write out expected result and actual result
-    /// </summary>
-    /// <returns>string</returns>    
-    public static string OnFailedTestMessage<T>(T expected, T result) {
-        return $"Expected: {expected}, but got {result}";
+        /// <summary>
+        /// Write out expected result and actual result
+        /// </summary>
+        /// <returns>string</returns>    
+        public static string OnFailedTestMessage<T>(T expected, T result) {
+            return $"Expected: {expected}, but got {result}";
+        }
     }
 }
