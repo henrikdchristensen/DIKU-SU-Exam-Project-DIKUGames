@@ -11,8 +11,8 @@ namespace Breakout.Items.Powerups {
 
     public abstract class Powerup : GameObject {
 
-        public const string ACTIVATE_MSG = "POWERUP_ACTIVATE";
-        public const string DEACTIVATE_MSG = "POWERUP_DEACTIVATE";
+        public const string CAN_ACTIVATE_MSG = "CAN_POWERUP_ACTIVATE";
+        public const string CAN_DEACTIVATE_MSG = "CAN_POWERUP_DEACTIVATE";
 
         private const float SPEED = 0.01f;
         public float Duration { get; } = -1;
@@ -75,9 +75,9 @@ namespace Breakout.Items.Powerups {
         /// <param name="player">A Player instance</param>
         /// <param name="data">Collision data passed along with the Player</param>
         public override void PlayerCollision(CollisionHandlerData data) {
-            GameBus.TriggerEvent(GameEventType.ControlEvent, ACTIVATE_MSG, objArg: this);
+            GameBus.TriggerEvent(GameEventType.ControlEvent, CAN_ACTIVATE_MSG, objArg: this);
             if (Duration > 0) 
-                GameBus.TriggerTimedEvent(GameEventType.ControlEvent, Duration, DEACTIVATE_MSG, objArg: this);
+                GameBus.TriggerTimedEvent(GameEventType.ControlEvent, Duration, CAN_DEACTIVATE_MSG, objArg: this);
 
             DeleteEntity(); 
         }
