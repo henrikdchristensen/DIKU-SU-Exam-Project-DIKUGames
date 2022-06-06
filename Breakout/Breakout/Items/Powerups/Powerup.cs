@@ -28,22 +28,25 @@ namespace Breakout.Items.Powerups {
             Array values = type.GetEnumValues();
             int index = random.Next(values.Length);
             PowerupType value = (PowerupType) values.GetValue(index);
+            string imgPath = Path.Combine("..", "Breakout", "Assets", "Images");
 
-            /*switch (value) {
+            switch (value) {
                 case PowerupType.ExtraLife:
-                    return new Powerup(value, -1, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "LifePickUp.png")));
+                    return new ExtraLife(shape, new Image(Path.Combine(imgPath, "LifePickUp.png")));
                 case PowerupType.Wide:
-                    return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "WidePowerUp.png")));
+                    return new Wide(shape, new Image(Path.Combine(imgPath, "WidePowerUp.png")));
                 case PowerupType.PlayerSpeed:
-                    return new Powerup(value, 5,shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "DoubleSpeedPowerUp.png")));
+                    return new PlayerSpeed(shape, new Image(Path.Combine(imgPath, "DoubleSpeedPowerUp.png")));
                 case PowerupType.DoubleSpeed:
-                    return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "SpeedPickUp.png")));
+                    return new DoubleSpeed(shape, new Image(Path.Combine(imgPath, "SpeedPickUp.png")));
                 case PowerupType.DoubleSize:
-                    return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "BigPowerUp.png")));
+                    return new DoubleSize(shape, new Image(Path.Combine(imgPath, "BigPowerUp.png")));
                 case PowerupType.HardBall:
-                    return new Powerup(value, 5, shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
-            }TODO*/
-            return new DoubleSpeed(shape, new Image(Path.Combine("..", "Breakout", "Assets", "Images", "ExtraBallPowerUp.png")));
+                    return new HardBall(shape, new Image(Path.Combine(imgPath, "ExtraBallPowerUp.png")));
+                case PowerupType.Split:
+                    return new Split(shape, new Image(Path.Combine(imgPath, "SplitPowerUp.png")));
+            }
+            return null;
         }
 
         /// <summary>Construtor for Powerup: Sets up e.g. the direction and duration of the powerup</summary>

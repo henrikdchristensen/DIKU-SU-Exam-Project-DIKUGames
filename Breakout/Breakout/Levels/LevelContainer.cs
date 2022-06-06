@@ -58,8 +58,8 @@ namespace Breakout.Levels {
                 ActiveLevel = levelList[levelCounter++];
                 ActiveLevel.Activate();
             } else {
-                GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
-                    StateTransformer.StateToString(GameStateType.MainMenu));
+                GameBus.TriggerEvent(GameEventType.GameStateEvent, Player.PLAYER_DEAD_MSG,
+                    StateTransformer.StateToString(GameStateType.GameOver));
             }
         }
 
