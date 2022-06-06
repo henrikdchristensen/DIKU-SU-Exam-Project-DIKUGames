@@ -36,8 +36,8 @@ namespace Breakout.Levels {
             levelLoader = new LevelParser(new LevelLoader());
             // Initialize structure of levels
             levelList = new List<Level> {
-                //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
-                //levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
+                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
+                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
                 levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
                 levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
             };
@@ -59,21 +59,6 @@ namespace Breakout.Levels {
                     StringArg1 = StateTransformer.StateToString(GameStateType.MainMenu)
                 });
             }
-        }
-
-        /// <summary>
-        /// Can set an active level given a level file name 
-        /// </summary>
-        /// <param name="activeLevel">String with the name of level file</param>
-        public void SetActiveLevel(string activeLevel) {
-            ActiveLevel = levelLoader.CreateLevel(Path.Combine("Assets", "Levels", activeLevel));
-        }
-
-        /// <summary>
-        /// Reset the LevelContainer.
-        /// </summary>
-        public void ResetLevelContainer() {
-            initializeLevels();
         }
 
     }

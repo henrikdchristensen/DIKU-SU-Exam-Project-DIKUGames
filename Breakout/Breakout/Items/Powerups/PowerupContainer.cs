@@ -46,10 +46,10 @@ namespace Breakout.Items.Powerups {
 
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.Message) {
-                case Powerup.ACTIVATE_MSG:
+                case Powerup.CAN_ACTIVATE_MSG:
                     activate((Powerup) gameEvent.ObjectArg1);
                     break;
-                case Powerup.DEACTIVATE_MSG:
+                case Powerup.CAN_DEACTIVATE_MSG:
                     deactivate((Powerup) gameEvent.ObjectArg1);
                     break;
             }

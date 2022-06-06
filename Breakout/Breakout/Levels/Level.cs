@@ -26,7 +26,7 @@ namespace Breakout.Levels {
 
         /// <summary>TODO</summary>
         /// <param name="map">TODO</param>
-        /// <param name="meta">TODO</param>
+        /// <param name="meta">TODO</param> 
         /// <param name="legend">TODO</param>
         public Level(char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
