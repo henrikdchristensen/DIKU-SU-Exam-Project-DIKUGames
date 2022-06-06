@@ -1,5 +1,6 @@
 ﻿using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using DIKUArcade.Entities;
 
 namespace Breakout {
 
@@ -7,6 +8,7 @@ namespace Breakout {
 
         private int points;
         private Text display;
+        private readonly Vec3F COLOR = new Vec3F(247f / 255f, 145f / 255f, 0);
 
         /// <summary>Constructor for Score: Setup a scoreboard</summary>
         /// <param name="position"> Where the scoreboard is rendered</param>
@@ -14,7 +16,7 @@ namespace Breakout {
         public Score(Vec2F position, Vec2F extent) {
             points = 0;
             display = new Text(points.ToString(), position, extent);
-            display.SetColor(new Vec3F(1f, 1f, 1f));
+            display.SetColor(COLOR);
         }
 
         /// <summary>Add points to the score</summary>

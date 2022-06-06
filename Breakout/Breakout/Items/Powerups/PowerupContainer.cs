@@ -1,5 +1,6 @@
 ﻿using DIKUArcade.Events;
 using Breakout.Game;
+using Breakout.Levels;
 
 namespace Breakout.Items.Powerups {
 
@@ -13,15 +14,16 @@ namespace Breakout.Items.Powerups {
 
         private PowerupContainer() {
             GameBus.GetBus().Subscribe(GameEventType.ControlEvent, this);
+            GameBus.GetBus().Subscribe(GameEventType.StatusEvent, this);
         }
 
         private List<PowerupType> active = new List<PowerupType>();
 
 
         /// <summary>
-        /// TODO
+        /// Activate a powerup
         /// </summary>
-        /// <param name="powerup">TODO</param>
+        /// <param name="powerup">Powerup to be activated</param>
         private void activate(Powerup powerup) {
             if (!active.Contains(powerup.Type))
                 powerup.Activate();
@@ -31,17 +33,20 @@ namespace Breakout.Items.Powerups {
         }
 
         /// <summary>
-        /// TODO
+        /// Deactivate a powerup
         /// </summary>
-        /// <param name="str">TODO</param>
+        /// <param name="powerup">Powerup that should be deactivated</param>
         private void deactivate(Powerup powerup) {
             if (active.Contains(powerup.Type)) {
                 active.Remove(powerup.Type);
                 if (!active.Contains(powerup.Type)) {
-                    Console.WriteLine("DEACTIVATE");
                     powerup.Deactivate();
                 }
             }  
+        }
+
+        private void flush() {
+            active = new List<PowerupType>();
         }
 
         public void ProcessEvent(GameEvent gameEvent) {
@@ -51,6 +56,9 @@ namespace Breakout.Items.Powerups {
                     break;
                 case Powerup.CAN_DEACTIVATE_MSG:
                     deactivate((Powerup) gameEvent.ObjectArg1);
+                    break;
+                case LevelContainer.NEXT_LEVEL_MSG:
+                    flush();
                     break;
             }
         }

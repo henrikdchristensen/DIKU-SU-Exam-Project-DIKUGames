@@ -4,7 +4,9 @@ using Breakout.Game;
 
 namespace Breakout.Levels {
 
-    public class LevelContainer {
+    public class LevelContainer : IGameEventProcessor {
+
+        public const string NEXT_LEVEL_MSG = "NEXT_LEVEL";
 
         // Singleton pattern
         private static LevelContainer instance = null;
@@ -41,6 +43,7 @@ namespace Breakout.Levels {
                 levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
                 levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
             };
+
             // Set initial active level
             NextLevel();
         }
@@ -49,17 +52,26 @@ namespace Breakout.Levels {
         /// Incrementing the level. If last level is passed then the game returns to main menu.
         /// </summary>
         public void NextLevel() {
-            if (levelCounter <= levelList.Count - 1) {
+            if (levelCounter > 0)
+                ActiveLevel.Deactivate();
+            if (levelCounter < levelList.Count - 1) {
                 ActiveLevel = levelList[levelCounter++];
                 ActiveLevel.Activate();
             } else {
-                GameBus.GetBus().RegisterEvent(new GameEvent {
-                    EventType = GameEventType.GameStateEvent,
-                    Message = "CHANGE_STATE",
-                    StringArg1 = StateTransformer.StateToString(GameStateType.MainMenu)
-                });
+                GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
+                    StateTransformer.StateToString(GameStateType.MainMenu));
             }
         }
 
+        public void ProcessEvent(GameEvent gameEvent) {
+            if (gameEvent.EventType == GameEventType.StatusEvent) {
+                switch (gameEvent.Message) {
+                    case NEXT_LEVEL_MSG:
+                        NextLevel();
+                        break;
+                }
+            }
+
+        }
     }
 }

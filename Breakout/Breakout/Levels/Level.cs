@@ -7,6 +7,7 @@ using Breakout.Game;
 using Breakout.Items;
 using Breakout.Collision;
 using Breakout.Items.Powerups;
+using DIKUArcade.Timers;
 
 namespace Breakout.Levels {
 
@@ -15,8 +16,8 @@ namespace Breakout.Levels {
         public const string ADD_GAMEOBJECT_MSG = "ADD_GAMOBJECT_MSG";
 
         private Text display;
-        private Stopwatch stopwatch = new Stopwatch();
-        private int timeToEnd;
+        private long timeToEnd = -1;
+        private readonly Vec3F COLOR = new Vec3F(247f / 255f, 145f / 255f, 0);
         public char[,] Map { get; }
         public Dictionary<string, string> Meta { get; }
         public Dictionary<string, string> Legend { get; }
@@ -57,11 +58,12 @@ namespace Breakout.Levels {
             //Start timer if field is set in metadata
             string time = MetaTransformer.StateToString(MetaType.Time);
             if (Meta.ContainsKey(time)) {
-                timeToEnd = int.Parse(Meta[time]);
-                stopwatch.Start();
+                long startTime = StaticTimer.GetElapsedMilliseconds();
+                //Converts seconds to milliseconds
+                timeToEnd = int.Parse(Meta[time]) * 1000 + startTime; 
                 if (timeToEnd > 0) {
                     display = new Text($"{timeToEnd}", new Vec2F(0.75f, 0.5f), new Vec2F(0.6f, 0.5f));
-                    display.SetColor(new Vec3F(1f, 1f, 1f));
+                    display.SetColor(COLOR);
                 }
             
             }
@@ -71,15 +73,17 @@ namespace Breakout.Levels {
         public void Update() {
             //Delete entities that have been marked for deletion
             items = DeleteMarkedEntity(items);
-            if (hasWon()) {
-                Deactivate();
-                LevelContainer.GetLevelContainer().NextLevel();
-                return;
-            }
+
             foreach (GameObject item in items)
                 item.Update();
 
             ballContainer.Update();
+
+            if (hasWon()) {
+                nextLevel();
+            } else if (hasTimeExceeded()) {
+                gameOver();
+            }
         }
 
         /// <summary>TODO</summary>
@@ -107,10 +111,9 @@ namespace Breakout.Levels {
 
         /// <summary>TODO</summary>
         private void renderTime() {
-            if (stopwatch.ElapsedMilliseconds / 1000 < timeToEnd) {
-                display.SetText((timeToEnd - stopwatch.ElapsedMilliseconds / 1000).ToString());
-                display.RenderText();
-            }
+            long time = (timeToEnd - StaticTimer.GetElapsedMilliseconds()) / 1000;
+            display.SetText(time.ToString());
+            display.RenderText();
         }
 
         /// <summary>TODO</summary>
@@ -130,7 +133,8 @@ namespace Breakout.Levels {
                 for (int j = 0; j < Map.GetLength(1); j++) {
                     string c = Map[i, j] + "";
                     if (Legend.ContainsKey(c)) {
-                        Block block = chooseBlock(c, new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y));
+                        Block block = chooseBlock(c,
+                            new StationaryShape(j * blockSize.X, 1 - (i * blockSize.Y + blockSize.Y), blockSize.X, blockSize.Y));
                         items.AddEntity(block);
                     }
                 }
@@ -183,6 +187,18 @@ namespace Breakout.Levels {
         /// <returns></returns>
         public int CountItems() {
             return items.CountEntities();
+        }
+
+        private bool hasTimeExceeded() {
+            return timeToEnd != -1 && StaticTimer.GetElapsedMilliseconds() >= timeToEnd;
+        }
+
+        private void gameOver() {
+            GameBus.TriggerEvent(GameEventType.StatusEvent, Player.PLAYER_DEAD_MSG);
+        }
+
+        private void nextLevel() {
+            GameBus.TriggerEvent(GameEventType.StatusEvent, LevelContainer.NEXT_LEVEL_MSG);
         }
 
         /// <summary>TODO</summary>

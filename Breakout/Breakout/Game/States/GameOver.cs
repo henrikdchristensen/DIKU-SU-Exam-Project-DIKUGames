@@ -3,6 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Input;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
+using DIKUArcade.Entities;
 
 namespace Breakout.Game.States {
 
@@ -13,6 +14,12 @@ namespace Breakout.Game.States {
         private static GameOver instance = null;
         private Text[] menuButtons;
         private Text scoreText;
+
+        private readonly Vec3F ACITVED_COLOR = new Vec3F(247f / 255f, 145f / 255f, 0);
+        private readonly Vec3F DEACITVED_COLOR = new Vec3F(150f / 255f, 150f / 255f, 150f / 255f);
+        private readonly Vec3F SCORE_COLOR = new Vec3F(247f / 255f, 247f / 255f, 27f / 255f);
+
+        private Entity background;
         public int activeMenuButton { get; private set; } // public get for testing purpose
 
         /// <summary>Get the one and only instance of the class</summary>
@@ -27,10 +34,16 @@ namespace Breakout.Game.States {
 
         /// <summary>Initialize the game state by setting correct menu items</summary>
         public void InitializeGameState() {
-            scoreText = new Text("Score: ", new Vec2F(0.015f, 0.2f), new Vec2F(0.8f, 0.8f));
+            background = new Entity(
+                new StationaryShape(0, 0, 1, 1),
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "BreakoutTitleScreen.png")));
+
+            scoreText = new Text("Score: 0", new Vec2F(0.25f, 0.13f), new Vec2F(0.65f, 0.65f));
+            scoreText.SetColor(SCORE_COLOR);
+
             menuButtons = new Text[] {
-                new Text("Main Menu", new Vec2F(0.15f, 0), new Vec2F(0.8f, 0.8f)),
-                new Text("Quit", new Vec2F(0.35f, -0.3f), new Vec2F(0.8f, 0.8f))
+                new Text("Main Menu", new Vec2F(0.15f, -0.2f), new Vec2F(0.8f, 0.8f)),
+                new Text("Quit", new Vec2F(0.35f, -0.4f), new Vec2F(0.8f, 0.8f))
             };
             activeMenuButton = 0;
 
@@ -48,14 +61,14 @@ namespace Breakout.Game.States {
 
         /// <summary>Set correct color to menu buttons</summary>
         public void RenderState() {
-            scoreText.SetText("Score: " + finalScore);
-            scoreText.SetColor(new Vec3F(1, 1, 1));
+            background.RenderEntity();
+            
             scoreText.RenderText();
             for (int i = 0; i < menuButtons.Length; i++) {
                 if (activeMenuButton == i)
-                    menuButtons[i].SetColor(new Vec3F(0, 1, 0));
+                    menuButtons[i].SetColor(ACITVED_COLOR);
                 else
-                    menuButtons[i].SetColor(new Vec3F(1, 1, 1));
+                    menuButtons[i].SetColor(DEACITVED_COLOR);
                 menuButtons[i].RenderText();
             }
         }
@@ -98,7 +111,7 @@ namespace Breakout.Game.States {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
                 switch (gameEvent.Message) {
                     case "SCORE":
-                        finalScore = gameEvent.StringArg1;
+                        scoreText.SetText("Score: " + gameEvent.StringArg1);
                         break;
                 }
             }

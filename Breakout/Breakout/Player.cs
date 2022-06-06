@@ -14,8 +14,8 @@ namespace Breakout {
         public const string SCALE_WIDE_MSG = "WIDE_SPEED";
         public const string ADD_LIFE_MSG = "ADD_LIFE";
         public const string LOOSE_LIFE_MSG = "LostLife";
+        public const string PLAYER_DEAD_MSG = "PLAYER_DEAD";
 
-        private Text display;
         private int moveLeft = 0;
         private int moveRight = 0;
 
@@ -34,6 +34,16 @@ namespace Breakout {
         private DynamicShape shape;
         private const float START_SPEED = 0.015f;
 
+        private readonly Image HEART_FILLED_IMAGE =
+            new Image(Path.Combine("..", "Breakout", "Assets", "Images", "heart_filled.png"));
+        private readonly Image HEART_EMPTY_IMAGE =
+            new Image(Path.Combine("..", "Breakout", "Assets", "Images", "heart_empty.png"));
+        private readonly Vec2F HEART_POS = new Vec2F(0.35f, 0.92f);
+        private readonly Vec2F HEART_EXTENT = new Vec2F(0.08f, 0.08f);
+        private const float OFFSET_X = 0.01f;
+
+        private EntityContainer<Entity> hearts;
+
         /// <summary>Constructor of Player: Setup start life, speed and life</summary>
         /// <param name="shape">The shape of the player</param>
         /// <param name="image">The image of the player</param>
@@ -42,15 +52,13 @@ namespace Breakout {
             Life = START_LIVES;
             MaxSpeed = START_SPEED;
 
-            display = new Text(Life.ToString(), new Vec2F(0.45f, 0.5f), new Vec2F(0.6f, 0.5f));
-            display.SetColor(new Vec3F(1f, 1f, 1f));
-
+            setHaerts();
         }
 
         /// <summary>Render the player</summary>
         public void Render() {
+            hearts.RenderEntities();
             RenderEntity();
-            display.RenderText();
         }
 
         /// <summary>Move the player according to its direction</summary>
@@ -115,25 +123,41 @@ namespace Breakout {
 
         /// <summary>Loose on life and reduce it also on the screen</summary>
         private void looseLife() {
-            Life--;
-            display.SetText(Life.ToString());
+            if (Life > 1) {
+                Life--;
+                setHaerts();
+            } else
+                gameOver();
         }
 
         /// <summary>Adds a life to player and sets the new one to the screen</summary>
         private void addLife() {
             Life++;
-            display.SetText(Life.ToString());
+            setHaerts();
+        }
+        private void setHaerts() {
+            hearts = new EntityContainer<Entity>();
+            for (int i = 0; i < START_LIVES; i++) {
+                StationaryShape shape = new StationaryShape(
+                        HEART_POS.X + (HEART_EXTENT.X + OFFSET_X) * i,
+                        HEART_POS.Y, HEART_EXTENT.X, HEART_EXTENT.Y);
+                if (i < Life)
+                    hearts.AddEntity(new Entity(shape, HEART_FILLED_IMAGE));
+                else
+                    hearts.AddEntity(new Entity(shape, HEART_EMPTY_IMAGE));
+            }
+                
         }
 
         /// <summary>Reset amount of life</summary>
         public void Reset() {
             Life = START_LIVES;
-            display.SetText(Life.ToString());
+            setHaerts();
         }
 
         /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
         private void gameOver() {
-            GameBus.TriggerEvent(GameEventType.StatusEvent, "PLAYER_DEAD");
+            GameBus.TriggerEvent(GameEventType.StatusEvent, PLAYER_DEAD_MSG);
         }
 
         /// <summary>To receive events from the event bus</summary>
@@ -142,10 +166,7 @@ namespace Breakout {
             if (gameEvent.EventType == GameEventType.PlayerEvent) {
                 switch (gameEvent.Message) {
                     case LOOSE_LIFE_MSG:
-                        if (Life > 1)
-                            looseLife();
-                        else
-                            gameOver();
+                        looseLife();
                         break;
                     case "LeftPressed":
                         setMoveLeft(true);

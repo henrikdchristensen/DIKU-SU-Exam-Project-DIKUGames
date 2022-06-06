@@ -8,6 +8,7 @@ using Breakout.Levels;
 using Breakout.Collision;
 using Breakout.Items;
 using Breakout.Items.Powerups;
+using DIKUArcade.Timers;
 
 namespace Breakout.Game.States {
 
@@ -19,6 +20,8 @@ namespace Breakout.Game.States {
         private LevelContainer levels;
         private Player player;
         private CollisionHandler collisionHandler;
+
+        private Entity background;
         private GameRunning() { }
 
         /// <summary>Get the one and only instance of the class</summary>
@@ -43,6 +46,9 @@ namespace Breakout.Game.States {
             player = new Player(
                 new DynamicShape(new Vec2F(0.42f, 0.01f), new Vec2F(0.16f, 0.022f)),
                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", "player.png")));
+            background = new Entity(
+                new StationaryShape(0, 0, 1, 1),
+                new Image(Path.Combine("..", "Breakout", "Assets", "Images", "SpaceBackground.png")));
 
             collisionHandler = CollisionHandler.GetInstance();
 
@@ -52,6 +58,7 @@ namespace Breakout.Game.States {
             collisionHandler.Subsribe(new Wall(new StationaryShape(0, 1, 1, 0.1f)));
 
             eventBus = GameBus.GetBus();
+            eventBus.Subscribe(GameEventType.StatusEvent, LevelContainer.GetLevelContainer());
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
             eventBus.Subscribe(GameEventType.ControlEvent, player);
             eventBus.Subscribe(GameEventType.StatusEvent, this);
@@ -66,6 +73,7 @@ namespace Breakout.Game.States {
 
         /// <summary>Call update methods for collisionHandler, player and levels</summary>
         public void UpdateState() {
+            StaticTimer.ResumeTimer();
             collisionHandler.Update();
             player.Update();
             levels.ActiveLevel.Update();
@@ -73,6 +81,7 @@ namespace Breakout.Game.States {
 
         /// <summary>Call render methods for levels, player and score</summary>
         public void RenderState() {
+            background.RenderEntity();
             levels.ActiveLevel.Render();
             player.Render();
             score.Render();
