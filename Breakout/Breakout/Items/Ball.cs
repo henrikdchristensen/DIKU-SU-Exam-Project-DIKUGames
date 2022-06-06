@@ -46,7 +46,8 @@ namespace Breakout.Items {
 
         public void ResetPosition() {
             Shape.Position = originalPos.Copy();
-            SetRandomDirection(defaultDir);
+            float len = (float) Shape.AsDynamicShape().Direction.Length();
+            SetRandomDirection(Vec2F.Normalize(defaultDir) * len);
         }
 
         /// <summary>Calculates the new direction of the ball based on the collision data</summary>

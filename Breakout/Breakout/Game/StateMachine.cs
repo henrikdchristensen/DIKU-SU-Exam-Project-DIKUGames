@@ -1,5 +1,6 @@
 using DIKUArcade.Events;
 using DIKUArcade.State;
+using DIKUArcade.Timers;
 
 namespace Breakout.Game {
 
