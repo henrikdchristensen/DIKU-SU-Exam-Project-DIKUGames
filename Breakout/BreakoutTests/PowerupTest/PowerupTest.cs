@@ -40,7 +40,10 @@ namespace BreakoutTests {
         [OneTimeSetUp]
         public void Setup() {
             eventBus = GameBus.GetBus();
-            PowerupContainer.GetPowerupContainer();
+            eventBus.Flush();
+            eventBus.ResetBreakProcessing();
+            DIKUArcade.Timers.StaticTimer.ResumeTimer();
+            PowerupContainer.GetPowerupContainer().Flush();
         }
 
         /// <summary>
@@ -53,7 +56,7 @@ namespace BreakoutTests {
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("..", "Breakout", "Assets", "Images", "Player.png")));
             ball = new Ball(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f), new NoImage());
-            
+
             eventBus.Subscribe(GameEventType.ControlEvent, player);
             eventBus.Subscribe(GameEventType.ControlEvent , ball);
         }
@@ -90,6 +93,7 @@ namespace BreakoutTests {
             var wide = new Wide(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
             wide.PlayerCollision(null);
             eventBus.ProcessEventsSequentially();
+
             float activeSize = initSize * 1.5f;
             Assert.True(Math.Abs(activeSize - player.Shape.Extent.X) < COMPARE_DIFF);
 
@@ -108,9 +112,11 @@ namespace BreakoutTests {
         public void TestExtraLife() {
             int life = player.Life;
             var extraLife = new ExtraLife(new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)), new NoImage());
+
             extraLife.PlayerCollision(null);
             eventBus.ProcessEventsSequentially();
-            float expected = life+1;
+
+            float expected = life + 1;
             Assert.AreEqual(expected, player.Life);
         }
 

@@ -204,7 +204,7 @@ namespace Breakout {
         /// </summary>
         /// <param name="other">The other GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
+        public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.PlayerCollision(data);
         }
 

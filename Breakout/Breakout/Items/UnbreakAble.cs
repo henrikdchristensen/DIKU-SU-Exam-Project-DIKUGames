@@ -18,7 +18,7 @@ namespace Breakout.Items {
         /// <summary>Accepts another GameObject if collision has occured with another object.</summary>
         /// <param name="other">The other GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
+        public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.UnbreakableCollision(data);
         }
 

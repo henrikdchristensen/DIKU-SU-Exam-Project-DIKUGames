@@ -45,7 +45,7 @@ namespace Breakout.Items.Powerups {
             }  
         }
 
-        private void flush() {
+        public void Flush() {
             active = new List<PowerupType>();
         }
 
@@ -58,7 +58,7 @@ namespace Breakout.Items.Powerups {
                     deactivate((Powerup) gameEvent.ObjectArg1);
                     break;
                 case LevelContainer.NEXT_LEVEL_MSG:
-                    flush();
+                    Flush();
                     break;
             }
         }

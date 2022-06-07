@@ -44,7 +44,7 @@ namespace Breakout.Items {
             Shape.AsDynamicShape().Direction = newDir;
         }
 
-        public void ResetPosition() {
+        public void ResetPosition() {   
             Shape.Position = originalPos.Copy();
             float len = (float) Shape.AsDynamicShape().Direction.Length();
             SetRandomDirection(Vec2F.Normalize(defaultDir) * len);
@@ -75,7 +75,7 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other">Another GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
+        public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.BallCollision(data);
         }
 

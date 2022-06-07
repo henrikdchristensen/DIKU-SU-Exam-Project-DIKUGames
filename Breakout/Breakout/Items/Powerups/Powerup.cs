@@ -6,6 +6,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using Breakout.Game;
 using Breakout.Collision;
+using Breakout.Items;
 
 namespace Breakout.Items.Powerups {
 
@@ -69,7 +70,7 @@ namespace Breakout.Items.Powerups {
         /// </summary>
         /// <param name="other">The incomming GameObject</param>
         /// <param name="data">Collision data passed along with the GameObject</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
+        public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.PowerUpCollision(data);
         }
 

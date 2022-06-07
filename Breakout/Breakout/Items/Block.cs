@@ -43,7 +43,7 @@ namespace Breakout.Items {
         /// </summary>
         /// <param name="other">The another GameObject</param>
         /// <param name="data">Collision data</param>
-        public override void Accept(GameObject other, CollisionHandlerData data) {
+        public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.BlockCollision(data);
         }
 

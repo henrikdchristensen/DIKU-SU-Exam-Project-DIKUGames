@@ -26,7 +26,7 @@ namespace Breakout.Items {
         /// <summary>TODO</summary>
         /// <param name="other">TODO</param>
         /// <param name="data">TODO</param>
-        public abstract void Accept(GameObject other, CollisionHandlerData data);
+        public abstract void Accept(IGameObjectVisitor other, CollisionHandlerData data);
 
 
         /// <summary>TODO</summary>
