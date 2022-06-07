@@ -127,7 +127,7 @@ namespace Breakout {
                 Life--;
                 setHaerts();
             } else
-                gameOver();
+                whenDead();
         }
 
         /// <summary>Adds a life to player and sets the new one to the screen</summary>
@@ -156,7 +156,7 @@ namespace Breakout {
         }
 
         /// <summary>Trigger an event to reset to Main Menu in case of GameOver</summary>
-        private void gameOver() {
+        private void whenDead() {
             GameBus.TriggerEvent(GameEventType.StatusEvent, PLAYER_DEAD_MSG);
         }
 
