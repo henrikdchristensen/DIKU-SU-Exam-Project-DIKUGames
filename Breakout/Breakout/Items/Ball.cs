@@ -3,9 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Physics;
 using DIKUArcade.Events;
-using Breakout.Levels;
 using Breakout.Game;
-using Breakout.Entities.Powerups;
 using Breakout.Collision;
 
 namespace Breakout.Entities {

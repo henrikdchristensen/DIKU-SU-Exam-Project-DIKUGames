@@ -7,7 +7,6 @@ using DIKUArcade.Graphics;
 using Breakout.Levels;
 using Breakout.Game;
 using Breakout.Entities.Powerups;
-using System;
 
 namespace BreakoutTests.poweruptests {
 
@@ -30,8 +29,8 @@ namespace BreakoutTests.poweruptests {
 
             int expected = initItems + 1;
             Assert.AreEqual(expected, level.CountItems());
-
         }
 
     }
+
 }

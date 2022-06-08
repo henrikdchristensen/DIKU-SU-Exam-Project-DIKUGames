@@ -1,17 +1,15 @@
 using NUnit.Framework;
 using System;
 using System.IO;
-using System.Collections.Generic;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
-using Breakout.Entities.Powerups;
-using Breakout.Entities;
 using Breakout.Game;
-
+using Breakout.Entities;
+using Breakout.Entities.Powerups;
 
 namespace BreakoutTests {
 

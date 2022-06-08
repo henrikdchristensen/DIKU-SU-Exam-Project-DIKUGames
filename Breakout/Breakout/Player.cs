@@ -2,7 +2,6 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
-using DIKUArcade.Physics;
 using Breakout.Game;
 using Breakout.Entities;
 using Breakout.Collision;

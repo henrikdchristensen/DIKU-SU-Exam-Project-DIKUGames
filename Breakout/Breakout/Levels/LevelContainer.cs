@@ -1,7 +1,6 @@
 using DIKUArcade.Events;
 using Breakout.Game;
 
-
 namespace Breakout.Levels {
 
     public class LevelContainer : IGameEventProcessor {

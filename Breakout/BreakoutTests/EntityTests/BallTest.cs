@@ -5,7 +5,6 @@ using DIKUArcade.Physics;
 using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
-using Breakout;
 using Breakout.Entities;
 using Breakout.Collision;
 

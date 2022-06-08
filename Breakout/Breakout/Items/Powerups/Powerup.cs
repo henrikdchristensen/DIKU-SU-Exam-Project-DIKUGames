@@ -1,12 +1,9 @@
-﻿using DIKUArcade.Physics;
-using DIKUArcade.Graphics;
+﻿using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
-using DIKUArcade.Timers;
 using Breakout.Game;
 using Breakout.Collision;
-using Breakout.Entities;
 
 namespace Breakout.Entities.Powerups {
 
