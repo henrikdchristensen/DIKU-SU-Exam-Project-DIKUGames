@@ -126,7 +126,7 @@ namespace Breakout.Entities {
             //calculate: dir - 2 (dir dot-produkt normal) * normal
             Vec2F dir = Shape.AsDynamicShape().Direction;
             float speed = (float) dir.Length();
-            float dotProduct = Vec2F.Dot(normal, dir); //TODO
+            float dotProduct = Vec2F.Dot(normal, dir); 
             Vec2F newDir = dir - 2 * dotProduct * normal;
             newDir += data.Direction * 0.25f;
             if (newDir.Length() != 0)
@@ -146,8 +146,9 @@ namespace Breakout.Entities {
             }
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="level">TODO</param>
+        /// <summary>
+        /// When the balls 
+        /// </summary>
         public override void OnDeletion() {
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
