@@ -53,7 +53,7 @@ namespace Breakout.Items {
         }
 
         /// <summary>
-        /// TODO
+        /// Updating the position of the balls and deletes balls marked for deletion
         /// </summary>
         public void Update() {
             if (splitBallsNext) {
@@ -85,7 +85,7 @@ namespace Breakout.Items {
         }
 
         /// <summary>
-        /// TODO
+        /// Splitting the ball in three
         /// </summary>
         private void splitBalls() {
             int len = balls.Count;
@@ -99,7 +99,7 @@ namespace Breakout.Items {
         }
 
         /// <summary>
-        /// TODO
+        /// Processing events from the event bus
         /// </summary>
         /// <param name="gameEvent">TODO</param>
         public void ProcessEvent(GameEvent gameEvent) {
@@ -111,7 +111,10 @@ namespace Breakout.Items {
                 }
             }
         }
-
+        /// <summary>
+        /// Counting the balls
+        /// </summary>
+        /// <returns>Number of balls</returns>
         public int CountBalls() {
             return balls.Count;
         }

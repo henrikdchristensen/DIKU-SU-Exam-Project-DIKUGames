@@ -6,39 +6,37 @@ namespace Breakout.Items {
     /// All entities that can collide with a gameobject should implement this
     /// </summary>
     public interface IGameObjectVisitor {
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+
+        /// <summary>When colliding with a block</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void BlockCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+
+        /// <summary>When colliding with a ball</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public void BallCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="wall">TODO</param>
-        /// <param name="data">TODO</param>
+
+        /// <summary>When colliding with a wall</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public void WallCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="player">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a player</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public void PlayerCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="powerup">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a powerup</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public void PowerUpCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+
+        /// <summary>When colliding with an unbreakable</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public void UnbreakableCollision(CollisionHandlerData data) {
         }
     }
