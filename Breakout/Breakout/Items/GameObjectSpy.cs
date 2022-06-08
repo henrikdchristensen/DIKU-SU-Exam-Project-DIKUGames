@@ -3,7 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     /// <summary>
     /// For test purposes. Checks if its methods has been called.

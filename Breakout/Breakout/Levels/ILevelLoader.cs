@@ -2,9 +2,12 @@
 
     public interface ILevelLoader {
 
-        /// <summary>Converts a txt file to an array of lines</summary>
-        /// <param name="path">the path of the txt file</param>
-        /// <returns>The array of lines representing the txt-file</returns>
+        /// <summary>
+        /// Loads a file and deserialize the content into an array of lines
+        /// </summary>
+        /// <param name="path">The path of the file</param>
+        /// <returns>Returns an array of lines in witch it will get validated by the levelValidator</returns>
+        /// <exception cref="ArgumentException">Uf the file does not exist</exception>
         public string[] Load(string path);
 
     }

@@ -3,8 +3,12 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
     public class HardBall : Powerup {
+
+        /// <summary>
+        /// Returns the type as enum
+        /// </summary>
         public override PowerupType Type => PowerupType.HardBall;
         private const float DURATION = 4;
 

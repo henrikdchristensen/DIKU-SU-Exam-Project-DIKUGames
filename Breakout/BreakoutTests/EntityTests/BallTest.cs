@@ -6,7 +6,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout;
-using Breakout.Items;
+using Breakout.Entities;
 using Breakout.Collision;
 
 namespace BreakoutTests {

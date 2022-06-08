@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Breakout.Items;
+using Breakout.Entities;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 

@@ -4,11 +4,11 @@ using DIKUArcade.Events;
 using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
+using DIKUArcade.Timers;
 using Breakout.Levels;
 using Breakout.Collision;
-using Breakout.Items;
-using Breakout.Items.Powerups;
-using DIKUArcade.Timers;
+using Breakout.Entities;
+using Breakout.Entities.Powerups;
 
 namespace Breakout.Game.States {
 
@@ -117,8 +117,6 @@ namespace Breakout.Game.States {
                 case KeyboardKey.Right:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightPressed");
                     break;
-                case KeyboardKey.Space:
-                    break;
             }
         }
 
@@ -131,9 +129,6 @@ namespace Breakout.Game.States {
                     break;
                 case KeyboardKey.Right:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightReleased");
-                    break;
-                case KeyboardKey.Space:
-                    levels.ActiveLevel.DeleteBlock();
                     break;
             }
         }

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Breakout.Items.Powerups;
+using Breakout.Entities.Powerups;
 
 namespace BreakoutTests.poweruptests {
 

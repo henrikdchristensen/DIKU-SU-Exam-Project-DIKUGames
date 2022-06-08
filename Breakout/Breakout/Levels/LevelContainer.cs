@@ -3,7 +3,9 @@ using Breakout.Game;
 
 
 namespace Breakout.Levels {
-
+    /// <summary>
+    /// Creates all levels inside of the level-folder
+    /// </summary>
     public class LevelContainer : IGameEventProcessor {
 
         public const string NEXT_LEVEL_MSG = "NEXT_LEVEL";
@@ -12,6 +14,8 @@ namespace Breakout.Levels {
         private static LevelContainer instance = null;
         private List<Level> levelList;
         private LevelParser levelLoader;
+
+        /// <summary> The active level </summary>
         public Level ActiveLevel { get; private set; }
         private int levelCounter { get; set; } = 0;
         private LevelContainer() { }
@@ -24,7 +28,7 @@ namespace Breakout.Levels {
             return LevelContainer.instance ?? (LevelContainer.instance = new LevelContainer());
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Resets all levels</summary>
         public void Reset() {
             levelCounter = 0;
             ActiveLevel?.Deactivate();
@@ -63,6 +67,10 @@ namespace Breakout.Levels {
             }
         }
 
+        /// <summary>
+        /// Process game events. Should react on next level events
+        /// </summary>
+        /// <param name="gameEvent">The game event to process</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
                 switch (gameEvent.Message) {

@@ -6,9 +6,9 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using Breakout.Game;
 using Breakout.Collision;
-using Breakout.Items;
+using Breakout.Entities;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
 
     public abstract class Powerup : GameObject {
 
@@ -16,8 +16,16 @@ namespace Breakout.Items.Powerups {
         public const string CAN_DEACTIVATE_MSG = "CAN_POWERUP_DEACTIVATE";
 
         private const float SPEED = 0.01f;
+
+        /// <summary>
+        /// The duration of the powerup
+        /// </summary>
         public float Duration { get; } = -1;
         private const float SIZE = 0.06f;
+
+        /// <summary>
+        /// Returns the type as enum
+        /// </summary>
         public abstract PowerupType Type { get; }
 
         /// <summary>Creates an random powerup</summary>

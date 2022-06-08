@@ -1,4 +1,4 @@
-﻿namespace Breakout.Items.Powerups {
+﻿namespace Breakout.Entities.Powerups {
 
     /// <summary>
     /// 

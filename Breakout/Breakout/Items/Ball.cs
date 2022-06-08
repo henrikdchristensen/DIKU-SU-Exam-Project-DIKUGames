@@ -5,10 +5,10 @@ using DIKUArcade.Physics;
 using DIKUArcade.Events;
 using Breakout.Levels;
 using Breakout.Game;
-using Breakout.Items.Powerups;
+using Breakout.Entities.Powerups;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     public class Ball : GameObject, IGameEventProcessor {
 
