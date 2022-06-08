@@ -4,8 +4,16 @@ using DIKUArcade.Events;
 using Breakout.Game;
 
 namespace Breakout.Items.Powerups {
+    /// <summary>
+    /// Adds an extra life
+    /// </summary>
     public class ExtraLife : Powerup {
+
+        /// <summary>
+        /// Returns the type as enum
+        /// </summary>
         public override PowerupType Type => PowerupType.ExtraLife;
+
         public ExtraLife(DynamicShape shape, IBaseImage image) : base(shape, image) { }
 
         /// <summary>

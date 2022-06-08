@@ -5,6 +5,10 @@ using Breakout.Game;
 
 namespace Breakout.Items.Powerups {
     public class PlayerSpeed : Powerup {
+
+        /// <summary>
+        /// Returns the type as enum
+        /// </summary>
         public override PowerupType Type => PowerupType.PlayerSpeed;
         private const float DURATION = 4;
         private const float SCALER = 1.5f;
