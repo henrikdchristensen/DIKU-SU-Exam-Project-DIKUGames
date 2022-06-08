@@ -7,7 +7,6 @@ namespace BreakoutTests {
     [TestFixture]
     public class LevelValidatorTest {
 
-
         private string[] correctMap = new string[] {
             "Map:",
             "------------", "------------", "------------",
@@ -42,10 +41,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test]
         [TestCase(new string[]{
             "Map:", "------------", "Map/"}
         , false)] //Height too small (1)
@@ -106,7 +101,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
         [TestCase(new string[]{
             "Meta:",
             "Name: LEVEL 1",
@@ -139,7 +133,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
         [TestCase(new string[]{
             "Legend:",
             "1) orange-block.png",
@@ -172,7 +165,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, actual);
         }
 
-        [Test]
         [TestCase(new string[]{
             "Map:",
             "-----111----", "------------", "------------",
@@ -263,7 +255,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, actual);
         }
 
-
         //Following test are Whitebox, and ensures 100% C_1 coverage
         //*.a = branch condition is true
         //*.b = branch condition is false
@@ -313,7 +304,6 @@ namespace BreakoutTests {
             return level.ToArray();
         }
 
-
-
     }
+
 }

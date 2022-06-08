@@ -13,15 +13,10 @@ namespace BreakoutTests {
         private LevelParser parser = new LevelParser(new LevelLoader());
         private string levelFolder;
 
-        /// <summary>
-        /// 
-        /// </summary>
         [SetUp]
         public void Setup() {
             levelFolder = Path.Combine("..","Breakout", "Assets", "Levels");
         }
-
-
 
         /// <summary>
         /// Integration test with levelLoaderStub
@@ -50,6 +45,7 @@ namespace BreakoutTests {
                 };
             }
         }
+
         [Test]
         public void TestCreateLevelValid() {
             Window.CreateOpenGLContext();
@@ -100,6 +96,7 @@ namespace BreakoutTests {
                 return new string[] { };
             }
         }
+
         [Test]
         public void TestCreateLevelInValid() {
             Window.CreateOpenGLContext();
@@ -117,6 +114,7 @@ namespace BreakoutTests {
                 throw new ArgumentException();
             }
         }
+
         [Test]
         public void TestCreateLevelInValidPath() {
             Window.CreateOpenGLContext();
@@ -178,9 +176,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestLevel2() {
             Window.CreateOpenGLContext();
@@ -226,9 +221,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestLevel3() {
             Window.CreateOpenGLContext();
@@ -276,9 +268,6 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, level);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestInvalidPath() {
             Window.CreateOpenGLContext();
@@ -291,9 +280,6 @@ namespace BreakoutTests {
             Assert.Fail();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestNoContent() {
             Window.CreateOpenGLContext();
@@ -306,8 +292,6 @@ namespace BreakoutTests {
             Assert.Fail();
         }
         
-        
-
     }
 
 }

@@ -16,7 +16,6 @@ namespace BreakoutTests {
             levelFolder = Path.Combine("..", "Breakout", "Assets", "Levels");
         }
 
-
         [Test]
         public void TestLevelLoader() {
             string path = Path.Combine(levelFolder, "levelLoaderTest1.txt");
@@ -36,6 +35,7 @@ namespace BreakoutTests {
 
             Assert.AreEqual(expected, actual);
         }
+
     }
 
 }

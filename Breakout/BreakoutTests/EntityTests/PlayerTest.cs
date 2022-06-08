@@ -45,8 +45,6 @@ namespace BreakoutTests {
             eventBus.Subscribe(GameEventType.PlayerEvent, player);
         }
 
-
-
         /// <summary>
         /// Black box
         /// Testing that max speed is reached after acceleration
@@ -62,7 +60,6 @@ namespace BreakoutTests {
             float expectedSpeed = 0.015f;
             Assert.True(Math.Abs(player.Shape.AsDynamicShape().Direction.X) == expectedSpeed, TestLogger.OnFailedTestMessage<float>(Math.Abs(player.Shape.AsDynamicShape().Direction.X), expectedSpeed));
         }
-
 
         // *********** White box tests of the UpdateMovement() method 100% C0 and C1 (Branch) **************
 
@@ -88,7 +85,6 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(player.GetPosition().X - expected) < COMPARE_DIFF, TestLogger.OnFailedTestMessage<float>(expected, player.GetPosition().X));
         }
 
-
         /// <summary>
         /// Part of the white box
         /// Testing move left and right via eventbus and player.Update() method
@@ -105,7 +101,6 @@ namespace BreakoutTests {
             }
             Assert.True(player.GetPosition().X == prevPos);
         }
-
 
         /// <summary>
         /// Part of the whitebox test
@@ -162,5 +157,7 @@ namespace BreakoutTests {
 
             Assert.True(stateMachine.ActiveState is not GameRunning);
         }
+
     }
+
 }

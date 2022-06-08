@@ -101,7 +101,6 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(initSize - player.Shape.Extent.X) < COMPARE_DIFF);
         }
 
-
         /// <summary>
         /// Black box
         /// Testing that max speed is reached after acceleration
@@ -118,10 +117,7 @@ namespace BreakoutTests {
             Assert.AreEqual(expected, player.Life);
         }
 
-
-
-
-       /// <summary>
+        /// <summary>
         /// Integration
         /// Testing that max speed is reached after acceleration
         /// </summary>
@@ -142,8 +138,7 @@ namespace BreakoutTests {
             Assert.True(Math.Abs(initSpeed - shape.Direction.Length()) < COMPARE_DIFF);
         }
 
-
-       /// <summary>
+        /// <summary>
         /// Integration
         /// Testing that max speed is reached after acceleration
         /// </summary>

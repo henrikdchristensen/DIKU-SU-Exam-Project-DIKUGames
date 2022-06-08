@@ -25,5 +25,7 @@ namespace BreakoutTests.poweruptests {
             Assert.True(PowerupTransformer.StateToString(PowerupType.DoubleSpeed) == "DOUBLE_SPEED");
             Assert.True(PowerupTransformer.StateToString(PowerupType.DoubleSize) == "DOUBLE_SIZE");
         }
+
     }
+
 }

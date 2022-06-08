@@ -8,12 +8,8 @@ namespace BreakoutTests {
     [TestFixture]
     public class LevelTest {
 
-        /// <summary>
-        /// 
-        /// </summary>
         [SetUp]
         public void Setup() {}
-
 
         [Test]
         public void TestBlockGeneration() {
@@ -56,6 +52,7 @@ namespace BreakoutTests {
             int expected = 12;
             Assert.AreEqual(expected, level.CountItems());
         }
+
     }
 
 }

@@ -10,18 +10,12 @@ namespace BreakoutTests.Items {
         private Block block;
         private Block hardenedBlock;
 
-        /// <summary>
-        /// 
-        /// </summary>
         [SetUp]
         public void Setup() {
             hardenedBlock = new HardenedBlock(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage(), new NoImage());
             block = new Block(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestHit() {
             int oldHealth = block.Health;
@@ -29,17 +23,11 @@ namespace BreakoutTests.Items {
             Assert.True(block.Health < oldHealth);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestHealth() {
             Assert.True(block.Health == hardenedBlock.StartHealt / 2);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestDieBlock() { // Does hit return true when dead (6 times hit)
             int startHealth = block.StartHealt;
@@ -48,9 +36,6 @@ namespace BreakoutTests.Items {
             Assert.True(block.IsDeleted());
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         [Test]
         public void TestDieHardened() { // Does hit return true when dead (6 times hit)
             int startHealth = hardenedBlock.StartHealt;
