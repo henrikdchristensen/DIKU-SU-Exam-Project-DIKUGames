@@ -13,7 +13,6 @@ namespace Breakout.Game.States {
     public class GameOver : IGameState, IGameEventProcessor {
 
         private GameEventBus eventBus;
-        private string finalScore;
         private static GameOver instance = null;
         private Text[] menuButtons;
         private Text scoreText;
