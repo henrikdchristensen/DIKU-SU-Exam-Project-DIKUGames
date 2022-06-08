@@ -96,7 +96,7 @@ namespace Breakout.Levels {
                     newList.AddEntity(obj);
                 }
                 else {
-                    obj.AtDeletion();
+                    obj.OnDeletion();
                 }
             }
             return newList;

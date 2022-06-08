@@ -73,7 +73,7 @@ namespace Breakout.Items {
         private void RemoveBall(Ball ball) {
             if (balls.Count == 1) {
                 AddBall();
-                ball.AtDeletion();
+                ball.OnDeletion();
             } 
             balls.Remove(ball);
         }
