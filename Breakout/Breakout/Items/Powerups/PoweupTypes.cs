@@ -1,7 +1,7 @@
 ﻿namespace Breakout.Items.Powerups {
 
     /// <summary>
-    /// TODO: ADD SUMMARY AND REMOVE Uncommented code
+    /// 
     /// </summary>
     public enum PowerupType {
         ExtraLife,

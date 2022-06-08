@@ -20,6 +20,5 @@ namespace Breakout.Items.Powerups {
             GameBus.TriggerEvent(GameEventType.ControlEvent, Level.ADD_GAMEOBJECT_MSG,
                                 objArg: Powerup.CreateRandom(Shape.AsDynamicShape()));
         }
-
     }
 }
