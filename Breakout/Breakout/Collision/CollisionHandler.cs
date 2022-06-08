@@ -3,6 +3,9 @@ using Breakout.Items;
 
 namespace Breakout.Collision {
 
+    /// <summary>
+    /// Handles all collisions of the game, where gameobjects can subsribe
+    /// </summary>
     public class CollisionHandler {
 
         private List<GameObject> collidableList = new List<GameObject>();

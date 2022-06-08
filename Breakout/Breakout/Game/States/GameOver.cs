@@ -7,6 +7,9 @@ using DIKUArcade.Entities;
 
 namespace Breakout.Game.States {
 
+    /// <summary>
+    /// Represents the state, when the player has won/lost
+    /// </summary>
     public class GameOver : IGameState, IGameEventProcessor {
 
         private GameEventBus eventBus;
@@ -20,7 +23,10 @@ namespace Breakout.Game.States {
         private readonly Vec3F SCORE_COLOR = new Vec3F(247f / 255f, 247f / 255f, 27f / 255f);
 
         private Entity background;
-        public int activeMenuButton { get; private set; } // public get for testing purpose
+
+        /// <summary> The active button of the menu, 0 = continue, 1 = main manu </summary>
+        /// <remarks>Made public for testing purposes</remarks>
+        public int activeMenuButton { get; private set; }
 
         /// <summary>Get the one and only instance of the class</summary>
         /// <returns>Returns a instance of GamePaused</returns>
