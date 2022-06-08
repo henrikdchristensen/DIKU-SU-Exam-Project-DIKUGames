@@ -8,9 +8,6 @@ namespace Breakout.Game {
         MainMenu
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class StateTransformer {
 
         /// <summary>Converts a String to GameStateType</summary>
