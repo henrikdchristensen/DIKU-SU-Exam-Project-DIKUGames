@@ -26,7 +26,7 @@ namespace BreakoutTests.poweruptests {
             int initItems = level.CountItems();
             GameBus.GetBus().Subscribe(GameEventType.ControlEvent, level);
 
-            block.AtDeletion();
+            block.OnDeletion();
             GameBus.GetBus().ProcessEventsSequentially();
 
             int expected = initItems + 1;

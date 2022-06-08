@@ -10,7 +10,9 @@ using Breakout.Entities.Powerups;
 using DIKUArcade.Timers;
 
 namespace Breakout.Levels {
-
+    /// <summary>
+    /// A level of the game
+    /// </summary>
     public class Level : IGameEventProcessor {
 
         public const string ADD_GAMEOBJECT_MSG = "ADD_GAMOBJECT_MSG";
@@ -25,10 +27,10 @@ namespace Breakout.Levels {
         private BallContainer ballContainer;
         private Vec2F blockSize;
 
-        /// <summary>TODO</summary>
-        /// <param name="map">TODO</param>
-        /// <param name="meta">TODO</param> 
-        /// <param name="legend">TODO</param>
+        /// <summary>Creates a level-instance</summary>
+        /// <param name="map">The level map represented as a 2d-char-array</param>
+        /// <param name="meta">All meta-data represented as a dictionary</param> 
+        /// <param name="legend">All legend-data represend as a dictionary</param>
         public Level(char[,] map, Dictionary<string, string> meta, Dictionary<string, string> legend) {
             Map = map;
             Meta = meta;
@@ -39,8 +41,8 @@ namespace Breakout.Levels {
             generateBlocks();
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="obj">TODO</param>
+        /// <summary>Add a gameobject to the level, which wil be rendered and updated each frame</summary>
+        /// <param name="obj">The gamobject to be added</param>
         public void AddGameObject(GameObject obj) {
             items.AddEntity(obj);
             CollisionHandler.GetInstance().Subsribe(obj);
@@ -48,7 +50,7 @@ namespace Breakout.Levels {
 
 
 
-        /// <summary>TODO</summary>
+        /// <summary>This method should be call when the level needs to be activated</summary>
         public void Activate() {
             items.Iterate(CollisionHandler.GetInstance().Subsribe);
             ballContainer = new BallContainer();
@@ -69,7 +71,7 @@ namespace Breakout.Levels {
             }
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Update the level. This includes updating all gameobjects: ball, blocks etc</summary>
         public void Update() {
             //Delete entities that have been marked for deletion
             items = DeleteMarkedEntity(items);
@@ -86,9 +88,9 @@ namespace Breakout.Levels {
             }
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="entities">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Deletes all gameobjects marked for deletion</summary>
+        /// <param name="entities">The list of gameobjects, that should be looped through</param>
+        /// <returns>The new list wihout gameobjects marked for deletion</returns>
         private EntityContainer<GameObject> DeleteMarkedEntity(EntityContainer<GameObject> entities)  {
             var newList = new EntityContainer<GameObject>();
             foreach (GameObject obj in entities) {
@@ -96,28 +98,28 @@ namespace Breakout.Levels {
                     newList.AddEntity(obj);
                 }
                 else {
-                    obj.AtDeletion();
+                    obj.OnDeletion();
                 }
             }
             return newList;
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Renders the level</summary>
         public void Render() {
             items.RenderEntities();
             ballContainer.Render();
             renderTime();
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Renders the time</summary>
         private void renderTime() {
             long time = (timeToEnd - StaticTimer.GetElapsedMilliseconds()) / 1000;
             display.SetText(time.ToString());
             display.RenderText();
         }
 
-        /// <summary>TODO</summary>
-        /// <returns>TODO</returns>
+        /// <summary>check if the player has won</summary>
+        /// <returns>returns true if the player has won and otherwise false</returns>
         private bool hasWon() {
             foreach (GameObject item in items) {
                 if (item.IsDestroyable && !item.IsDeleted()) {
@@ -127,7 +129,7 @@ namespace Breakout.Levels {
             return true;
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>generates all block</summary>
         private void generateBlocks() {
             for (int i = 0; i < Map.GetLength(0); i++) {
                 for (int j = 0; j < Map.GetLength(1); j++) {
@@ -141,7 +143,7 @@ namespace Breakout.Levels {
             }
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Deativated the level. Marks all gameobjects for deletion.</summary>
         public void Deactivate() {
             GameBus.GetBus().Unsubscribe(GameEventType.ControlEvent, this);
             ballContainer.Destroy();
@@ -201,7 +203,7 @@ namespace Breakout.Levels {
             GameBus.TriggerEvent(GameEventType.StatusEvent, LevelContainer.NEXT_LEVEL_MSG);
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>For testing purposes</summary>
         /// <param name="obj">TODO</param>
         /// <returns>TODO</returns>
         public override bool Equals(object obj) {
@@ -216,39 +218,6 @@ namespace Breakout.Levels {
                     if (Map[i, j] != other.Map[i, j])
                         return false;
             return true;
-        }
-
-        /// <summary>TODO</summary>
-        /// <returns>TODO</returns>
-        public override string ToString() {
-            string map = "map = {{";
-            for (int i = 0; i < Map.GetLength(0); i++) {
-                if (i != 0)
-                    map += "}, {";
-                for (int j = 0; j < Map.GetLength(1); j++) {
-                    if (j == 0)
-                        map += $"'{Map[i, j]}'";
-                    else
-                        map += $", '{Map[i, j]}'";
-                }
-            }
-            map += "}}\n";
-
-            string meta = "meta = {";
-            foreach (KeyValuePair<string, string> pair in Meta)
-                meta += $"{{\"{pair.Key}\", \"{pair.Value}\"}}, ";
-            if (Meta.Count > 0)
-                meta = meta.Remove(meta.Length - 2);
-            meta += "}\n";
-
-            string legend = "legend = {";
-            foreach (KeyValuePair<string, string> pair in Legend)
-                legend += $"{{\"{pair.Key}\", \"{pair.Value}\"}}, ";
-            if (Legend.Count > 0)
-                legend = legend.Remove(legend.Length - 2);
-            legend += "}";
-
-            return map + meta + legend;
         }
 
         public void ProcessEvent(GameEvent gameEvent) {

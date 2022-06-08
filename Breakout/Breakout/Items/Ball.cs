@@ -78,7 +78,7 @@ namespace Breakout.Entities {
         public override void Accept(IGameObjectVisitor other, CollisionHandlerData data) {
             other.BallCollision(data);
         }
-
+ 
         /// <summary>Change direction if collision has occured with a block</summary>
         /// <param name="block">A Block object</param>
         /// <param name="data">Collision data</param>
@@ -141,7 +141,7 @@ namespace Breakout.Entities {
 
         /// <summary>TODO</summary>
         /// <param name="level">TODO</param>
-        public override void AtDeletion() {
+        public override void OnDeletion() {
             GameBus.TriggerEvent(GameEventType.PlayerEvent, "LostLife");
         }
 

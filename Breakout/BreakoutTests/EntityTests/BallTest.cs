@@ -41,13 +41,16 @@ namespace BreakoutTests {
         [TestCase(-1, 0, CollisionDirection.CollisionDirRight, 1, 0)]
         [TestCase(-58.3f, 45.1f, CollisionDirection.CollisionDirRight, 58.3f, 45.1f)]
         public void TestBounceStationary(float dirX, float dirY, CollisionDirection colDir, float expectedX, float expectedY) {
+            //Arrange all objects needed: ball and set direction
             Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
             var shape = ball.Shape.AsDynamicShape();
             shape.ChangeDirection(new Vec2F(dirX, dirY));
 
+            //Act
             ball.BlockCollision(new CollisionHandlerData(colDir, new Vec2F(0,0)));
             var newDir = shape.Direction;
 
+            //Assert
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expectedX}");
             Assert.True(Math.Abs(expectedY - newDir.Y) < DIFF, $"dir.Y = {newDir.Y}, {expectedY}");
         }
@@ -66,13 +69,16 @@ namespace BreakoutTests {
         [TestCase(1, 1, 10, 10, CollisionDirection.CollisionDirDown, 1.2998674f, 0.557086f)]
         [TestCase(1, 1, 1, 1, CollisionDirection.CollisionDirDown, 1.2126782f, -0.7276069f)]
         public void TestBounceDynamic(float dirX, float dirY, float dynX, float dynY, CollisionDirection colDir, float expectedX, float expectedY) {
+            //Arrange all objects needed: ball and set direction
             Ball ball = new Ball(new Vec2F(0, 0), new Vec2F(0, 0), new NoImage());
             var shape = ball.Shape.AsDynamicShape();
             shape.ChangeDirection(new Vec2F(dirX, dirY));
 
+            //Act
             ball.PlayerCollision(new CollisionHandlerData(colDir, new Vec2F(dynX, dynY)));
             var newDir = shape.Direction;
 
+            //Assert
             Assert.True(Math.Abs(expectedX - newDir.X) < DIFF, $"dir.X = {newDir.X}, {expectedX}");
             Assert.True(Math.Abs(expectedY - newDir.Y) < DIFF, $"dir.Y = {newDir.Y} {expectedY}");
         }

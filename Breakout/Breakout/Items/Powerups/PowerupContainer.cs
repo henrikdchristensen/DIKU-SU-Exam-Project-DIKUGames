@@ -45,10 +45,17 @@ namespace Breakout.Entities.Powerups {
             }  
         }
 
+        /// <summary>
+        /// Removes all powerups in the list
+        /// </summary>
         public void Flush() {
             active = new List<PowerupType>();
         }
 
+        /// <summary>
+        /// Process events from event bus
+        /// </summary>
+        /// <param name="gameEvent">Event from bus</param>
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.Message) {
                 case Powerup.CAN_ACTIVATE_MSG:

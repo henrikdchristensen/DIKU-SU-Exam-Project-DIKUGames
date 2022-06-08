@@ -10,12 +10,18 @@ namespace Breakout.Entities.Powerups {
         private const float SCALER = 1.5f;
         public Wide(DynamicShape shape, IBaseImage image) : base(shape, image, DURATION) { }
 
+        /// <summary>
+        /// Activating powerup via event
+        /// </summary>
         public override void Activate() {
             Console.WriteLine("ACTIVATED PLAYER SPEED");
             GameBus.TriggerEvent(GameEventType.ControlEvent,
                 Player.SCALE_WIDE_MSG, objArg: SCALER);
         }
 
+        /// <summary>
+        /// Deactivating powerup event
+        /// </summary>
         public override void Deactivate() {
             GameBus.TriggerEvent(GameEventType.ControlEvent,
                 Player.SCALE_WIDE_MSG, objArg: 1f / SCALER);

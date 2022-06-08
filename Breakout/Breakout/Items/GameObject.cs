@@ -18,7 +18,7 @@ namespace Breakout.Entities {
         public GameObject(Shape shape, IBaseImage image) : base(shape, image) { }
 
         /// <summary>TODO</summary>
-        public virtual void AtDeletion() { }
+        public virtual void OnDeletion() { }
 
         /// <summary>TODO</summary>
         public virtual void Update() { }

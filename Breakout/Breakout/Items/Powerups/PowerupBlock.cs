@@ -14,12 +14,11 @@ namespace Breakout.Entities.Powerups {
         /// <param name="powerupImage"></param>
         public PowerupBlock(StationaryShape shape, IBaseImage image) : base(shape, image) { }
 
-        /// <summary>TODO</summary>
+        /// <summary>T</summary>
         /// <param name="level"></param>
-        public override void AtDeletion() {
+        public override void OnDeletion() {
             GameBus.TriggerEvent(GameEventType.ControlEvent, Level.ADD_GAMEOBJECT_MSG,
                                 objArg: Powerup.CreateRandom(Shape.AsDynamicShape()));
         }
-
     }
 }

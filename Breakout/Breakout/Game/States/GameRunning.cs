@@ -12,6 +12,9 @@ using DIKUArcade.Timers;
 
 namespace Breakout.Game.States {
 
+    /// <summary>
+    /// Represents the state, when the game is running
+    /// </summary>
     public class GameRunning : IGameState, IGameEventProcessor {
 
         private static GameRunning instance = null;

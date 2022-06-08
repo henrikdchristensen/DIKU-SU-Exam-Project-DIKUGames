@@ -7,11 +7,16 @@ using DIKUArcade.Timers;
 using DIKUArcade.Entities;
 
 namespace Breakout.Game.States {
-
+    /// <summary>
+    /// Represents the state, when the game is paused
+    /// </summary>
     public class GamePaused : IGameState {
 
         private static GamePaused instance = null;
         private Text[] menuButtons;
+
+        /// <summary> The active button of the menu, 0 = continue, 1 = main manu </summary>
+        /// <remarks>Made public for testing purposes</remarks>
         public int activeMenuButton { get; private set; } // public get for testing purpose
         private readonly Vec3F ACITVED_COLOR = new Vec3F(247f / 255f, 145f / 255f, 0);
         private readonly Vec3F DEACITVED_COLOR = new Vec3F(150f / 255f, 150f / 255f, 150f / 255f);
