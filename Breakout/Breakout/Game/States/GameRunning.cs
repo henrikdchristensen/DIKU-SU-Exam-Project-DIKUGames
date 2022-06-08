@@ -79,13 +79,13 @@ namespace Breakout.Game.States {
             StaticTimer.ResumeTimer();
             collisionHandler.Update();
             player.Update();
-            levels.ActiveLevel.Update();
+            levels.ActiveLevel?.Update();
         }
 
         /// <summary>Call render methods for levels, player and score</summary>
         public void RenderState() {
             background.RenderEntity();
-            levels.ActiveLevel.Render();
+            levels.ActiveLevel?.Render();
             player.Render();
             score.Render();
         }

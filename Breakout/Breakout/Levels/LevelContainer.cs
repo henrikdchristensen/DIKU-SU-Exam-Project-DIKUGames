@@ -11,7 +11,7 @@ namespace Breakout.Levels {
 
         // Singleton pattern
         private static LevelContainer instance = null;
-        private List<Level> levelList;
+        private List<Level> levelList = new List<Level>();
         private LevelParser levelLoader;
 
         /// <summary> The active level </summary>
@@ -40,15 +40,26 @@ namespace Breakout.Levels {
         private void initializeLevels() {
             levelLoader = new LevelParser(new LevelLoader());
             // Initialize structure of levels
-            levelList = new List<Level> {
-                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level1.txt")),
-                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level2.txt")),
-                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level3.txt")),
-                levelLoader.CreateLevel(Path.Combine("Assets", "Levels", "level4.txt"))
-            };
+            createLevels(new List<string> {
+                Path.Combine("Assets", "Levels", "level1.txt"),
+                Path.Combine("Assets", "Levels", "level2.txt"),
+                Path.Combine("Assets", "Levels", "level3.txt"),
+                Path.Combine("Assets", "Levels", "level4.txt")
+            });
 
             // Set initial active level
             NextLevel();
+        }
+
+        private void createLevels(List<string> levelPaths) {
+            foreach (string path in levelPaths) {
+                try {
+                    Level level = levelLoader.CreateLevel(path);
+                    levelList.Add(level);
+                } catch (ArgumentException e) {
+                    Console.WriteLine(e.Message);
+                }
+            }
         }
 
         /// <summary>
@@ -57,12 +68,11 @@ namespace Breakout.Levels {
         public void NextLevel() {
             if (levelCounter > 0)
                 ActiveLevel.Deactivate();
-            if (levelCounter < levelList.Count - 1) {
+            if (levelCounter <= levelList.Count - 1) {
                 ActiveLevel = levelList[levelCounter++];
                 ActiveLevel.Activate();
             } else {
-                GameBus.TriggerEvent(GameEventType.GameStateEvent, Player.PLAYER_DEAD_MSG,
-                    StateTransformer.StateToString(GameStateType.GameOver));
+                GameBus.TriggerEvent(GameEventType.StatusEvent, Player.PLAYER_DEAD_MSG);
             }
         }
 
