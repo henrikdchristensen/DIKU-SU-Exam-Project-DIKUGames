@@ -77,10 +77,10 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// checks if each legend line (as a )
+        /// checks if each legend-entry has correct format
         /// </summary>
-        /// <param name="pair">the level to check (represented as an array of lines)</param>
-        /// <returns>TODO</returns>
+        /// <param name="pair">the entry represented as a pair of strings</param>
+        /// <returns>returns true if the entry is correct formated</returns>
         private static bool validateLegendPair(string[] pair) {
             return pair.Length == 2 &&
                    pair[0].Length == 1 && //first entry should be a char
@@ -89,10 +89,10 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// Checks if meta-data has correct format
         /// </summary>
-        /// <param name="metaLines">the level to check (represented as an array of lines)</param>
-        /// <returns>TODO</returns>
+        /// <param name="metaLines">the map-data to check (represented as an array of lines)</param>
+        /// <returns>returns true if the data has correct format</returns>
         private static bool validateMeta(string[] metaLines) {
             List<string> visited = new List<string>();
             foreach (string line in metaLines) {
@@ -105,11 +105,11 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// checks if each meta-entry has correct format
         /// </summary>
-        /// <param name="pair">TODO</param>
-        /// <param name="visited">TODO</param>
-        /// <returns>TODO</returns>
+        /// <param name="pair">the entry represented as a pair of strings</param>
+        /// <param name="visited">the earlier processed meta-entries - to check if a duplicate exist</param>
+        /// <returns>returns true if the entry is correct formated</returns>
         private static bool validateMetaPair(string[] pair, List<string> visited) {
             return pair.Length == 2 && //expected length
                    !visited.Contains(pair[0]) &&
@@ -117,10 +117,10 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// Checks if map-data has correct format
         /// </summary>
-        /// <param name="mapLines">TODO</param>
-        /// <returns>TODO</returns>
+        /// <param name="mapLines">the map-data to check (represented as an array of lines)</param>
+        /// <returns>returns true if the data has correct format</returns>
         private static bool validateMap(string[] mapLines) {
             if (mapLines.Length != HEIGHT)
                 return false;
