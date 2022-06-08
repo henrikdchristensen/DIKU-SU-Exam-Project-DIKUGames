@@ -1,8 +1,5 @@
 ﻿using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using DIKUArcade.Physics;
-using Breakout.Levels;
-using Breakout.Entities.Powerups;
 using Breakout.Collision;
 
 namespace Breakout.Entities {

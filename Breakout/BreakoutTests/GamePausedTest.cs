@@ -1,9 +1,5 @@
 using NUnit.Framework;
-using System.Collections.Generic;
-using DIKUArcade.GUI;
 using DIKUArcade.Input;
-using DIKUArcade.Events;
-using Breakout.Game;
 using Breakout.Game.States;
 
 namespace BreakoutTests {

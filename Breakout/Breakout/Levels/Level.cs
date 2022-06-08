@@ -1,13 +1,12 @@
-using System.Diagnostics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using DIKUArcade.Events;
-using Breakout.Game;
-using Breakout.Entities;
-using Breakout.Collision;
-using Breakout.Entities.Powerups;
 using DIKUArcade.Timers;
+using Breakout.Game;
+using Breakout.Collision;
+using Breakout.Entities;
+using Breakout.Entities.Powerups;
 
 namespace Breakout.Levels {
     /// <summary>

@@ -1,7 +1,6 @@
 using DIKUArcade.Events;
 using Breakout.Game;
 
-
 namespace Breakout.Levels {
     /// <summary>
     /// Creates all levels inside of the level-folder

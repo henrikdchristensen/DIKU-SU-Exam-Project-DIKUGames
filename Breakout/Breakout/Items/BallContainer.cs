@@ -1,5 +1,4 @@
 ﻿using DIKUArcade.Graphics;
-using DIKUArcade.Entities;
 using DIKUArcade.Events;
 using DIKUArcade.Math;
 using Breakout.Game;

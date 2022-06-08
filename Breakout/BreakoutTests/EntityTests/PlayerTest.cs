@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using DIKUArcade.GUI;
 using DIKUArcade.Events;
@@ -8,8 +7,6 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
-using Breakout.Entities;
-using DIKUArcade.Graphics;
 using Breakout.Game;
 using Breakout.Game.States;
 

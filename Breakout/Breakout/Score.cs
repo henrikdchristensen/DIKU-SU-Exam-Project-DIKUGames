@@ -1,6 +1,5 @@
 ﻿using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using DIKUArcade.Entities;
 
 namespace Breakout {
 
