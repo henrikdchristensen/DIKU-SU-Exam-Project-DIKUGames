@@ -4,12 +4,10 @@ namespace Breakout.Levels {
 
     public class LevelLoader : ILevelLoader {
 
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <param name="path">TODO</param>
-        /// <returns>TODO</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <summary>Converts a txt file to an array of lines</summary>
+        /// <param name="path">the path of the txt file</param>
+        /// <returns>The array of lines representing the txt-file</returns>
+        /// <exception cref="ArgumentException">Uf the file does not exist</exception>
         public string[] Load(string path) {
             var file = Path.Combine(FileIO.GetProjectPath(), path);
 

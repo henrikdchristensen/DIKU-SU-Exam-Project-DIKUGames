@@ -117,8 +117,6 @@ namespace Breakout.Game.States {
                 case KeyboardKey.Right:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightPressed");
                     break;
-                case KeyboardKey.Space:
-                    break;
             }
         }
 
@@ -131,9 +129,6 @@ namespace Breakout.Game.States {
                     break;
                 case KeyboardKey.Right:
                     GameBus.TriggerEvent(GameEventType.PlayerEvent, "RightReleased");
-                    break;
-                case KeyboardKey.Space:
-                    levels.ActiveLevel.DeleteBlock();
                     break;
             }
         }

@@ -2,7 +2,9 @@
 using Breakout.Utility;
 
 namespace Breakout.Levels {
-
+    /// <summary>
+    /// Static class for validiting a levels format
+    /// </summary>
     public static class LevelValidator {
 
         private const string MAP =  "Map";
@@ -23,10 +25,10 @@ namespace Breakout.Levels {
         private static List<char> blockChars;
 
         /// <summary>
-        /// TODO
+        /// Check if a level has a valid format
         /// </summary>
-        /// <param name="level">TODO</param>
-        /// <returns>TODO</returns>
+        /// <param name="level">the level to check (represented as an array of lines)</param>
+        /// <returns>returns true if it has a correct format, and otherwise false</returns>
         public static bool ValidateLevel(string[] level) {
             // Validate that all group names exist (no duplicates)
             if (!validateGroups(level)) //Branch 1
@@ -44,10 +46,10 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// Checks if the groups exist (map, meta, legend)
         /// </summary>
-        /// <param name="level">TODO</param>
-        /// <returns>TODO</returns>
+        /// <param name="level">the level to check (represented as an array of lines)</param>
+        /// <returns>returns true if the group-names are valid</returns>
         private static bool validateGroups(string[] level) {
             string[] groupNames = { $"{MAP}{START}", $"{MAP}{END}",
                                      $"{LEGEND}{START}", $"{LEGEND}{END}",
@@ -60,10 +62,10 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// Checks if legend-data has correct format
         /// </summary>
-        /// <param name="legendLines">TODO</param>
-        /// <returns>TODO</returns>
+        /// <param name="legendLines">the legend-data to check (represented as an array of lines)</param>
+        /// <returns>returns true if the data has correct format</returns>
         private static bool validateLegend(string[] legendLines) {
             foreach (string line in legendLines) {
                 string[] split = line.Split(LEGEND_SEPERATOR + " ");
@@ -75,9 +77,9 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// TODO
+        /// checks if each legend line (as a )
         /// </summary>
-        /// <param name="pair">TODO</param>
+        /// <param name="pair">the level to check (represented as an array of lines)</param>
         /// <returns>TODO</returns>
         private static bool validateLegendPair(string[] pair) {
             return pair.Length == 2 &&
@@ -89,7 +91,7 @@ namespace Breakout.Levels {
         /// <summary>
         /// TODO
         /// </summary>
-        /// <param name="metaLines">TODO</param>
+        /// <param name="metaLines">the level to check (represented as an array of lines)</param>
         /// <returns>TODO</returns>
         private static bool validateMeta(string[] metaLines) {
             List<string> visited = new List<string>();

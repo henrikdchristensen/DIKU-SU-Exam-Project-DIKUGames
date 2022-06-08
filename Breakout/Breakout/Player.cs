@@ -71,17 +71,21 @@ namespace Breakout {
         /// <summary>TODO</summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
-            int signDir = moveLeft + moveRight; //moveLeft = -1 on keypress and moveRight = 1
-            if (signDir == 0) { //1. 1a: if player has stopped moving
-                if (Math.Abs(dirX) <= MOVEMENT_ACC) // 2.a checking if slowing so much down that it will go in opposite direction then stop player
+            //moveLeft = -1 on keypress and moveRight = 1
+            int signDir = moveLeft + moveRight;
+            //Branch 1. 1a: if player has stopped moving
+            if (signDir == 0) {
+                // Branch 2. 2.a checking if slowing so much down that it will go in opposite direction then stop player
+                if (Math.Abs(dirX) <= MOVEMENT_ACC) 
                     shape.Direction.X = 0;
-                else // 2,b
-                    shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC; // else reduce player speed with the acceleration
+                else //2,b: else reduce player speed with the acceleration
+                    shape.Direction.X -= Math.Sign(dirX) * MOVEMENT_ACC; // 
             } else { // 1b: if moving
-                if (Math.Abs(dirX) + MOVEMENT_ACC <= MaxSpeed) // 3.a if under max speed keep accelerating by adding acceleration to current speed
+                // 3.a if under max speed keep accelerating by adding acceleration to current speed
+                if (Math.Abs(dirX) + MOVEMENT_ACC <= MaxSpeed) 
                     shape.Direction.X += signDir * MOVEMENT_ACC;
-                else // 3.b
-                    shape.Direction.X = signDir * MaxSpeed; // if reached max speed keep going at max
+                else // 3. bif reached max speed keep going at max
+                    shape.Direction.X = signDir * MaxSpeed;
             }
         }
 

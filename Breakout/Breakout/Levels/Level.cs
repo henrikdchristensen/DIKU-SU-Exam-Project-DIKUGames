@@ -151,16 +151,6 @@ namespace Breakout.Levels {
                 item.DeleteEntity();
         }
 
-        /// <summary>TODO: SHOULD BE DELETED</summary>
-        public void DeleteBlock() {
-            foreach (GameObject item in items) {
-                if (item is Block) {
-                    item.DeleteEntity();
-                    break;
-                }  
-            }
-        }
-
         /// <summary>TODO</summary>
         /// <param name="symbol">TODO</param>
         /// <param name="shape">TODO</param>
@@ -184,7 +174,7 @@ namespace Breakout.Levels {
         }
 
         /// <summary>
-        /// For testing purposes
+        /// For testing purposes. Returns the number of items.
         /// </summary>
         /// <returns></returns>
         public int CountItems() {
@@ -203,9 +193,9 @@ namespace Breakout.Levels {
             GameBus.TriggerEvent(GameEventType.StatusEvent, LevelContainer.NEXT_LEVEL_MSG);
         }
 
-        /// <summary>For testing purposes</summary>
-        /// <param name="obj">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>For testing purposes. Compares all datastructeres, to see if they are equal</summary>
+        /// <param name="obj">The object to compare with</param>
+        /// <returns>returns true if the object equals map, meta and legend are equal, otherwise false</returns>
         public override bool Equals(object obj) {
             Level? other = obj as Level;
             if (other == null ||
@@ -220,6 +210,10 @@ namespace Breakout.Levels {
             return true;
         }
 
+        /// <summary>
+        /// Process events: reacts on add gameoobjects
+        /// </summary>
+        /// <param name="gameEvent">The game event to process</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {
