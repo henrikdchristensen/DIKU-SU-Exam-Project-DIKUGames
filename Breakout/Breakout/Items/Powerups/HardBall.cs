@@ -3,7 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
     public class HardBall : Powerup {
 
         /// <summary>
