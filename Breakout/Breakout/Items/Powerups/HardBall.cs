@@ -10,11 +10,18 @@ namespace Breakout.Items.Powerups {
 
         public HardBall(DynamicShape shape, IBaseImage image) : base(shape, image, DURATION) { }
 
+        /// <summary>
+        /// Sends out event to activate powerup
+        /// </summary>
         public override void Activate() {
             GameBus.TriggerEvent(GameEventType.ControlEvent,
                 Ball.SET_HARD_MSG, objArg: true);
         }
 
+
+        /// <summary>
+        /// Sends out event to deactivate powerup
+        /// </summary>
         public override void Deactivate() {
             GameBus.TriggerEvent(GameEventType.ControlEvent,
                 Ball.SET_HARD_MSG, objArg: false);
