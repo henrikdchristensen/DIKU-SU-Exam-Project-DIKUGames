@@ -52,7 +52,7 @@ namespace Breakout.Entities.Powerups {
                 case PowerupType.Split:
                     return new Split(shape, new Image(Path.Combine(imgPath, "SplitPowerUp.png")));
             }
-            return null;
+            throw new ArgumentException("Couldn't create random Powerup");
         }
 
         /// <summary>Construtor for Powerup: Sets up e.g. the direction and duration of the powerup</summary>
