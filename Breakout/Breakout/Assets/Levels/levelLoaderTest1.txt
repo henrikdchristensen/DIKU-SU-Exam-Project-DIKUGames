@@ -1,0 +1,9 @@
+﻿Map:
+------------
+Map/
+Meta:
+Name: LEVEL 1
+Meta/
+Legend:
+%) blue-block.png
+Legend/

@@ -11,17 +11,14 @@ namespace BreakoutTests {
     [TestFixture]
     public class LevelTest {
 
-        private string levelFolder;
-
         /// <summary>
         /// 
         /// </summary>
         [SetUp]
-        public void Setup() {
-            levelFolder = Path.Combine("..", "Breakout", "Assets", "Levels");
-        }
+        public void Setup() {}
 
 
+        [Test]
         public void TestBlockGeneration() {
             Window.CreateOpenGLContext();
 
