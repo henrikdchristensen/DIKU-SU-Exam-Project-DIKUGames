@@ -15,25 +15,24 @@ namespace Breakout.Levels {
         private ILevelLoader loader;
 
         /// <summary>
-        /// TODO
+        /// Creates a level parser-instance
         /// </summary>
-        /// <param name="loader">TODO</param>
+        /// <param name="loader">A level loader, to load files</param>
         public LevelParser(ILevelLoader loader) {
             this.loader = loader;
         }
 
 
         /// <summary>
-        /// Creates a level from a level-txt-file
+        /// Creates a level from a level-file
         /// require:
-        ///     the file parameter is an existing file
-        ///     the file has to have a correct setup
-        ///
+        ///     the file with the given path, must have the correct level format.
         /// ensure:
         ///     it returns a level accordance to preperties specified in the file
         /// </summary>
-        /// <param name="path">TODO</param>
+        /// <param name="path">The path of the file</param>
         /// <returns>The corresponding level</returns>
+        /// <exception cref="ArgumentException">If the file is not correctly formated</exception>
         public Level CreateLevel(string path) {
             string[] level;
             try {
@@ -57,10 +56,10 @@ namespace Breakout.Levels {
             return new Level(map, meta, legend);
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="lines">TODO</param>
-        /// <param name="delimiter">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Conversts an array of lines to a dictionary</summary>
+        /// <param name="lines">The lines that should be converted</param>
+        /// <param name="delimiter">The delimitor, that seperates the key-value pair in the line</param>
+        /// <returns>Return the dictionary</returns>
         private Dictionary<string, string> linesToDict(string[] lines, char delimiter) {
             Dictionary<string, string> dict = new Dictionary<string, string>();
             foreach (string line in lines) {
@@ -70,9 +69,9 @@ namespace Breakout.Levels {
             return dict;
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="lines">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Conversts an array of lines to a 2d-char-array. </summary>
+        /// <param name="lines">The lines that should be converted</param>
+        /// <returns>returns the char array</returns>
         private char[,] linesTo2DCharArr(string[] lines) {
             char[,] ch = new char[lines.Length, lines[0].Length];
             for (int i = 0; i < lines.Length; i++)

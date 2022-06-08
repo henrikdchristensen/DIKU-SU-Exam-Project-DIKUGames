@@ -20,6 +20,9 @@ namespace Breakout.Entities {
             other.UnbreakableCollision(data);
         }
 
+        /// <summary>
+        /// Hit method. Nothing happens when an unbreakable gets hit
+        /// </summary>
         public override void Hit() {}
 
     }   

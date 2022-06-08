@@ -14,51 +14,45 @@ namespace Breakout.Entities {
         public bool IsDestroyable { get;  protected set; } = false;
         public GameObject(Shape shape, IBaseImage image) : base(shape, image) { }
 
-        /// <summary>TODO</summary>
+        /// <summary>Defines what happens when deleting the item</summary>
         public virtual void OnDeletion() { }
 
-        /// <summary>TODO</summary>
+        /// <summary>Defines what happens when updating the item</summary>
         public virtual void Update() { }
 
-        /// <summary>TODO</summary>
-        /// <param name="other">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>Accepting a visitor and calls their collision method on them</summary>
+        /// <param name="other">The visitor that has collided with this entity</param>
+        /// <param name="data">Data containing info about the collision</param>
         public abstract void Accept(IGameObjectVisitor other, CollisionHandlerData data);
 
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a block</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void BlockCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a ball</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void BallCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="wall">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a wall</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void WallCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="player">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a player</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void PlayerCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="powerup">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a powerup</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void PowerUpCollision(CollisionHandlerData data) {
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="block">TODO</param>
-        /// <param name="data">TODO</param>
+        /// <summary>When colliding with a unbreakable block</summary>
+        /// <param name="data">Data containing info about the collision</param>
         public virtual void UnbreakableCollision(CollisionHandlerData data) {
         }
 
