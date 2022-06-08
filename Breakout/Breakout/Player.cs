@@ -4,7 +4,7 @@ using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.Physics;
 using Breakout.Game;
-using Breakout.Items;
+using Breakout.Entities;
 using Breakout.Collision;
 
 namespace Breakout {

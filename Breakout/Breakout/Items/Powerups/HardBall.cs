@@ -3,10 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-namespace Breakout.Items.Powerups {
-    /// <summary>
-    /// When activated the ball should be hardened - should not collide with destroyable blocks
-    /// </summary>
+namespace Breakout.Entities.Powerups {
     public class HardBall : Powerup {
 
         /// <summary>

@@ -3,10 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-namespace Breakout.Items.Powerups {
-    /// <summary>
-    /// Adds an extra life
-    /// </summary>
+namespace Breakout.Entities.Powerups {
     public class ExtraLife : Powerup {
 
         /// <summary>

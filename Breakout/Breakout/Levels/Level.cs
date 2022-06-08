@@ -4,9 +4,9 @@ using DIKUArcade.Math;
 using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
-using Breakout.Items;
+using Breakout.Entities;
 using Breakout.Collision;
-using Breakout.Items.Powerups;
+using Breakout.Entities.Powerups;
 using DIKUArcade.Timers;
 
 namespace Breakout.Levels {

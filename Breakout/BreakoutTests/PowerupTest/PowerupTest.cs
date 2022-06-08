@@ -8,8 +8,8 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
-using Breakout.Items.Powerups;
-using Breakout.Items;
+using Breakout.Entities.Powerups;
+using Breakout.Entities;
 using Breakout.Game;
 
 

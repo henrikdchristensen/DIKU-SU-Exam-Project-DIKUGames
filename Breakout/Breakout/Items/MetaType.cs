@@ -1,4 +1,4 @@
-﻿namespace Breakout.Items {
+﻿namespace Breakout.Entities {
 
     /// <summary>Enum containing the different Meta types</summary>
     public enum MetaType {

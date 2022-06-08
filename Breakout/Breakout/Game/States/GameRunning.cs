@@ -4,11 +4,11 @@ using DIKUArcade.Events;
 using DIKUArcade.Graphics;
 using DIKUArcade.Entities;
 using DIKUArcade.Math;
+using DIKUArcade.Timers;
 using Breakout.Levels;
 using Breakout.Collision;
-using Breakout.Items;
-using Breakout.Items.Powerups;
-using DIKUArcade.Timers;
+using Breakout.Entities;
+using Breakout.Entities.Powerups;
 
 namespace Breakout.Game.States {
 

@@ -1,8 +1,8 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using Breakout.Items;
+using Breakout.Entities;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     public class HardenedBlock : Block {
 

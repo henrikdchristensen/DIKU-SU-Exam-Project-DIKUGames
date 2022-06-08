@@ -3,10 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-/// <summary>
-/// Makes double speed for ball
-/// </summary>
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
     public class DoubleSpeed : Powerup {
 
         /// <summary>

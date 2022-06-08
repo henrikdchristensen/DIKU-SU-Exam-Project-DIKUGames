@@ -1,10 +1,10 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
-using Breakout.Items;
+using Breakout.Entities;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     public class Unbreakable : Block {
 
