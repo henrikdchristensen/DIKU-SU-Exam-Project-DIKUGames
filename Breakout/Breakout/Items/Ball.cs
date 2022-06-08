@@ -31,11 +31,16 @@ namespace Breakout.Entities {
             SetRandomDirection(dir);
         }
 
+
         public Ball(Vec2F position, Vec2F extent, IBaseImage image) : base(new DynamicShape(position, extent), image) {
             originalPos = position.Copy();
             SetRandomDirection(defaultDir);
         }
 
+        /// <summary>
+        /// Setting a random direction within a 90 degree span based on the dir vector
+        /// </summary>
+        /// <param name="dir">The direction from which to calculate the 90 degree span</param>
         private void SetRandomDirection(Vec2F dir) {
             Random rand = new Random();
             float angle = (float) (rand.NextDouble() * RAND_ANGLE_INTERVAL + Math.PI / 4) * Math.Sign(dir.Y);
@@ -44,6 +49,10 @@ namespace Breakout.Entities {
             Shape.AsDynamicShape().Direction = newDir;
         }
 
+        /// <summary>
+        /// Resets the position of the ball from the bottom of the screen and a direction 
+        /// updwards within a 90 degree span
+        /// </summary>
         public void ResetPosition() {   
             Shape.Position = originalPos.Copy();
             float len = (float) Shape.AsDynamicShape().Direction.Length();

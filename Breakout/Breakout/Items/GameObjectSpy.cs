@@ -5,6 +5,9 @@ using Breakout.Collision;
 
 namespace Breakout.Entities {
 
+    /// <summary>
+    /// For test purposes. Checks if its methods has been called.
+    /// </summary>
     public class GameObjectSpy : GameObject {
 
         public bool hasCollided { get; private set; } // flag for checking whether Accept method has been called (Spy object)
