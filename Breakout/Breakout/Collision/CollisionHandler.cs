@@ -1,5 +1,5 @@
 using DIKUArcade.Physics;
-using Breakout.Items;
+using Breakout.Entities;
 
 namespace Breakout.Collision {
 

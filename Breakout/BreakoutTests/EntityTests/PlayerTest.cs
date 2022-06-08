@@ -8,7 +8,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
-using Breakout.Items;
+using Breakout.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Game;
 using Breakout.Game.States;

@@ -4,7 +4,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using Breakout;
 using Breakout.Collision;
-using Breakout.Items;
+using Breakout.Entities;
 using DIKUArcade.Math;
 using DIKUArcade.GUI;
 

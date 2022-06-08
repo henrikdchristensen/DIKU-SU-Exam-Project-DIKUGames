@@ -3,7 +3,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Events;
 using Breakout.Game;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
     public class Split : Powerup {
         public override PowerupType Type => PowerupType.Split;
         public Split(DynamicShape shape, IBaseImage image) : base(shape, image) { }

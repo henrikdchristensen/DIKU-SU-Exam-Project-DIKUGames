@@ -6,7 +6,7 @@ using Breakout.Game;
 using Breakout.Levels;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     public class Block : GameObject {
 

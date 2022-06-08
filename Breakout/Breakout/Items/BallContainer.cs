@@ -5,7 +5,7 @@ using DIKUArcade.Math;
 using Breakout.Game;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     public class BallContainer : IGameEventProcessor {
 

@@ -1,4 +1,4 @@
-﻿namespace Breakout.Items.Powerups {
+﻿namespace Breakout.Entities.Powerups {
 
     /// <summary>
     /// TODO: ADD SUMMARY AND REMOVE Uncommented code

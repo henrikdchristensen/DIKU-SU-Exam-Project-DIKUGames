@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
-using Breakout.Items;
+using Breakout.Entities;
 
 namespace BreakoutTests.Items {
 

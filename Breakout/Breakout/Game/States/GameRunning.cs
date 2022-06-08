@@ -6,8 +6,8 @@ using DIKUArcade.Entities;
 using DIKUArcade.Math;
 using Breakout.Levels;
 using Breakout.Collision;
-using Breakout.Items;
-using Breakout.Items.Powerups;
+using Breakout.Entities;
+using Breakout.Entities.Powerups;
 using DIKUArcade.Timers;
 
 namespace Breakout.Game.States {

@@ -2,10 +2,10 @@
 using DIKUArcade.Graphics;
 using DIKUArcade.Physics;
 using Breakout.Levels;
-using Breakout.Items.Powerups;
+using Breakout.Entities.Powerups;
 using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     /// <summary>
     /// All entities / objects that should appear in the game (not GUI), should inherit from this class

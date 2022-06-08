@@ -6,9 +6,9 @@ using DIKUArcade.Math;
 using DIKUArcade.Timers;
 using Breakout.Game;
 using Breakout.Collision;
-using Breakout.Items;
+using Breakout.Entities;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
 
     public abstract class Powerup : GameObject {
 

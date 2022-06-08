@@ -2,7 +2,7 @@
 using Breakout.Game;
 using Breakout.Levels;
 
-namespace Breakout.Items.Powerups {
+namespace Breakout.Entities.Powerups {
 
     public class PowerupContainer : IGameEventProcessor {
 

@@ -1,6 +1,6 @@
 ﻿using Breakout.Collision;
 
-namespace Breakout.Items {
+namespace Breakout.Entities {
 
     /// <summary>
     /// All entities that can collide with a gameobject should implement this
