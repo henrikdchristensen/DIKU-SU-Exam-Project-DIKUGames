@@ -112,7 +112,7 @@ namespace Breakout.Game.States {
         }
 
         /// <summary>Process events: Game over</summary>
-        /// <param name="gameEvent">TODO</param>
+        /// <param name="gameEvent">Processing events from the event bus</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.StatusEvent) {
                 switch (gameEvent.Message) {

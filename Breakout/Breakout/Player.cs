@@ -68,7 +68,7 @@ namespace Breakout {
             BoundaryCheck();
         }
 
-        /// <summary>TODO</summary>
+        /// <summary>Updating the movement of the player</summary>
         private void updateMovement() {
             float dirX = shape.Direction.X;
             //moveLeft = -1 on keypress and moveRight = 1

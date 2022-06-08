@@ -101,7 +101,7 @@ namespace Breakout.Entities {
         /// <summary>
         /// Processing events from the event bus
         /// </summary>
-        /// <param name="gameEvent">TODO</param>
+        /// <param name="gameEvent">Processing events from the event bus</param>
         public void ProcessEvent(GameEvent gameEvent) {
             if (gameEvent.EventType == GameEventType.ControlEvent) {
                 switch (gameEvent.Message) {

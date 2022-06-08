@@ -151,10 +151,10 @@ namespace Breakout.Levels {
                 item.DeleteEntity();
         }
 
-        /// <summary>TODO</summary>
-        /// <param name="symbol">TODO</param>
-        /// <param name="shape">TODO</param>
-        /// <returns>TODO</returns>
+        /// <summary>Finding the corresponding block based on the map meta data</summary>
+        /// <param name="symbol">Block symbol from the map meta data</param>
+        /// <param name="shape">Shape from the block</param>
+        /// <returns>A new block</returns>
         private Block chooseBlock(string symbol, StationaryShape shape) {
             var img = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol]));
             var dmg = new Image(Path.Combine("..", "Breakout", "Assets", "Images", Legend[symbol].Replace(".png", "-damaged.png")));
