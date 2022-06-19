@@ -8,7 +8,7 @@ namespace Breakout.Collision {
     /// </summary>
     public class CollisionHandler {
 
-        private List<GameObject> collidableList = new List<GameObject>();
+        public List<GameObject> CollidableList { get; private set; } = new List<GameObject>();
         private static CollisionHandler instance = null;
 
         /// <summary>Gets a new instance</summary>
@@ -23,33 +23,36 @@ namespace Breakout.Collision {
         /// <summary>Add an object to the list of collidables</summary>
         /// <param name="obj">An GameObject for be added to list</param>
         public void Subsribe(GameObject obj) {
-            collidableList.Add(obj);
+            CollidableList.Add(obj);
         }
 
         /// <summary>Removed destroyed items from collidable list</summary>
         private void removeDestroyed() {
             List<GameObject> newList = new List<GameObject>();
-            foreach (GameObject c in collidableList)
+            foreach (GameObject c in CollidableList)
                 if (!c.IsDeleted())
                     newList.Add(c);
-            collidableList = newList;
+            CollidableList = newList;
         }
 
         /// <summary>Update list of collision items</summary>
         public void Update() {
             removeDestroyed();
-            foreach (GameObject col in collidableList) {
-                foreach (GameObject other in collidableList) {
-                    if (col != other) {
+            foreach (GameObject col in CollidableList) {
+                foreach (GameObject other in CollidableList) {
+                    if (col != other) { // B1
+                        System.Console.WriteLine("Different");
                         var colShape = col.Shape.AsDynamicShape();
                         var otherShape = other.Shape.AsDynamicShape();
                         CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
-                        if (data.Collision) {
+                        if (data.Collision) { // B2
                             col.Accept(other,
                                 new CollisionHandlerData(data.CollisionDir, colShape.Direction));
                             other.Accept(col,
                                 new CollisionHandlerData(data.CollisionDir, otherShape.Direction));
                         }
+                    } else {
+                        System.Console.WriteLine("Same");
                     }
                 }
             }
