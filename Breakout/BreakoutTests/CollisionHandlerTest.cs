@@ -96,6 +96,40 @@ namespace BreakoutTests {
         }
 
         /// <summary>
+        /// Integration test: Top-down strategy.
+        /// </summary>
+        [TestCase(StubType.Ball, StubType.Block)]
+        [TestCase(StubType.Ball, StubType.Unbreakable)]
+        [TestCase(StubType.Ball, StubType.Player)]
+        [TestCase(StubType.Ball, StubType.Wall)]
+        [TestCase(StubType.Player, StubType.PowerUp)]
+        public void CollisionGameObjectsTest(StubType obj1Type, StubType obj2Type) {
+            DynamicShape shape = new DynamicShape(0.5f, 0.0f, 0.1f, 0.1f);
+            GameObjectStubAndSpy obj1 = new GameObjectStubAndSpy(obj1Type, shape, new NoImage());
+            GameObjectStubAndSpy obj2 = new GameObjectStubAndSpy(obj2Type, new StationaryShape(0.5f, 1.0f, 0.1f, 0.1f), new NoImage());
+
+            // Put objects in CollidableList
+            collisionHandler.Subsribe(obj1);
+            collisionHandler.Subsribe(obj2);
+
+            // Precondition: Assert that no object is null CollidableList
+            foreach (var item in collisionHandler.CollidableList) {
+                if (item == null) {
+                    Assert.Fail("Precondition: A null object in CollidableList is detected");
+                }
+            }
+
+            // Set direction of obj1 to collide with obj2
+            shape.ChangeDirection(new Vec2F(0.0f, 1.0f));
+
+            // Update CollidableList
+            collisionHandler.Update();
+
+            // Postcondition: Assert that objects has acted and collided
+            Assert.True(obj1.RecievedAccept && obj1.CollidedWith == obj2Type && obj2.RecievedAccept && obj2.CollidedWith == obj1Type);
+        }
+
+        /// <summary>
         /// Whitebox test: 100% statement- and branch coverage.
         /// Test both that collision can happen and not depending on given direction.
         /// </summary>
@@ -104,8 +138,8 @@ namespace BreakoutTests {
         [TestCase(0.0f, false, false)] // B1a & B2b: Different and not collided objects
         public void CollisionUpdateTest(float yDirection, bool sameObject, bool expectedOutput) {
             DynamicShape shape = new DynamicShape(0.0f, 0.0f, 0.1f, 0.1f);
-            GameObjectSpy obj1 = new GameObjectSpy(shape, new NoImage()); // pos: (0,0)
-            GameObjectSpy obj2 = sameObject ? obj1 : new GameObjectSpy(new StationaryShape(0.0f, 1.0f, 0.1f, 0.1f), new NoImage()); // pos: (0,1)
+            GameObjectStubAndSpy obj1 = new GameObjectStubAndSpy(StubType.NoOne, shape, new NoImage()); // pos: (0,0)
+            GameObjectStubAndSpy obj2 = sameObject ? obj1 : new GameObjectStubAndSpy(StubType.NoOne, new StationaryShape(0.0f, 1.0f, 0.1f, 0.1f), new NoImage()); // pos: (0,1)
 
             // Put objects in CollidableList
             collisionHandler.Subsribe(obj1);
@@ -125,8 +159,8 @@ namespace BreakoutTests {
             collisionHandler.Update();
 
             // Postcondition: Assert that objects has collided according to expected
-            Assert.AreEqual(expectedOutput, obj1.hasCollided, "Postcondition: obj1.hasCollided");
-            Assert.AreEqual(expectedOutput, obj2.hasCollided, "Postcondition: obj2.hasCollided");
+            Assert.AreEqual(expectedOutput, obj1.RecievedAccept, "Postcondition: obj1.RecievedAccept");
+            Assert.AreEqual(expectedOutput, obj2.RecievedAccept, "Postcondition: obj2.RecievedAccept");
         }
     }
 

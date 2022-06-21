@@ -41,7 +41,6 @@ namespace Breakout.Collision {
             foreach (GameObject col in CollidableList) {
                 foreach (GameObject other in CollidableList) {
                     if (col != other) { // B1
-                        System.Console.WriteLine("Different");
                         var colShape = col.Shape.AsDynamicShape();
                         var otherShape = other.Shape.AsDynamicShape();
                         CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
@@ -51,8 +50,6 @@ namespace Breakout.Collision {
                             other.Accept(col,
                                 new CollisionHandlerData(data.CollisionDir, otherShape.Direction));
                         }
-                    } else {
-                        System.Console.WriteLine("Same");
                     }
                 }
             }
