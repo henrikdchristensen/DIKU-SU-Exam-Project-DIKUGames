@@ -45,7 +45,7 @@ namespace Breakout.Collision {
             removeDestroyed();
             foreach (GameObject col in CollidableList) {
                 foreach (GameObject other in CollidableList) {
-                    if (col != other) { // Branch 1
+                    if (col != other) { // B1
                         var colShape = col.Shape.AsDynamicShape();
                         var otherShape = other.Shape.AsDynamicShape();
                         CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
