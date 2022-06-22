@@ -1,4 +1,5 @@
 using DIKUArcade.Events;
+using Breakout.Entities;
 using Breakout.Game;
 
 namespace Breakout.Levels {

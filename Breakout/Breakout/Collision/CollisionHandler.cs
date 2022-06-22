@@ -35,6 +35,10 @@ namespace Breakout.Collision {
             CollidableList = newList;
         }
 
+        public void ClearList() {
+            CollidableList.Clear();
+        }
+
         /// <summary>Update list of collision items</summary>
         public void Update() {
             /*Precondition:
@@ -49,7 +53,7 @@ namespace Breakout.Collision {
                         var colShape = col.Shape.AsDynamicShape();
                         var otherShape = other.Shape.AsDynamicShape();
                         CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
-                        if (data.Collision) { // Branch 2
+                        if (data.Collision) { // B2
                             col.Accept(other,
                                 new CollisionHandlerData(data.CollisionDir, colShape.Direction));
                             other.Accept(col,

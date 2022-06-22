@@ -17,7 +17,7 @@ namespace Breakout.Game.States {
 
         /// <summary> The active button of the menu, 0 = continue, 1 = main manu </summary>
         /// <remarks>Made public for testing purposes</remarks>
-        public int activeMenuButton { get; private set; } // public get for testing purpose
+        public int ActiveMenuButton { get; private set; } // public get for testing purpose
         private readonly Vec3F ACITVED_COLOR = new Vec3F(247f / 255f, 145f / 255f, 0);
         private readonly Vec3F DEACITVED_COLOR = new Vec3F(150f / 255f, 150f / 255f, 150f / 255f);
 
@@ -43,12 +43,12 @@ namespace Breakout.Game.States {
                 new Text("Continue", new Vec2F(0.2f, -0.1f), new Vec2F(0.8f, 0.8f)),
                 new Text("Main menu", new Vec2F(0.15f, -0.35f), new Vec2F(0.8f, 0.8f))
             };
-            activeMenuButton = 0;
+            ActiveMenuButton = 0;
         }
 
         /// <summary>Reset the active menu button to the first one</summary>
         public void ResetState() {
-            activeMenuButton = 0;
+            ActiveMenuButton = 0;
             StaticTimer.PauseTimer();
         }
 
@@ -59,7 +59,7 @@ namespace Breakout.Game.States {
         public void RenderState() {
             background.RenderEntity();
             for (int i = 0; i < menuButtons.Length; i++) {
-                if (activeMenuButton == i)
+                if (ActiveMenuButton == i)
                     menuButtons[i].SetColor(ACITVED_COLOR);
                 else
                     menuButtons[i].SetColor(DEACITVED_COLOR);
@@ -83,13 +83,13 @@ namespace Breakout.Game.States {
         private void keyPressed(KeyboardKey key) {
             switch (key) {
                 case KeyboardKey.Up:
-                    activeMenuButton = Math.Max(0, activeMenuButton - 1);
+                    ActiveMenuButton = Math.Max(0, ActiveMenuButton - 1);
                     break;
                 case KeyboardKey.Down:
-                    activeMenuButton = Math.Min(menuButtons.Length - 1, activeMenuButton + 1);
+                    ActiveMenuButton = Math.Min(menuButtons.Length - 1, ActiveMenuButton + 1);
                     break;
                 case KeyboardKey.Enter:
-                    if (activeMenuButton == 0) {
+                    if (ActiveMenuButton == 0) {
                         GameBus.TriggerEvent(GameEventType.GameStateEvent, "CHANGE_STATE",
                             StateTransformer.StateToString(GameStateType.GameRunning));
                     } else {
