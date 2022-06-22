@@ -9,7 +9,7 @@ namespace Breakout.Entities {
 
         /// <summary>When colliding with a block</summary>
         /// <param name="data">Data containing info about the collision</param>
-        public virtual void BlockCollision(CollisionHandlerData data) {
+        public void BlockCollision(CollisionHandlerData data) {
         }
 
 

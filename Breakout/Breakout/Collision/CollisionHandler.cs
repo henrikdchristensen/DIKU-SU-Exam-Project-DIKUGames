@@ -37,22 +37,24 @@ namespace Breakout.Collision {
 
         /// <summary>Update list of collision items</summary>
         public void Update() {
+            /*Precondition:
+                - No null objects in CollidableList
+              Postcondtion:
+                - CollidableList should not contain any GameObject which are marked for deletion.
+                    And notify collided Gameobjects, that they will collide in the next frame.*/
             removeDestroyed();
             foreach (GameObject col in CollidableList) {
                 foreach (GameObject other in CollidableList) {
-                    if (col != other) { // B1
-                        System.Console.WriteLine("Different");
+                    if (col != other) { // Branch 1
                         var colShape = col.Shape.AsDynamicShape();
                         var otherShape = other.Shape.AsDynamicShape();
                         CollisionData data = CollisionDetection.Aabb(colShape, otherShape);
-                        if (data.Collision) { // B2
+                        if (data.Collision) { // Branch 2
                             col.Accept(other,
                                 new CollisionHandlerData(data.CollisionDir, colShape.Direction));
                             other.Accept(col,
                                 new CollisionHandlerData(data.CollisionDir, otherShape.Direction));
                         }
-                    } else {
-                        System.Console.WriteLine("Same");
                     }
                 }
             }
