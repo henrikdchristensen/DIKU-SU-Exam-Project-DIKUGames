@@ -3,12 +3,12 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Entities;
 
-namespace BreakoutTests.Items {
+namespace BreakoutTests.Entities {
 
     public class HardenedBlockTests {
 
         private Block block;
-        private Block hardenedBlock;
+        private HardenedBlock hardenedBlock;
 
         [SetUp]
         public void Setup() {
@@ -16,32 +16,34 @@ namespace BreakoutTests.Items {
             block = new Block(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage());
         }
 
+        /// <summary>
+        /// Blackbox
+        /// Precondition: hardenedBlock.StartHealt == block.Health*2
+        /// Postcodition: calling Hit() reduces hardenedBlock.Health with 1 life.
+        /// </summary>
         [Test]
-        public void TestHit() {
-            int oldHealth = block.Health;
+        public void TestHitBlackbox() {
+            // Precondition:
+            Assert.AreEqual(block.Health * 2, hardenedBlock.StartHealt, "Precondition");
+
             block.Hit();
-            Assert.True(block.Health < oldHealth);
+
+            // Postcondition:
+            Assert.AreEqual(hardenedBlock.StartHealt - 1, hardenedBlock.Health, "Postcondition");
         }
 
+        /// <summary>
+        /// Whitebox: Test of both branches
+        /// </summary>
         [Test]
-        public void TestHealth() {
-            Assert.True(block.Health == hardenedBlock.StartHealt / 2);
-        }
-
-        [Test]
-        public void TestDieBlock() { // Does hit return true when dead (6 times hit)
-            int startHealth = block.StartHealt;
-            for (int i = 0; i < startHealth; i++)
-                block.Hit();
-            Assert.True(block.IsDeleted());
-        }
-
-        [Test]
-        public void TestDieHardened() { // Does hit return true when dead (6 times hit)
-            int startHealth = hardenedBlock.StartHealt;
-            for (int i = 0; i < startHealth; i++)
+        public void TestDieWhitebox() {
+            for (int i = 0; i < hardenedBlock.StartHealt; i++) {
+                if (hardenedBlock.Health < hardenedBlock.StartHealt / 2) {
+                    Assert.AreEqual(hardenedBlock.Image, hardenedBlock.BlockStridesAlt, "Branch 1"); // B1
+                }
                 hardenedBlock.Hit();
-            Assert.True(hardenedBlock.IsDeleted());
+            }
+            Assert.True(hardenedBlock.IsDeleted(), "Branch 2"); // B2
         }
 
     }

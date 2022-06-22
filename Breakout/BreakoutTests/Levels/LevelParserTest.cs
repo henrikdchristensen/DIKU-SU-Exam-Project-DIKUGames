@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using DIKUArcade.GUI;
 using Breakout.Levels;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Levels {
 
     [TestFixture]
     public class LevelParserTest {

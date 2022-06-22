@@ -11,7 +11,7 @@ using Breakout.Game;
 using Breakout.Entities;
 using Breakout.Entities.Powerups;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Entities.Powerups {
 
     [TestFixture]
     public class PowerupTest {

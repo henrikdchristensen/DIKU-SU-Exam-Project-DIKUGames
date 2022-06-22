@@ -5,7 +5,7 @@ using DIKUArcade.Events;
 using Breakout.Game;
 using Breakout.Game.States;
 
-namespace BreakoutTests {
+namespace BreakoutTests.GameTest {
 
     [TestFixture]
     public class StateMachineTest {
@@ -30,7 +30,7 @@ namespace BreakoutTests {
         }
 
         /// <summary>
-        /// Black- and Whitebox (C0, C1): Test that switching between possible game states
+        /// Whitebox (C0, C1): Test that switching between possible game states
         /// Case:           Expected output:            Comment:
         /// MAIN_MENU       ActiveState=MainMenu        Change state to MainMenu
         /// GAME_RUNNING    ActiveState=GameRunning     Change state to GameRunning

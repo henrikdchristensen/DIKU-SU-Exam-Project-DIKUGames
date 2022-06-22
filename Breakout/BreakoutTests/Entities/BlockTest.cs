@@ -5,7 +5,7 @@ using Breakout.Entities;
 
 namespace BreakoutTests.Entities {
 
-    public class Tests {
+    public class BlockTests {
 
         private Block block;
 
@@ -14,21 +14,28 @@ namespace BreakoutTests.Entities {
             block = new Block(new StationaryShape(0.0f, 0.0f, 0.0f, 0.0f), new NoImage());
         }
 
+        /// <summary>
+        /// Blackbox
+        /// Precondition: StartHealt == Health
+        /// Postcodition: calling Hit() 1 time and block will be marked for deletion.
+        /// </summary>
         [Test]
-        public void TestHit() {
-            int oldHealth = block.Health;
+        public void TestHitBlackbox() {
+            // Precondition:
+            Assert.AreEqual(block.StartHealt, block.Health, "Precondition");
+
             block.Hit();
-            Assert.True(block.Health < oldHealth);
+
+            // Postcondition:
+            Assert.True(block.IsDeleted(), "Postcondition");
         }
 
+        /// <summary>
+        /// Trivial method call (only for coverage)
+        /// </summary>
         [Test]
-        public void TestDie() { // Does hit return true when dead (6 times hit)
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            block.Hit();
-            Assert.True(block.IsDeleted());
+        public void TestOnDeletion() {
+            block.OnDeletion();
         }
 
     }

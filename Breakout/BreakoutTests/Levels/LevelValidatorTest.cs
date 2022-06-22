@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Breakout.Levels;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Levels {
 
     [TestFixture]
     public class LevelValidatorTest {

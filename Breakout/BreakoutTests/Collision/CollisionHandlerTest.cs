@@ -7,7 +7,7 @@ using Breakout.Collision;
 using Breakout.Entities;
 using DIKUArcade.GUI;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Collision {
 
     [TestFixture]
     public class CollisionHandlerTest {

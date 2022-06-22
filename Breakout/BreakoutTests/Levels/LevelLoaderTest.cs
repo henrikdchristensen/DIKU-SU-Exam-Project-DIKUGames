@@ -2,7 +2,7 @@
 using System.IO;
 using Breakout.Levels;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Levels {
 
     [TestFixture]
     public class LevelLoaderTest {

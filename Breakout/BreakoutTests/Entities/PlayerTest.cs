@@ -10,7 +10,7 @@ using Breakout.Entities;
 using Breakout.Game;
 using Breakout.Game.States;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Entities {
 
     [TestFixture]
     public class PlayerTest {

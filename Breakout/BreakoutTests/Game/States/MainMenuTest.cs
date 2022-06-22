@@ -3,7 +3,7 @@ using DIKUArcade.GUI;
 using DIKUArcade.Input;
 using Breakout.Game.States;
 
-namespace BreakoutTests {
+namespace BreakoutTests.GameTest.States {
 
     [TestFixture]
     public class MainMenuTest {

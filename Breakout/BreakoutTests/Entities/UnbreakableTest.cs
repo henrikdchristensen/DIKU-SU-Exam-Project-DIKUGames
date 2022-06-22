@@ -3,7 +3,7 @@ using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using Breakout.Entities;
 
-namespace BreakoutTests.EntityTests {
+namespace BreakoutTests.Entities {
 
     [TestFixture]
     public class UnbreakableTest {

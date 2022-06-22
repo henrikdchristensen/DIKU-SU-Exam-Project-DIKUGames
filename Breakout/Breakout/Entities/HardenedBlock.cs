@@ -5,7 +5,7 @@ namespace Breakout.Entities {
 
     public class HardenedBlock : Block {
 
-        private IBaseImage blockStridesAlt;
+        public IBaseImage BlockStridesAlt { get; private set; }
 
         /// <summary>
         /// Constructor for HardenedBlock: StartHealth is 2 times higher than normal block,
@@ -17,7 +17,7 @@ namespace Breakout.Entities {
         public HardenedBlock(StationaryShape shape, IBaseImage image, IBaseImage blockStridesAlt) : base(shape, image) {
             StartHealt *= 2;
             PointReward *= 2;
-            this.blockStridesAlt = blockStridesAlt;
+            this.BlockStridesAlt = blockStridesAlt;
         }
 
         /// <summary>
@@ -25,12 +25,11 @@ namespace Breakout.Entities {
         /// If under zero then delete block.
         /// </summary>
         override public void Hit() {
-            Console.WriteLine("Hardened hit");
             Health--;
-            if (Health < 0)
+            if (Health < 0) // B1
                 DeleteEntity();
-            else if (Health < StartHealt / 2)
-                Image = blockStridesAlt;
+            else if (Health < StartHealt / 2) // B2
+                Image = BlockStridesAlt;
         }
 
     }

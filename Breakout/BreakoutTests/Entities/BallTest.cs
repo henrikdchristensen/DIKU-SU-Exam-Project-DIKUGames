@@ -8,7 +8,7 @@ using DIKUArcade.Math;
 using Breakout.Entities;
 using Breakout.Collision;
 
-namespace BreakoutTests {
+namespace BreakoutTests.Entities {
 
     [TestFixture]
     public class BallTest {

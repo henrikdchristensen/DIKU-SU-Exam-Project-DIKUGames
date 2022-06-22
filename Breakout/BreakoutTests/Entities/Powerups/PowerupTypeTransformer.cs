@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Breakout.Entities.Powerups;
 
-namespace BreakoutTests.poweruptests {
+namespace BreakoutTests.Entities.Powerups {
 
     [TestFixture]
     public class PowerupTypeTransformer {

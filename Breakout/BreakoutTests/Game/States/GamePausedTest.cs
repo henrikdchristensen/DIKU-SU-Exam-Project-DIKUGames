@@ -2,7 +2,7 @@ using NUnit.Framework;
 using DIKUArcade.Input;
 using Breakout.Game.States;
 
-namespace BreakoutTests {
+namespace BreakoutTests.GameTest.States {
 
     [TestFixture]
     public class GamePausedTest {
