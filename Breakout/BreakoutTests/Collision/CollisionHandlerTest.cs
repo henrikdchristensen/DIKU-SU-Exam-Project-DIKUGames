@@ -2,10 +2,9 @@ using NUnit.Framework;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using Breakout;
+using DIKUArcade.GUI;
 using Breakout.Collision;
 using Breakout.Entities;
-using DIKUArcade.GUI;
 
 namespace BreakoutTests.Collision {
 
@@ -150,14 +149,14 @@ namespace BreakoutTests.Collision {
 
         /// <summary>
         /// Whitebox test: 100% statement- and branch coverage.
-        /// Test both that collision can happen and not depending on given direction.
+        /// Test both that collision can happen and not.
         /// 
         /// Precondition: No nullable in CollidableList
         /// Postcondition: Accept-method of each collided object should have been called.
         /// </summary>
         [TestCase(0.0f, true, false)]  // B1b:       Same objects
-        [TestCase(1.0f, false, true)]  // B1a & B2a: Different and collided objects
-        [TestCase(0.0f, false, false)] // B1a & B2b: Different and not collided objects
+        [TestCase(1.0f, false, true)]  // B1a & B2a: Different objects and collided objects
+        [TestCase(0.0f, false, false)] // B1a & B2b: Different objects and not collided objects
         public void CollisionUpdateTest(float yDirection, bool sameObject, bool expectedOutput) {
             DynamicShape shape = new DynamicShape(0.0f, 0.0f, 0.1f, 0.1f);
             GameObjectStubAndSpy obj1 = new GameObjectStubAndSpy(StubType.NoOne, shape, new NoImage()); // pos: (0,0)
@@ -168,8 +167,8 @@ namespace BreakoutTests.Collision {
             collisionHandler.Subsribe(obj2);
 
             // Precondition: Assert that no object is null CollidableList
-            foreach (var item in collisionHandler.CollidableList) {
-                if (item == null) {
+            foreach (GameObject obj in collisionHandler.CollidableList) {
+                if (obj == null) {
                     Assert.Fail("Precondition: A null object in CollidableList is detected");
                 }
             }
